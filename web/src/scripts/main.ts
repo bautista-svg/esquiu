@@ -296,7 +296,18 @@ function initGalleryCarousel(): void {
     const layerRect = shiftLayer.getBoundingClientRect();
     const carouselRect = carousel.getBoundingClientRect();
 
-    let delta = carouselRect.left + carouselRect.width / 2 - (itemRect.left + itemRect.width / 2);
+    // Encajar, NO centrar: la cinta se corre apenas lo justo para que la foto
+    // expandida entre completa. Centrar movía la cinta lejos del cursor y lo
+    // dejaba sobre la vecina → cualquier micro-movimiento encadenaba saltos.
+    // Con el encaje mínimo, el cursor queda SIEMPRE dentro de la foto activa
+    // (solo crece alrededor de su posición): imposible encadenar.
+    const MARGEN = 28;
+    let delta = 0;
+    if (itemRect.right > carouselRect.right - MARGEN) {
+      delta = carouselRect.right - MARGEN - itemRect.right;
+    } else if (itemRect.left < carouselRect.left + MARGEN) {
+      delta = carouselRect.left + MARGEN - itemRect.left;
+    }
     // Nunca dejar huecos en los bordes de la cinta
     delta = Math.min(delta, carouselRect.left - layerRect.left);
     delta = Math.max(delta, carouselRect.right - layerRect.right);
@@ -319,7 +330,7 @@ function initGalleryCarousel(): void {
   // ~300ms. Sin esto, tener el mouse cerca del borde encadena activaciones:
   // activo una → se centra → la siguiente queda bajo el cursor → y así.
   const DWELL_PRIMERA = 90;
-  const DWELL_CAMBIO = 300;
+  const DWELL_CAMBIO = 200;
   const DELAY_SALIDA = 380;
 
   let pending: HTMLElement | null = null;
@@ -341,7 +352,7 @@ function initGalleryCarousel(): void {
   // la causa del "scrolleo infinito"). Se espera a que la cinta asiente y se
   // activa la foto que esté REALMENTE bajo el cursor en ese momento — una
   // sola corrección posible y sin re-agendado: imposible encadenar.
-  const SETTLE_MS = 800;
+  const SETTLE_MS = 450;
 
   const validarYActivar = () => {
     const falta = SETTLE_MS - (performance.now() - lastActivateTs);
