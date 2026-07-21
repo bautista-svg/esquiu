@@ -282,6 +282,7 @@ function initGalleryCarousel(): void {
   };
 
   const activate = (item: HTMLElement) => {
+    lastActivateTs = performance.now();
     carousel.classList.add("is-paused");
     const actualShift = readShift();
 
@@ -312,31 +313,98 @@ function initGalleryCarousel(): void {
 
   // Hover con mousemove, NO mouseenter: cuando la cinta se desliza para
   // centrar, pasa contenido bajo el cursor quieto — mouseenter dispararía
-  // re-activaciones en cascada (oscilación). mousemove solo dispara si el
-  // mouse físico se mueve. El umbral filtra micro-temblores de la mano.
-  let anchorX = 0;
-  let anchorY = 0;
+  // re-activaciones en cascada. mousemove solo dispara con movimiento real.
+  //
+  // Dwell time: para CAMBIAR de foto, el cursor debe reposar sobre la nueva
+  // ~300ms. Sin esto, tener el mouse cerca del borde encadena activaciones:
+  // activo una → se centra → la siguiente queda bajo el cursor → y así.
+  const DWELL_PRIMERA = 90;
+  const DWELL_CAMBIO = 300;
+  const DELAY_SALIDA = 380;
+
+  let pending: HTMLElement | null = null;
+  let dwellTimer = 0;
+  let leaveTimer = 0;
+  let lastActivateTs = 0;
+  // Filtro de mousemove sintético de Chromium (mismas coordenadas que el
+  // último real cuando el layout cambia bajo el cursor quieto).
+  let lastMoveX = -1;
+  let lastMoveY = -1;
+
+  const cancelDwell = () => {
+    pending = null;
+    window.clearTimeout(dwellTimer);
+  };
+
+  // Al disparar el dwell NO se usa el objetivo capturado al agendar: para
+  // entonces la cinta pudo haberse deslizado y ese objetivo quedó viejo (era
+  // la causa del "scrolleo infinito"). Se espera a que la cinta asiente y se
+  // activa la foto que esté REALMENTE bajo el cursor en ese momento — una
+  // sola corrección posible y sin re-agendado: imposible encadenar.
+  const SETTLE_MS = 800;
+
+  const validarYActivar = () => {
+    const falta = SETTLE_MS - (performance.now() - lastActivateTs);
+    if (falta > 0) {
+      dwellTimer = window.setTimeout(validarYActivar, falta + 40);
+      return;
+    }
+    const debajo = document.elementFromPoint(lastMoveX, lastMoveY) as HTMLElement | null;
+    const real = debajo?.closest<HTMLElement>("[data-gallery-item]");
+    if (!real || real.classList.contains("is-active")) return;
+    activate(real);
+  };
+
+  const scheduleActivate = (item: HTMLElement, delay: number) => {
+    if (pending === item) return;
+    cancelDwell();
+    pending = item;
+    dwellTimer = window.setTimeout(() => {
+      pending = null;
+      validarYActivar();
+    }, delay);
+  };
+
   carousel.addEventListener("mousemove", (event) => {
+    window.clearTimeout(leaveTimer);
+    if (event.clientX === lastMoveX && event.clientY === lastMoveY) return;
+    lastMoveX = event.clientX;
+    lastMoveY = event.clientY;
     const item = (event.target as HTMLElement).closest<HTMLElement>("[data-gallery-item]");
-    if (!item || item.classList.contains("is-active")) return;
+    if (!item || item.classList.contains("is-active")) {
+      cancelDwell();
+      return;
+    }
     const hayActiva = items.some((other) => other.classList.contains("is-active"));
-    if (hayActiva && Math.hypot(event.clientX - anchorX, event.clientY - anchorY) < 14) return;
-    anchorX = event.clientX;
-    anchorY = event.clientY;
-    activate(item);
+    scheduleActivate(item, hayActiva ? DWELL_CAMBIO : DWELL_PRIMERA);
   });
 
   for (const item of items) {
-    item.addEventListener("focus", () => activate(item));
+    item.addEventListener("focus", () => {
+      window.clearTimeout(leaveTimer);
+      cancelDwell();
+      activate(item);
+    });
     item.addEventListener("click", () => {
+      window.clearTimeout(leaveTimer);
+      cancelDwell();
       if (item.classList.contains("is-active")) clear();
       else activate(item);
     });
   }
 
-  carousel.addEventListener("mouseleave", clear);
+  // Delay al salir: un roce afuera no corta la experiencia en seco; si el
+  // mouse vuelve enseguida (mousemove), la salida se cancela.
+  carousel.addEventListener("mouseleave", () => {
+    cancelDwell();
+    window.clearTimeout(leaveTimer);
+    leaveTimer = window.setTimeout(clear, DELAY_SALIDA);
+  });
   carousel.addEventListener("focusout", (event) => {
-    if (!carousel.contains(event.relatedTarget as Node | null)) clear();
+    if (!carousel.contains(event.relatedTarget as Node | null)) {
+      cancelDwell();
+      clear();
+    }
   });
 }
 

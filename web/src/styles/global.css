@@ -576,6 +576,10 @@ video[data-lazy-video].is-playing {
   display: flex;
   gap: 0.8rem;
   padding-right: 0.8rem;
+  /* La fila reserva SIEMPRE la altura expandida y centra las cards:
+     al crecer la activa en vertical no hay salto de layout en la página. */
+  height: 17rem;
+  align-items: center;
 }
 @keyframes gallery-spin {
   to {
@@ -590,16 +594,19 @@ video[data-lazy-video].is-playing {
   overflow: clip;
   border-radius: 1.35rem;
   cursor: pointer;
-  transition: width 0.7s var(--ease-inout-soft);
+  transition:
+    width 0.7s var(--ease-inout-soft),
+    height 0.7s var(--ease-inout-soft);
 }
-/* Suma constante por pista (9 fotos): lo que gana la activa lo ceden las
-   8 vecinas en partes iguales — la cinta no cambia de ancho total y la
-   posición del loop no salta. activa - base = 8 x (base - dim). */
+/* Suma constante por pista (8 fotos): lo que gana la activa lo ceden las
+   7 vecinas en partes iguales — la cinta no cambia de ancho total y la
+   posición del loop no salta. activa - base = 7 x (base - dim). */
 .gallery-item.is-active {
   width: 24rem;
+  height: 17rem;
 }
 .gallery-item.is-dim {
-  width: 13.875rem;
+  width: 13.71rem;
 }
 .gallery-item:focus-visible {
   outline: 2px solid var(--color-garnet);
@@ -645,15 +652,19 @@ video[data-lazy-video].is-playing {
   translate: 0 0;
 }
 @media (width >= 48rem) {
+  .gallery-track {
+    height: 23rem;
+  }
   .gallery-item {
     width: 21rem;
     height: 16rem;
   }
   .gallery-item.is-active {
     width: 33rem;
+    height: 23rem;
   }
   .gallery-item.is-dim {
-    width: 19.5rem;
+    width: 19.29rem;
   }
 }
 @media (prefers-reduced-motion: reduce) {
