@@ -433,6 +433,7 @@ function initLevelsOrbit(): void {
 
   const sats = Array.from(carousel.querySelectorAll<HTMLElement>("[data-orbit-sat]"));
   const caption = wrap.querySelector<HTMLElement>("[data-orbit-caption]");
+  const panels = Array.from(wrap.querySelectorAll<HTMLElement>("[data-orbit-panel]"));
   const names = sats.map((sat) => sat.dataset.orbitName ?? "");
 
   let ticking = false;
@@ -451,11 +452,14 @@ function initLevelsOrbit(): void {
     sats.forEach((sat, i) => {
       const ang = (((i * 120 + rot) % 360) + 360) % 360;
       const facing = Math.max(0, Math.cos((ang * Math.PI) / 180));
-      sat.style.filter = `brightness(${(0.5 + facing * 0.5).toFixed(3)})`;
+      // Sobre fondo claro, las cards de atrás se desvanecen hacia el papel
+      sat.style.opacity = (0.25 + facing * 0.75).toFixed(3);
+      sat.style.filter = `brightness(${(0.9 + facing * 0.1).toFixed(3)})`;
     });
 
+    const seg = Math.min(2, Math.round(progress * 2));
+    panels.forEach((panel, i) => panel.classList.toggle("is-current", i === seg));
     if (caption) {
-      const seg = Math.min(2, Math.round(progress * 2));
       const text = `${names[seg]} · 0${seg + 1} de 03`;
       if (caption.textContent !== text) caption.textContent = text;
     }

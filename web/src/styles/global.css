@@ -795,10 +795,11 @@ video[data-lazy-video].is-playing {
 }
 
 /* ------------------------------------------- órbita 3D de niveles (home) */
-/* Wrapper alto + escenario sticky: el scroll (initLevelsOrbit) rota el
-   carrusel 3D y cada nivel pasa al frente. Núcleo central: el sol Veritas. */
+/* Wrapper alto + escenario sticky sobre papel/crema: el scroll rota el
+   carrusel 3D (initLevelsOrbit) y el panel de texto izquierdo se cruza en
+   fade con el nivel que pasa al frente. Núcleo: el sol Veritas. */
 .orbit-bg {
-  background: radial-gradient(ellipse at 50% 42%, rgb(34 48 96 / 0.9), transparent 68%);
+  background: radial-gradient(ellipse at 62% 45%, rgb(242 238 229 / 0.95), transparent 62%);
 }
 .orbit-wrap {
   height: 320vh;
@@ -812,10 +813,50 @@ video[data-lazy-video].is-playing {
   overflow: clip;
   perspective: 1400px;
 }
+.orbit-grid {
+  display: grid;
+  width: 100%;
+  align-items: center;
+  gap: 2rem;
+}
+@media (width >= 64rem) {
+  .orbit-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 3rem;
+  }
+}
+.orbit-info {
+  display: none;
+}
+@media (width >= 64rem) {
+  .orbit-info {
+    display: grid;
+  }
+}
+.orbit-info-panel {
+  grid-area: 1 / 1;
+  opacity: 0;
+  translate: 0 16px;
+  transition:
+    opacity 0.5s var(--ease-out-soft),
+    translate 0.5s var(--ease-out-soft);
+  pointer-events: none;
+}
+.orbit-info-panel.is-current {
+  opacity: 1;
+  translate: 0 0;
+  pointer-events: auto;
+}
+.orbit-scene {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
 .orbit-carousel {
   --orbit-r: 340px;
   position: relative;
-  width: min(60vw, 23rem);
+  width: min(60vw, 22rem);
   aspect-ratio: 3 / 4;
   transform-style: preserve-3d;
   will-change: transform;
@@ -835,7 +876,7 @@ video[data-lazy-video].is-playing {
   overflow: clip;
   border-radius: 1.3rem;
   backface-visibility: hidden;
-  box-shadow: 0 30px 80px -25px rgb(0 0 0 / 0.6);
+  box-shadow: 0 28px 60px -26px rgb(28 26 22 / 0.4);
   transform: rotateY(calc(var(--i) * 120deg)) translateZ(var(--orbit-r));
 }
 .orbit-sat img {
@@ -849,7 +890,7 @@ video[data-lazy-video].is-playing {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(transparent 42%, rgb(11 22 51 / 0.92));
+  background: linear-gradient(transparent 45%, rgb(17 15 12 / 0.85));
 }
 .orbit-cap {
   position: relative;
@@ -879,24 +920,24 @@ video[data-lazy-video].is-playing {
   z-index: 0;
   display: grid;
   place-items: center;
+  align-content: center;
   gap: 0.4rem;
   width: 9.5rem;
   aspect-ratio: 1;
   border-radius: 50%;
-  border: 1px solid rgb(250 248 244 / 0.18);
-  color: var(--color-rose);
+  border: 1px solid rgb(28 26 22 / 0.16);
+  color: var(--color-garnet);
   font-family: var(--font-display);
   font-style: italic;
   font-size: 0.95rem;
   text-align: center;
-  align-content: center;
 }
 .orbit-nucleus::before {
   content: "";
   position: absolute;
   inset: -2.2rem;
   border-radius: 50%;
-  border: 1px dashed rgb(250 248 244 / 0.12);
+  border: 1px dashed rgb(28 26 22 / 0.14);
   animation: sun-spin 40s linear infinite;
 }
 .orbit-caption {
@@ -908,7 +949,7 @@ video[data-lazy-video].is-playing {
   font-weight: 600;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgb(250 248 244 / 0.55);
+  color: rgb(89 84 75 / 0.8);
 }
 
 /* Fallback estático (reduced-motion o sin JS): los tres niveles en fila */
@@ -921,13 +962,20 @@ video[data-lazy-video].is-playing {
     height: auto;
     perspective: none;
     display: block;
-    padding: 3.5rem 1.5rem 5rem;
+    padding: 3.5rem 0 5rem;
+  }
+  .orbit-grid {
+    display: block;
+  }
+  .orbit-info {
+    display: none !important;
+  }
+  .orbit-scene {
+    min-height: 0;
   }
   .orbit-carousel {
     position: static;
     width: 100%;
-    max-width: 76rem;
-    margin-inline: auto;
     aspect-ratio: auto;
     transform: none !important;
     transform-style: flat;
@@ -939,6 +987,7 @@ video[data-lazy-video].is-playing {
     position: relative;
     transform: none !important;
     filter: none !important;
+    opacity: 1 !important;
     aspect-ratio: 3 / 4;
   }
   .orbit-nucleus,
