@@ -436,45 +436,75 @@ function initLevelsOrbit(): void {
   const panels = Array.from(wrap.querySelectorAll<HTMLElement>("[data-orbit-panel]"));
   const names = sats.map((sat) => sat.dataset.orbitName ?? "");
 
-  let ticking = false;
+  // Snap-assist con inercia: la rotación mostrada persigue al scroll con un
+  // lerp por frame (fluidez), y cuando el scroll queda quieto el objetivo se
+  // magnetiza al nivel más cercano — siempre asienta con una card de frente.
+  // El scroll nunca se secuestra: el imán es solo visual.
+  const LERP = 0.1;
+  const IDLE_MS = 130;
 
-  const update = () => {
-    ticking = false;
+  let displayed = 0;
+  let lastScrollTs = 0;
+  let lastSeg = -1;
+  let running = false;
+
+  const rawRotation = () => {
     const rect = wrap.getBoundingClientRect();
-    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
     const range = rect.height - window.innerHeight;
-    if (range <= 0) return;
-
+    if (range <= 0) return { visible: false, raw: 0 };
+    const visible = rect.bottom > 0 && rect.top < window.innerHeight;
     const progress = Math.min(1, Math.max(0, -rect.top / range));
-    const rot = -progress * 240;
-    carousel.style.transform = `translateZ(calc(var(--orbit-r) * -1)) rotateY(${rot.toFixed(2)}deg)`;
+    return { visible, raw: -progress * 240 };
+  };
+
+  const render = () => {
+    carousel.style.transform = `translateZ(calc(var(--orbit-r) * -1)) rotateY(${displayed.toFixed(2)}deg)`;
 
     sats.forEach((sat, i) => {
-      const ang = (((i * 120 + rot) % 360) + 360) % 360;
+      const ang = (((i * 120 + displayed) % 360) + 360) % 360;
       const facing = Math.max(0, Math.cos((ang * Math.PI) / 180));
-      // Sobre fondo claro, las cards de atrás se desvanecen hacia el papel
       sat.style.opacity = (0.25 + facing * 0.75).toFixed(3);
       sat.style.filter = `brightness(${(0.9 + facing * 0.1).toFixed(3)})`;
     });
 
-    const seg = Math.min(2, Math.round(progress * 2));
-    panels.forEach((panel, i) => panel.classList.toggle("is-current", i === seg));
-    if (caption) {
-      const text = `${names[seg]} · 0${seg + 1} de 03`;
-      if (caption.textContent !== text) caption.textContent = text;
+    const seg = Math.min(2, Math.max(0, Math.round(-displayed / 120)));
+    if (seg !== lastSeg) {
+      lastSeg = seg;
+      panels.forEach((panel, i) => panel.classList.toggle("is-current", i === seg));
+      if (caption) caption.textContent = `${names[seg]} · 0${seg + 1} de 03`;
     }
   };
 
-  const requestUpdate = () => {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(update);
+  const loop = () => {
+    const { visible, raw } = rawRotation();
+    if (!visible) {
+      running = false;
+      return;
+    }
+    const idle = performance.now() - lastScrollTs > IDLE_MS;
+    // Quieto → imán al múltiplo de 120° más cercano (nivel de frente)
+    const target = idle ? Math.max(-240, Math.min(0, Math.round(raw / 120) * 120)) : raw;
+    displayed += (target - displayed) * LERP;
+    if (Math.abs(target - displayed) < 0.04) displayed = target;
+    render();
+    requestAnimationFrame(loop);
+  };
+
+  const wake = () => {
+    lastScrollTs = performance.now();
+    if (!running) {
+      running = true;
+      requestAnimationFrame(loop);
     }
   };
 
-  window.addEventListener("scroll", requestUpdate, { passive: true });
-  window.addEventListener("resize", requestUpdate, { passive: true });
-  update();
+  // Estado inicial sin barrido: arrancar ya alineado con el scroll actual
+  displayed = rawRotation().raw;
+  render();
+
+  window.addEventListener("scroll", wake, { passive: true });
+  window.addEventListener("resize", wake, { passive: true });
+  wake();
 }
 
 initReveals();

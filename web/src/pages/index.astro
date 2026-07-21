@@ -424,7 +424,7 @@ const stripPhotos: {
             {
               LEVELS.map((level, i) => (
                 <div class:list={["orbit-info-panel", i === 0 && "is-current"]} data-orbit-panel>
-                  <span class="numeral-ghost block" aria-hidden="true">
+                  <span class="numeral-ghost orbit-info-numeral block" aria-hidden="true">
                     {level.index}
                   </span>
                   <p class="overline-label text-garnet mt-5">{level.ages}</p>
@@ -432,7 +432,7 @@ const stripPhotos: {
                   <p class="text-ink-soft mt-4 max-w-md text-[0.98rem] leading-relaxed">
                     {level.summary}
                   </p>
-                  <ul class="text-ink-soft mt-6 space-y-2 text-[0.9rem]">
+                  <ul class="orbit-info-highlights text-ink-soft mt-6 space-y-2 text-[0.9rem]">
                     {level.highlights.map((highlight) => (
                       <li class="flex gap-2.5">
                         <span
