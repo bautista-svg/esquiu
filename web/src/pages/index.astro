@@ -403,61 +403,72 @@ const stripPhotos: {
     </div>
   </section>
 
-  <!-- ====================================================== RECORRIDO -->
-  <section class="section-y" aria-labelledby="recorrido">
-    <div class="container-site">
+  <!-- ============================== RECORRIDO: niveles en órbita 3D ====== -->
+  <section class="bg-night text-paper relative" aria-labelledby="recorrido">
+    <div class="orbit-bg pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+    <div class="container-site relative pt-[clamp(4.5rem,9vw,8.25rem)]">
       <SectionHeader
+        tone="dark"
         overline="Proyecto educativo"
         title="Un recorrido pensado de los 2 a los 18"
-        lead="Tres niveles con identidad propia y un mismo hilo conductor: el inglés, la fe y el deporte acompañan todo el camino."
+        lead="Tres niveles con identidad propia, girando alrededor de un mismo centro: el inglés, la fe y el deporte acompañan todo el camino. Scrolleá y pasan al frente."
         id="recorrido"
       />
+    </div>
 
-      <ol class="mt-14">
-        {
-          LEVELS.map((level) => (
-            <li
-              class="hairline-t grid gap-6 py-10 lg:grid-cols-12 lg:gap-8 lg:py-12"
-              data-reveal-group
-            >
-              <div class="lg:col-span-2" data-reveal>
-                <span class="numeral-ghost numeral-drift" aria-hidden="true">
-                  {level.index}
+    <div class="orbit-wrap relative" data-orbit>
+      <div class="orbit-stage">
+        <div class="orbit-nucleus" aria-hidden="true">
+          <SunMark size={30} class="text-rose" />
+          <span>Veritas</span>
+        </div>
+
+        <div class="orbit-carousel" data-orbit-carousel>
+          {
+            [
+              {
+                level: LEVELS[0],
+                img: lecturaPatio,
+                alt: "Alumnos chicos leyendo juntos en el patio",
+              },
+              {
+                level: LEVELS[1],
+                img: celebracionPatio,
+                alt: "Alumnas de primaria festejando en el patio",
+              },
+              {
+                level: LEVELS[2],
+                img: rugbyGarin,
+                alt: "Alumno del secundario jugando al rugby en Garín",
+              },
+            ].map(({ level, img, alt }, i) => (
+              <a
+                href={`/proyecto-educativo#${level.id}`}
+                class="orbit-sat"
+                data-orbit-sat
+                data-orbit-name={level.name}
+                style={`--i:${i}`}
+              >
+                <Image
+                  src={img}
+                  alt={alt}
+                  widths={[480, 760]}
+                  sizes="(min-width: 768px) 23rem, 72vw"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="orbit-cap">
+                  <span class="orbit-cap-name">{level.name}</span>
+                  <span class="orbit-cap-ages">{level.ages}</span>
                 </span>
-              </div>
-              <div class="lg:col-span-6" data-reveal>
-                <div class="flex flex-wrap items-baseline gap-x-4 gap-y-2">
-                  <h3 class="text-title-sm">{level.name}</h3>
-                  <span class="overline-label text-garnet text-[0.62rem]">{level.ages}</span>
-                </div>
-                <p class="text-ink-soft mt-3 max-w-xl text-[0.97rem] leading-relaxed">
-                  {level.summary}
-                </p>
-              </div>
-              <div class="lg:col-span-4 lg:justify-self-end" data-reveal>
-                <ul class="text-ink-soft space-y-2 text-[0.88rem]">
-                  {level.highlights.map((highlight) => (
-                    <li class="flex gap-2.5">
-                      <span
-                        class="bg-garnet mt-[0.55rem] h-1 w-1 shrink-0 rounded-full"
-                        aria-hidden="true"
-                      />
-                      {highlight}
-                    </li>
-                  ))}
-                </ul>
-                <a
-                  href={`/proyecto-educativo#${level.id}`}
-                  class="link-accent text-ink mt-5 inline-flex items-center gap-1.5 text-[0.9rem] font-medium"
-                >
-                  Ver nivel
-                  <Icon name="arrow-right" size={14} />
-                </a>
-              </div>
-            </li>
-          ))
-        }
-      </ol>
+              </a>
+            ))
+          }
+        </div>
+
+        <p class="orbit-caption" data-orbit-caption aria-live="polite">Nivel Inicial · 01 de 03</p>
+      </div>
     </div>
   </section>
 

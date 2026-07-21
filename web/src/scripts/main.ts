@@ -419,6 +419,60 @@ function initGalleryCarousel(): void {
   });
 }
 
+/* --------------------------------------- órbita 3D de niveles (home) */
+/**
+ * El scroll dentro del wrapper sticky rota el carrusel 3D: 0 → Inicial,
+ * 0.5 → Primario, 1 → Secundario. Las cards de espaldas se atenúan según
+ * el coseno de su ángulo. Con reduced-motion, CSS muestra una grilla fija.
+ */
+function initLevelsOrbit(): void {
+  const wrap = document.querySelector<HTMLElement>("[data-orbit]");
+  const carousel = wrap?.querySelector<HTMLElement>("[data-orbit-carousel]");
+  if (!wrap || !carousel) return;
+  if (prefersReducedMotion.matches) return;
+
+  const sats = Array.from(carousel.querySelectorAll<HTMLElement>("[data-orbit-sat]"));
+  const caption = wrap.querySelector<HTMLElement>("[data-orbit-caption]");
+  const names = sats.map((sat) => sat.dataset.orbitName ?? "");
+
+  let ticking = false;
+
+  const update = () => {
+    ticking = false;
+    const rect = wrap.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+    const range = rect.height - window.innerHeight;
+    if (range <= 0) return;
+
+    const progress = Math.min(1, Math.max(0, -rect.top / range));
+    const rot = -progress * 240;
+    carousel.style.transform = `translateZ(calc(var(--orbit-r) * -1)) rotateY(${rot.toFixed(2)}deg)`;
+
+    sats.forEach((sat, i) => {
+      const ang = (((i * 120 + rot) % 360) + 360) % 360;
+      const facing = Math.max(0, Math.cos((ang * Math.PI) / 180));
+      sat.style.filter = `brightness(${(0.5 + facing * 0.5).toFixed(3)})`;
+    });
+
+    if (caption) {
+      const seg = Math.min(2, Math.round(progress * 2));
+      const text = `${names[seg]} · 0${seg + 1} de 03`;
+      if (caption.textContent !== text) caption.textContent = text;
+    }
+  };
+
+  const requestUpdate = () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  };
+
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate, { passive: true });
+  update();
+}
+
 initReveals();
 initHeader();
 initMobileNav();
@@ -426,6 +480,7 @@ initLazyVideos();
 initParallax();
 initLevelsProgress();
 initGalleryCarousel();
+initLevelsOrbit();
 initSinkTitles();
 
 /* ----------------------- título que desciende con el scroll (DOE, etc.) */
