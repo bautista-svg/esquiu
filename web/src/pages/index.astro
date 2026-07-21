@@ -12,11 +12,14 @@ import { CAMBRIDGE_EXAMS, UNIVERSITIES } from "../data/partners";
 import { SITE } from "../data/site";
 
 import asambleaPatio from "../assets/img/asamblea-patio.jpg";
+import campoGarin from "../assets/img/campo-garin.jpg";
+import casona from "../assets/img/casona.jpg";
 import celebracionPatio from "../assets/img/celebracion-patio.jpg";
 import escudo from "../assets/img/escudo.png";
 import heroVideoPoster from "../assets/img/hero-video-poster.jpg";
 import lecturaPatio from "../assets/img/lectura-patio.jpg";
 import misaPatio from "../assets/img/misa-patio.jpg";
+import pastoralPan from "../assets/img/pastoral-pan.jpg";
 import rugbyGarin from "../assets/img/rugby-garin.jpg";
 import tabletsAula from "../assets/img/tablets-aula.jpg";
 
@@ -48,7 +51,14 @@ const areaAltTexts: Record<string, string> = {
 const [areaIngles, areaPastoral, areaDoe, areaEdFisica, areaTecnologia] = AREAS;
 
 // Galería "La vida en el Esquiú": el día a día real, sin producción.
-const stripPhotos = [
+const stripPhotos: {
+  src: ImageMetadata;
+  alt: string;
+  title: string;
+  sub: string;
+  /** object-position para reencuadrar la foto dentro de la card */
+  position?: string;
+}[] = [
   {
     src: celebracionPatio,
     alt: "Alumnas de primaria festejando con los brazos en alto en el patio",
@@ -84,6 +94,26 @@ const stripPhotos = [
     alt: "Misa al aire libre en el patio, con la comunidad reunida",
     title: "La fe compartida",
     sub: "Misa en el patio",
+  },
+  {
+    src: casona,
+    alt: "Fachada de la casona histórica del colegio con su galería de hierro verde",
+    title: "La casona de Belgrano",
+    sub: "Nuestra sede desde 1957",
+    position: "center 32%",
+  },
+  {
+    src: pastoralPan,
+    alt: "Sacerdote elevando la hostia durante una celebración en el patio",
+    title: "Momentos de fe",
+    sub: "Bendición en el patio",
+    position: "center 38%",
+  },
+  {
+    src: campoGarin,
+    alt: "Alumnos jugando en el campo de deportes de Garín, rodeado de árboles",
+    title: "Aire libre",
+    sub: "Tardes en Garín",
   },
 ];
 ---
@@ -289,58 +319,62 @@ const stripPhotos = [
       </p>
     </div>
 
-    <!-- Calesita acordeón: gira sola; al posar el mouse frena y la foto se
-         expande revelando su historia (los vecinos se comprimen). -->
+    <!-- Calesita acordeón: gira sola; al posar el mouse frena, la foto se
+         expande y la cinta se desliza para centrarla (ver initGalleryCarousel). -->
     <div class="gallery-carousel mt-8" data-gallery data-reveal>
       <div class="gallery-flow">
-        <ul class="gallery-track">
-          {
-            stripPhotos.map((photo) => (
-              <li class="gallery-item" data-gallery-item tabindex="0" aria-label={photo.alt}>
-                <Image
-                  src={photo.src}
-                  alt={photo.alt}
-                  widths={[520, 900]}
-                  sizes="(min-width: 768px) 30rem, 20rem"
-                  class="gallery-img"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div class="gallery-scrim" aria-hidden="true" />
-                <div class="gallery-caption">
-                  <p class="font-display text-paper text-[1.25rem] font-semibold tracking-tight md:text-[1.45rem]">
-                    {photo.title}
-                  </p>
-                  <p class="text-paper/65 mt-1 text-[0.82rem] md:text-[0.88rem]">{photo.sub}</p>
-                </div>
-              </li>
-            ))
-          }
-        </ul>
-        <ul class="gallery-track" aria-hidden="true">
-          {
-            stripPhotos.map((photo) => (
-              <li class="gallery-item" data-gallery-item>
-                <Image
-                  src={photo.src}
-                  alt=""
-                  widths={[520, 900]}
-                  sizes="(min-width: 768px) 30rem, 20rem"
-                  class="gallery-img"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div class="gallery-scrim" aria-hidden="true" />
-                <div class="gallery-caption">
-                  <p class="font-display text-paper text-[1.25rem] font-semibold tracking-tight md:text-[1.45rem]">
-                    {photo.title}
-                  </p>
-                  <p class="text-paper/65 mt-1 text-[0.82rem] md:text-[0.88rem]">{photo.sub}</p>
-                </div>
-              </li>
-            ))
-          }
-        </ul>
+        <div class="gallery-shift" data-gallery-shift>
+          <ul class="gallery-track">
+            {
+              stripPhotos.map((photo) => (
+                <li class="gallery-item" data-gallery-item tabindex="0" aria-label={photo.alt}>
+                  <Image
+                    src={photo.src}
+                    alt={photo.alt}
+                    widths={[520, 900]}
+                    sizes="(min-width: 768px) 30rem, 20rem"
+                    class="gallery-img"
+                    style={photo.position ? `object-position: ${photo.position}` : undefined}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div class="gallery-scrim" aria-hidden="true" />
+                  <div class="gallery-caption">
+                    <p class="font-display text-paper text-[1.25rem] font-semibold tracking-tight md:text-[1.45rem]">
+                      {photo.title}
+                    </p>
+                    <p class="text-paper/65 mt-1 text-[0.82rem] md:text-[0.88rem]">{photo.sub}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+          <ul class="gallery-track" aria-hidden="true">
+            {
+              stripPhotos.map((photo) => (
+                <li class="gallery-item" data-gallery-item>
+                  <Image
+                    src={photo.src}
+                    alt=""
+                    widths={[520, 900]}
+                    sizes="(min-width: 768px) 30rem, 20rem"
+                    class="gallery-img"
+                    style={photo.position ? `object-position: ${photo.position}` : undefined}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div class="gallery-scrim" aria-hidden="true" />
+                  <div class="gallery-caption">
+                    <p class="font-display text-paper text-[1.25rem] font-semibold tracking-tight md:text-[1.45rem]">
+                      {photo.title}
+                    </p>
+                    <p class="text-paper/65 mt-1 text-[0.82rem] md:text-[0.88rem]">{photo.sub}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
       </div>
     </div>
   </section>

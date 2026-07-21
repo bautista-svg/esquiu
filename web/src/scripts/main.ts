@@ -259,29 +259,74 @@ function initLevelsProgress(): void {
  */
 function initGalleryCarousel(): void {
   const carousel = document.querySelector<HTMLElement>("[data-gallery]");
-  if (!carousel) return;
+  const shiftLayer = carousel?.querySelector<HTMLElement>("[data-gallery-shift]");
+  if (!carousel || !shiftLayer) return;
 
   const items = Array.from(carousel.querySelectorAll<HTMLElement>("[data-gallery-item]"));
 
+  const applyState = (item: HTMLElement | null) => {
+    const track = item?.parentElement;
+    for (const other of items) {
+      other.classList.toggle("is-active", other === item);
+      other.classList.toggle("is-dim", !!item && other.parentElement === track && other !== item);
+    }
+  };
+
+  /** Desplazamiento real actual de la capa (aunque haya una transición en vuelo). */
+  const readShift = () => new DOMMatrixReadOnly(getComputedStyle(shiftLayer).transform).m41;
+
   const clear = () => {
     carousel.classList.remove("is-paused");
-    for (const item of items) item.classList.remove("is-active", "is-dim");
+    applyState(null);
+    shiftLayer.style.setProperty("--shift", "0px");
   };
 
   const activate = (item: HTMLElement) => {
     carousel.classList.add("is-paused");
-    // Solo se comprimen las compañeras de la misma pista (la copia duplicada
-    // del loop se maneja igual, cada pista mantiene su ancho total constante).
-    const track = item.parentElement;
-    for (const other of items) {
-      const sameTrack = other.parentElement === track;
-      other.classList.toggle("is-active", other === item);
-      other.classList.toggle("is-dim", sameTrack && other !== item);
-    }
+    const actualShift = readShift();
+
+    // Medir el layout FINAL sin transiciones (todo en el mismo task: el
+    // navegador no pinta estados intermedios) para saber cuánto deslizar
+    // la cinta y que la foto expandida quede centrada en el carrusel.
+    shiftLayer.classList.add("gallery-measuring");
+    shiftLayer.style.setProperty("--shift", `${actualShift.toFixed(1)}px`);
+    applyState(item);
+    const itemRect = item.getBoundingClientRect();
+    const layerRect = shiftLayer.getBoundingClientRect();
+    const carouselRect = carousel.getBoundingClientRect();
+
+    let delta = carouselRect.left + carouselRect.width / 2 - (itemRect.left + itemRect.width / 2);
+    // Nunca dejar huecos en los bordes de la cinta
+    delta = Math.min(delta, carouselRect.left - layerRect.left);
+    delta = Math.max(delta, carouselRect.right - layerRect.right);
+
+    // Volver al estado previo, reactivar transiciones…
+    applyState(null);
+    void shiftLayer.offsetWidth;
+    shiftLayer.classList.remove("gallery-measuring");
+
+    // …y aplicar expansión + centrado juntos: animan a la vez.
+    applyState(item);
+    shiftLayer.style.setProperty("--shift", `${(actualShift + delta).toFixed(1)}px`);
   };
 
+  // Hover con mousemove, NO mouseenter: cuando la cinta se desliza para
+  // centrar, pasa contenido bajo el cursor quieto — mouseenter dispararía
+  // re-activaciones en cascada (oscilación). mousemove solo dispara si el
+  // mouse físico se mueve. El umbral filtra micro-temblores de la mano.
+  let anchorX = 0;
+  let anchorY = 0;
+  carousel.addEventListener("mousemove", (event) => {
+    const item = (event.target as HTMLElement).closest<HTMLElement>("[data-gallery-item]");
+    if (!item || item.classList.contains("is-active")) return;
+    const hayActiva = items.some((other) => other.classList.contains("is-active"));
+    if (hayActiva && Math.hypot(event.clientX - anchorX, event.clientY - anchorY) < 14) return;
+    anchorX = event.clientX;
+    anchorY = event.clientY;
+    activate(item);
+  });
+
   for (const item of items) {
-    item.addEventListener("mouseenter", () => activate(item));
     item.addEventListener("focus", () => activate(item));
     item.addEventListener("click", () => {
       if (item.classList.contains("is-active")) clear();

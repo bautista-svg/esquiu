@@ -553,11 +553,24 @@ video[data-lazy-video].is-playing {
 .gallery-flow {
   display: flex;
   width: max-content;
-  animation: gallery-spin 48s linear infinite;
+  animation: gallery-spin 80s linear infinite;
 }
 .gallery-carousel:hover .gallery-flow,
 .gallery-carousel.is-paused .gallery-flow {
   animation-play-state: paused;
+}
+/* Capa de centrado: JS escribe --shift para deslizar la cinta y centrar la
+   foto activa; anima junto con la expansión. En "measuring" se apagan las
+   transiciones para medir el layout final sin pintar estados intermedios. */
+.gallery-shift {
+  display: flex;
+  transform: translateX(var(--shift, 0px));
+  transition: transform 0.75s var(--ease-inout-soft);
+  will-change: transform;
+}
+.gallery-measuring,
+.gallery-measuring * {
+  transition: none !important;
 }
 .gallery-track {
   display: flex;
@@ -571,20 +584,22 @@ video[data-lazy-video].is-playing {
 }
 .gallery-item {
   position: relative;
-  width: 8rem;
-  height: 21rem;
+  width: 15rem;
+  height: 12.5rem;
   flex: none;
   overflow: clip;
   border-radius: 1.35rem;
   cursor: pointer;
   transition: width 0.7s var(--ease-inout-soft);
 }
-/* Suma constante: activa 8+5*(8-4.4) = expande lo que las demás ceden */
+/* Suma constante por pista (9 fotos): lo que gana la activa lo ceden las
+   8 vecinas en partes iguales — la cinta no cambia de ancho total y la
+   posición del loop no salta. activa - base = 8 x (base - dim). */
 .gallery-item.is-active {
-  width: 26rem;
+  width: 24rem;
 }
 .gallery-item.is-dim {
-  width: 4.4rem;
+  width: 13.875rem;
 }
 .gallery-item:focus-visible {
   outline: 2px solid var(--color-garnet);
@@ -631,14 +646,14 @@ video[data-lazy-video].is-playing {
 }
 @media (width >= 48rem) {
   .gallery-item {
-    width: 13rem;
-    height: clamp(22rem, 52vh, 27rem);
+    width: 21rem;
+    height: 16rem;
   }
   .gallery-item.is-active {
-    width: 34rem;
+    width: 33rem;
   }
   .gallery-item.is-dim {
-    width: 8.8rem;
+    width: 19.5rem;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -654,6 +669,7 @@ video[data-lazy-video].is-playing {
     display: none;
   }
   .gallery-item,
+  .gallery-shift,
   .gallery-scrim,
   .gallery-caption {
     transition: none;
