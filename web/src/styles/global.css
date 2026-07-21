@@ -802,7 +802,9 @@ video[data-lazy-video].is-playing {
   background: radial-gradient(ellipse at 62% 45%, rgb(242 238 229 / 0.95), transparent 62%);
 }
 .orbit-wrap {
-  height: 320vh;
+  /* Recorrido corto y sensible: ~230px de scroll por nivel (≈2 golpes de
+     rueda); el imán del snap-assist hace el resto del asentado. */
+  height: calc(100vh + 460px);
 }
 .orbit-stage {
   position: sticky;

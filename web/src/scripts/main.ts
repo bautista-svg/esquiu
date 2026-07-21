@@ -440,7 +440,7 @@ function initLevelsOrbit(): void {
   // lerp por frame (fluidez), y cuando el scroll queda quieto el objetivo se
   // magnetiza al nivel más cercano — siempre asienta con una card de frente.
   // El scroll nunca se secuestra: el imán es solo visual.
-  const LERP = 0.1;
+  const LERP = 0.13;
   const IDLE_MS = 130;
 
   let displayed = 0;
