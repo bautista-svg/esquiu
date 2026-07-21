@@ -425,86 +425,36 @@ function initGalleryCarousel(): void {
  * 0.5 → Primario, 1 → Secundario. Las cards de espaldas se atenúan según
  * el coseno de su ángulo. Con reduced-motion, CSS muestra una grilla fija.
  */
-function initLevelsOrbit(): void {
-  const wrap = document.querySelector<HTMLElement>("[data-orbit]");
-  const carousel = wrap?.querySelector<HTMLElement>("[data-orbit-carousel]");
-  if (!wrap || !carousel) return;
-  if (prefersReducedMotion.matches) return;
+function initLevelsDeck(): void {
+  const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-deck-card]"));
+  if (cards.length === 0 || prefersReducedMotion.matches) return;
 
-  const sats = Array.from(carousel.querySelectorAll<HTMLElement>("[data-orbit-sat]"));
-  const caption = wrap.querySelector<HTMLElement>("[data-orbit-caption]");
-  const panels = Array.from(wrap.querySelectorAll<HTMLElement>("[data-orbit-panel]"));
-  const names = sats.map((sat) => sat.dataset.orbitName ?? "");
+  let ticking = false;
 
-  // Snap-assist con inercia: la rotación mostrada persigue al scroll con un
-  // lerp por frame (fluidez), y cuando el scroll queda quieto el objetivo se
-  // magnetiza al nivel más cercano — siempre asienta con una card de frente.
-  // El scroll nunca se secuestra: el imán es solo visual.
-  const LERP = 0.13;
-  const IDLE_MS = 130;
-
-  let displayed = 0;
-  let lastScrollTs = 0;
-  let lastSeg = -1;
-  let running = false;
-
-  const rawRotation = () => {
-    const rect = wrap.getBoundingClientRect();
-    const range = rect.height - window.innerHeight;
-    if (range <= 0) return { visible: false, raw: 0 };
-    const visible = rect.bottom > 0 && rect.top < window.innerHeight;
-    const progress = Math.min(1, Math.max(0, -rect.top / range));
-    return { visible, raw: -progress * 240 };
-  };
-
-  const render = () => {
-    carousel.style.transform = `translateZ(calc(var(--orbit-r) * -1)) rotateY(${displayed.toFixed(2)}deg)`;
-
-    sats.forEach((sat, i) => {
-      const ang = (((i * 120 + displayed) % 360) + 360) % 360;
-      const facing = Math.max(0, Math.cos((ang * Math.PI) / 180));
-      sat.style.opacity = (0.25 + facing * 0.75).toFixed(3);
-      sat.style.filter = `brightness(${(0.9 + facing * 0.1).toFixed(3)})`;
+  const update = () => {
+    ticking = false;
+    cards.forEach((card, i) => {
+      const next = cards[i + 1];
+      if (!next) return;
+      // Cuánto la está tapando la siguiente (0 = nada, 1 = tapada del todo)
+      const cardRect = card.getBoundingClientRect();
+      const nextRect = next.getBoundingClientRect();
+      const cover = Math.min(1, Math.max(0, (cardRect.bottom - nextRect.top) / cardRect.height));
+      card.style.transform = `scale(${(1 - cover * 0.06).toFixed(4)})`;
+      card.style.filter = `brightness(${(1 - cover * 0.35).toFixed(3)})`;
     });
+  };
 
-    const seg = Math.min(2, Math.max(0, Math.round(-displayed / 120)));
-    if (seg !== lastSeg) {
-      lastSeg = seg;
-      panels.forEach((panel, i) => panel.classList.toggle("is-current", i === seg));
-      if (caption) caption.textContent = `${names[seg]} · 0${seg + 1} de 03`;
+  const requestUpdate = () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
     }
   };
 
-  const loop = () => {
-    const { visible, raw } = rawRotation();
-    if (!visible) {
-      running = false;
-      return;
-    }
-    const idle = performance.now() - lastScrollTs > IDLE_MS;
-    // Quieto → imán al múltiplo de 120° más cercano (nivel de frente)
-    const target = idle ? Math.max(-240, Math.min(0, Math.round(raw / 120) * 120)) : raw;
-    displayed += (target - displayed) * LERP;
-    if (Math.abs(target - displayed) < 0.04) displayed = target;
-    render();
-    requestAnimationFrame(loop);
-  };
-
-  const wake = () => {
-    lastScrollTs = performance.now();
-    if (!running) {
-      running = true;
-      requestAnimationFrame(loop);
-    }
-  };
-
-  // Estado inicial sin barrido: arrancar ya alineado con el scroll actual
-  displayed = rawRotation().raw;
-  render();
-
-  window.addEventListener("scroll", wake, { passive: true });
-  window.addEventListener("resize", wake, { passive: true });
-  wake();
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate, { passive: true });
+  update();
 }
 
 initReveals();
@@ -514,7 +464,7 @@ initLazyVideos();
 initParallax();
 initLevelsProgress();
 initGalleryCarousel();
-initLevelsOrbit();
+initLevelsDeck();
 initSinkTitles();
 
 /* ----------------------- título que desciende con el scroll (DOE, etc.) */

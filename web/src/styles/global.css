@@ -794,248 +794,94 @@ video[data-lazy-video].is-playing {
   }
 }
 
-/* ------------------------------------------- órbita 3D de niveles (home) */
-/* Wrapper alto + escenario sticky sobre papel/crema: el scroll rota el
-   carrusel 3D (initLevelsOrbit) y el panel de texto izquierdo se cruza en
-   fade con el nivel que pasa al frente. Núcleo: el sol Veritas. */
-.orbit-bg {
-  background: radial-gradient(ellipse at 62% 45%, rgb(242 238 229 / 0.95), transparent 62%);
+/* ---------------------- mazo de cartas de niveles (home) ----------------- */
+/* Apilado 100% CSS: cada carta es sticky con top escalonado; al scrollear la
+   nueva se apoya sobre la anterior. El JS (initLevelsDeck) solo agrega la
+   compresión de la carta que va quedando abajo (scale + brightness). */
+.deck {
+  max-width: 62rem;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+  padding-bottom: 12vh;
 }
-.orbit-wrap {
-  /* Recorrido corto y sensible: ~230px de scroll por nivel (≈2 golpes de
-     rueda); el imán del snap-assist hace el resto del asentado. */
-  height: calc(100vh + 460px);
-}
-.orbit-stage {
+.deck-card {
   position: sticky;
-  top: 0;
-  height: 100vh;
-  display: grid;
-  place-items: center;
   overflow: clip;
-  perspective: 1400px;
-}
-.orbit-grid {
+  border-radius: 1.5rem;
+  min-height: 78vh;
   display: grid;
-  width: 100%;
-  height: 100vh;
-  align-content: center;
-  align-items: center;
-  gap: 1.25rem;
+  align-items: end;
+  color: var(--color-paper);
+  box-shadow: 0 -12px 50px -20px rgb(28 26 22 / 0.35);
+  will-change: transform, filter;
 }
-@media (width >= 64rem) {
-  .orbit-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 3rem;
-  }
+.deck-card:nth-child(1) {
+  top: 10vh;
 }
-/* En mobile el texto va debajo de la escena, compacto */
-.orbit-info {
-  display: grid;
-  order: 2;
+.deck-card:nth-child(2) {
+  top: 13vh;
 }
-@media (width >= 64rem) {
-  .orbit-info {
-    order: 0;
-  }
+.deck-card:nth-child(3) {
+  top: 16vh;
 }
-.orbit-scene {
-  order: 1;
+.deck-card + .deck-card {
+  margin-top: 24vh;
 }
-@media (width >= 64rem) {
-  .orbit-scene {
-    order: 0;
-  }
-}
-@media (width < 64rem) {
-  .orbit-info-numeral,
-  .orbit-info-highlights {
-    display: none;
-  }
-  .orbit-info-panel h3 {
-    font-size: clamp(1.6rem, 6vw, 2.1rem);
-  }
-}
-.orbit-info-panel {
-  grid-area: 1 / 1;
-  opacity: 0;
-  translate: 0 18px;
-  filter: blur(5px);
-  transition:
-    opacity 0.6s var(--ease-out-soft),
-    translate 0.6s var(--ease-out-soft),
-    filter 0.6s var(--ease-out-soft);
-  pointer-events: none;
-}
-.orbit-info-panel.is-current {
-  opacity: 1;
-  translate: 0 0;
-  filter: blur(0);
-  pointer-events: auto;
-}
-.orbit-scene {
-  position: relative;
-  display: grid;
-  place-items: center;
-  min-height: 0;
-  padding-block: 0.5rem;
-}
-@media (width >= 64rem) {
-  .orbit-scene {
-    min-height: 100vh;
-    padding-block: 0;
-  }
-}
-.orbit-carousel {
-  --orbit-r: 340px;
-  position: relative;
-  width: min(60vw, 22rem);
-  aspect-ratio: 3 / 4;
-  transform-style: preserve-3d;
-  will-change: transform;
-  transform: translateZ(calc(var(--orbit-r) * -1));
-}
-@media (width < 48rem) {
-  .orbit-carousel {
-    --orbit-r: 235px;
-    width: min(72vw, 19rem);
-  }
-}
-.orbit-sat {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  align-content: end;
-  overflow: clip;
-  border-radius: 1.3rem;
-  backface-visibility: hidden;
-  box-shadow: 0 28px 60px -26px rgb(28 26 22 / 0.4);
-  transform: rotateY(calc(var(--i) * 120deg)) translateZ(var(--orbit-r));
-}
-.orbit-sat img {
+.deck-img {
   position: absolute;
   inset: 0;
   height: 100%;
   width: 100%;
   object-fit: cover;
 }
-.orbit-sat::after {
-  content: "";
+.deck-scrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(transparent 45%, rgb(17 15 12 / 0.85));
+  background: linear-gradient(200deg, rgb(17 15 12 / 0.1) 30%, rgb(17 15 12 / 0.88));
 }
-.orbit-cap {
+.deck-copy {
   position: relative;
   z-index: 2;
-  display: block;
-  padding: 1.4rem 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: clamp(1.6rem, 4vw, 2.6rem);
 }
-.orbit-cap-name {
+.deck-tag {
   display: block;
-  font-family: var(--font-display);
-  font-weight: 550;
-  font-size: 1.65rem;
-  letter-spacing: -0.01em;
-  color: var(--color-paper);
-}
-.orbit-cap-ages {
-  display: block;
-  margin-top: 0.3rem;
-  font-size: 0.66rem;
+  margin-bottom: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 650;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--color-rose);
 }
-.orbit-nucleus {
-  position: absolute;
-  z-index: 0;
-  display: grid;
-  place-items: center;
-  align-content: center;
-  gap: 0.4rem;
-  width: 9.5rem;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  border: 1px solid rgb(28 26 22 / 0.16);
-  color: var(--color-garnet);
+.deck-title {
   font-family: var(--font-display);
-  font-style: italic;
-  font-size: 0.95rem;
-  text-align: center;
+  font-optical-sizing: auto;
+  font-variation-settings:
+    "SOFT" 0,
+    "WONK" 0;
+  font-weight: 550;
+  font-size: clamp(2rem, 5.5vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
 }
-.orbit-nucleus::before {
-  content: "";
-  position: absolute;
-  inset: -2.2rem;
-  border-radius: 50%;
-  border: 1px dashed rgb(28 26 22 / 0.14);
-  animation: sun-spin 40s linear infinite;
+.deck-desc {
+  margin-top: 0.8rem;
+  max-width: 26rem;
+  font-size: 0.97rem;
+  line-height: 1.6;
+  color: rgb(250 248 244 / 0.8);
 }
-.orbit-caption {
-  margin-top: 1.1rem;
-  text-align: center;
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: rgb(89 84 75 / 0.8);
-}
-@media (width >= 64rem) {
-  .orbit-caption {
-    position: absolute;
-    bottom: 2.2rem;
-    inset-inline: 0;
-    margin-top: 0;
-  }
-}
-
-/* Fallback estático (reduced-motion o sin JS): los tres niveles en fila */
-@media (prefers-reduced-motion: reduce) {
-  .orbit-wrap {
-    height: auto;
-  }
-  .orbit-stage {
-    position: static;
-    height: auto;
-    perspective: none;
-    display: block;
-    padding: 3.5rem 0 5rem;
-  }
-  .orbit-grid {
-    display: block;
-  }
-  .orbit-info {
-    display: none !important;
-  }
-  .orbit-grid {
-    height: auto;
-  }
-  .orbit-scene {
-    min-height: 0;
-  }
-  .orbit-carousel {
-    position: static;
-    width: 100%;
-    aspect-ratio: auto;
-    transform: none !important;
-    transform-style: flat;
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  }
-  .orbit-sat {
-    position: relative;
-    transform: none !important;
-    filter: none !important;
-    opacity: 1 !important;
-    aspect-ratio: 3 / 4;
-  }
-  .orbit-nucleus,
-  .orbit-caption {
-    display: none;
-  }
+.deck-num {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(4rem, 10vw, 6.5rem);
+  line-height: 0.8;
+  color: rgb(250 248 244 / 0.35);
 }
 
 /* ------------------------------------------------------------ header/nav */

@@ -403,115 +403,60 @@ const stripPhotos: {
     </div>
   </section>
 
-  <!-- ============================== RECORRIDO: niveles en órbita 3D ====== -->
+  <!-- ====================== RECORRIDO: niveles como mazo de cartas ======= -->
   <section class="relative" aria-labelledby="recorrido">
-    <div class="orbit-bg pointer-events-none absolute inset-0" aria-hidden="true"></div>
-
-    <div class="container-site relative pt-[clamp(4.5rem,9vw,8.25rem)]">
+    <div class="container-site pt-[clamp(4.5rem,9vw,8.25rem)] pb-10">
       <SectionHeader
         overline="Proyecto educativo"
         title="Un recorrido pensado de los 2 a los 18"
-        lead="Tres niveles con identidad propia, girando alrededor de un mismo centro: el inglés, la fe y el deporte acompañan todo el camino. Scrolleá y pasan al frente."
+        lead="Cada nivel se apoya sobre el anterior: la etapa que quedó atrás no desaparece — queda abajo, sosteniendo a la siguiente."
         id="recorrido"
       />
     </div>
 
-    <div class="orbit-wrap relative" data-orbit>
-      <div class="orbit-stage">
-        <div class="orbit-grid container-site">
-          <!-- Panel de texto sincronizado con la órbita (desktop) -->
-          <div class="orbit-info">
-            {
-              LEVELS.map((level, i) => (
-                <div class:list={["orbit-info-panel", i === 0 && "is-current"]} data-orbit-panel>
-                  <span class="numeral-ghost orbit-info-numeral block" aria-hidden="true">
-                    {level.index}
-                  </span>
-                  <p class="overline-label text-garnet mt-5">{level.ages}</p>
-                  <h3 class="text-title-xl mt-3">{level.name}</h3>
-                  <p class="text-ink-soft mt-4 max-w-md text-[0.98rem] leading-relaxed">
-                    {level.summary}
-                  </p>
-                  <ul class="orbit-info-highlights text-ink-soft mt-6 space-y-2 text-[0.9rem]">
-                    {level.highlights.map((highlight) => (
-                      <li class="flex gap-2.5">
-                        <span
-                          class="bg-garnet mt-[0.55rem] h-1 w-1 shrink-0 rounded-full"
-                          aria-hidden="true"
-                        />
-                        {highlight}
-                      </li>
-                    ))}
-                  </ul>
-                  <a
-                    href={`/proyecto-educativo#${level.id}`}
-                    class="link-accent text-ink mt-7 inline-flex items-center gap-1.5 text-[0.92rem] font-medium"
-                    tabindex="-1"
-                  >
-                    Ver nivel
-                    <Icon name="arrow-right" size={14} />
-                  </a>
-                </div>
-              ))
-            }
-          </div>
-
-          <!-- Escena 3D -->
-          <div class="orbit-scene">
-            <div class="orbit-nucleus" aria-hidden="true">
-              <SunMark size={30} class="text-garnet" />
-              <span>Veritas</span>
+    <div class="deck" data-deck>
+      {
+        [
+          { level: LEVELS[0], img: lecturaPatio, alt: "Alumnos chicos leyendo juntos en el patio" },
+          {
+            level: LEVELS[1],
+            img: celebracionPatio,
+            alt: "Alumnas de primaria festejando en el patio",
+          },
+          {
+            level: LEVELS[2],
+            img: rugbyGarin,
+            alt: "Alumno del secundario jugando al rugby en Garín",
+          },
+        ].map(({ level, img, alt }) => (
+          <article class="deck-card" data-deck-card>
+            <Image
+              src={img}
+              alt={alt}
+              widths={[768, 1280, 1920]}
+              sizes="(min-width: 64rem) 62rem, 94vw"
+              class="deck-img"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="deck-scrim" aria-hidden="true" />
+            <div class="deck-copy">
+              <div class="max-w-xl">
+                <span class="deck-tag">{level.ages}</span>
+                <h3 class="deck-title">{level.name}</h3>
+                <p class="deck-desc">{level.summary}</p>
+                <a href={`/proyecto-educativo#${level.id}`} class="btn btn-light btn-sm mt-7">
+                  Conocer el nivel
+                  <Icon name="arrow-right" size={15} class="btn-arrow" />
+                </a>
+              </div>
+              <span class="deck-num" aria-hidden="true">
+                {level.index}
+              </span>
             </div>
-
-            <div class="orbit-carousel" data-orbit-carousel>
-              {
-                [
-                  {
-                    level: LEVELS[0],
-                    img: lecturaPatio,
-                    alt: "Alumnos chicos leyendo juntos en el patio",
-                  },
-                  {
-                    level: LEVELS[1],
-                    img: celebracionPatio,
-                    alt: "Alumnas de primaria festejando en el patio",
-                  },
-                  {
-                    level: LEVELS[2],
-                    img: rugbyGarin,
-                    alt: "Alumno del secundario jugando al rugby en Garín",
-                  },
-                ].map(({ level, img, alt }, i) => (
-                  <a
-                    href={`/proyecto-educativo#${level.id}`}
-                    class="orbit-sat"
-                    data-orbit-sat
-                    data-orbit-name={level.name}
-                    style={`--i:${i}`}
-                  >
-                    <Image
-                      src={img}
-                      alt={alt}
-                      widths={[480, 760]}
-                      sizes="(min-width: 768px) 23rem, 72vw"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    <span class="orbit-cap">
-                      <span class="orbit-cap-name">{level.name}</span>
-                      <span class="orbit-cap-ages">{level.ages}</span>
-                    </span>
-                  </a>
-                ))
-              }
-            </div>
-
-            <p class="orbit-caption" data-orbit-caption aria-live="polite">
-              Nivel Inicial · 01 de 03
-            </p>
-          </div>
-        </div>
-      </div>
+          </article>
+        ))
+      }
     </div>
   </section>
 
