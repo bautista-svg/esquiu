@@ -985,6 +985,181 @@ video[data-lazy-video].is-playing {
   }
 }
 
+/* -------------------- panorama horizontal de niveles (proyecto) ---------- */
+/* Scroll vertical que maneja un viaje lateral: wrapper alto + sticky 100vh;
+   el track (300vw) se traslada -p*200vw. Cada panel: color propio, foto al
+   20% y titular centrado con micro-parallax. Barra de progreso abajo. */
+.pano-wrap {
+  height: 380vh;
+}
+.pano-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: clip;
+}
+.pano-track {
+  display: flex;
+  width: 300vw;
+  height: 100%;
+  will-change: transform;
+}
+.pano-panel {
+  position: relative;
+  width: 100vw;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  overflow: clip;
+  padding-inline: 1.5rem;
+}
+.pano-bg {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  opacity: 0.18;
+}
+.pano-inicial {
+  background: var(--color-cream);
+  color: var(--color-ink);
+}
+.pano-primaria {
+  background: var(--color-night);
+  color: var(--color-paper);
+}
+.pano-secundaria {
+  background: var(--color-garnet-deep);
+  color: var(--color-paper);
+}
+.pano-copy {
+  position: relative;
+  max-width: 62rem;
+  text-align: center;
+  will-change: transform;
+}
+.pano-over {
+  letter-spacing: 0.22em;
+}
+.pano-inicial .pano-over {
+  color: var(--color-garnet);
+}
+.pano-primaria .pano-over {
+  color: var(--color-rose);
+}
+.pano-secundaria .pano-over {
+  color: var(--color-rose-soft);
+}
+.pano-title {
+  margin-top: 1.1rem;
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-variation-settings:
+    "SOFT" 0,
+    "WONK" 0;
+  font-weight: 550;
+  font-size: clamp(2.3rem, 6vw, 4.7rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.pano-title .is-accent {
+  font-style: italic;
+  font-variation-settings:
+    "SOFT" 80,
+    "WONK" 0;
+}
+.pano-inicial .pano-title .is-accent {
+  color: var(--color-garnet);
+}
+.pano-primaria .pano-title .is-accent {
+  color: var(--color-rose);
+}
+.pano-secundaria .pano-title .is-accent {
+  color: var(--color-rose-soft);
+}
+.pano-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2.2rem;
+  font-size: 0.92rem;
+  font-weight: 560;
+  opacity: 0.85;
+  transition: opacity 0.25s var(--ease-out-soft);
+}
+.pano-link:hover {
+  opacity: 1;
+}
+.pano-progress {
+  position: absolute;
+  bottom: 1.9rem;
+  inset-inline: 0;
+  display: grid;
+  gap: 0.65rem;
+  justify-items: center;
+}
+.pano-bar {
+  width: min(26rem, 68vw);
+  height: 2px;
+  border-radius: 2px;
+  background: rgb(127 120 110 / 0.35);
+  overflow: hidden;
+}
+.pano-fill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--color-rose);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.pano-labels {
+  display: flex;
+  width: min(26rem, 68vw);
+  justify-content: space-between;
+  font-size: 0.66rem;
+  font-weight: 650;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.pano-labels li {
+  opacity: 0.45;
+  transition: opacity 0.3s var(--ease-out-soft);
+  color: inherit;
+}
+.pano-labels li.is-active {
+  opacity: 1;
+}
+/* El color del progreso hereda del panel actualmente visible via JS */
+.pano-progress {
+  color: var(--pano-ink, currentColor);
+}
+@media (prefers-reduced-motion: reduce) {
+  .pano-wrap {
+    height: auto;
+  }
+  .pano-sticky {
+    position: static;
+    height: auto;
+  }
+  .pano-track {
+    width: 100%;
+    flex-direction: column;
+    transform: none !important;
+  }
+  .pano-panel {
+    width: 100%;
+    min-height: 72svh;
+  }
+  .pano-copy {
+    transform: none !important;
+  }
+  .pano-progress {
+    display: none;
+  }
+}
+
 /* ------------------------------------------------------------ header/nav */
 .site-header {
   view-transition-name: site-header;

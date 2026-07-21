@@ -2,8 +2,8 @@
 import { Picture } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CtaBand from "../components/CtaBand.astro";
+import Icon from "../components/Icon.astro";
 import PageHero from "../components/PageHero.astro";
-import Statement from "../components/Statement.astro";
 
 import celebracionPatio from "../assets/img/celebracion-patio.jpg";
 import lecturaPatio from "../assets/img/lectura-patio.jpg";
@@ -117,32 +117,11 @@ const levels = [
   },
 ] as const;
 
-/** Titular editorial full-viewport que precede a cada nivel (reversible al scroll). */
-const statements = [
-  {
-    lines: [
-      { text: "El juego" },
-      { text: "no es un recreo:" },
-      { text: "es el método.", accent: true },
-    ],
-    meta: ["Nivel Inicial", "Salas de 2 a 5", "El juego como puente"],
-  },
-  {
-    lines: [
-      { text: "Cuerpo, mente" },
-      { text: "y amigos:" },
-      { text: "crecen juntos.", accent: true },
-    ],
-    meta: ["Nivel Primario", "1.º a 7.º grado", "Doble jornada bilingüe"],
-  },
-  {
-    lines: [
-      { text: "Egresan bilingües," },
-      { text: "con valores" },
-      { text: "y con rumbo.", accent: true },
-    ],
-    meta: ["Nivel Secundario", "1.º a 5.º año", "Cambridge · Universidades"],
-  },
+/** Paneles del recorrido horizontal (uno por nivel). */
+const pano = [
+  { lines: ["El juego", "no es un recreo:"], accent: "es el método." },
+  { lines: ["Cuerpo, mente", "y amigos:"], accent: "crecen juntos." },
+  { lines: ["Egresan bilingües,", "con valores"], accent: "y con rumbo." },
 ];
 ---
 
@@ -169,6 +148,54 @@ const statements = [
       }
     </nav>
   </PageHero>
+
+  <!-- ============== Panorama horizontal: scroll vertical → viaje lateral ==== -->
+  <section class="pano-wrap" data-pano aria-label="Los tres niveles, en un recorrido">
+    <div class="pano-sticky">
+      <div class="pano-track" data-pano-track>
+        {
+          levels.map((level, i) => (
+            <article class:list={["pano-panel", `pano-${level.id}`]}>
+              <Picture
+                src={level.image}
+                formats={["avif", "webp"]}
+                widths={[768, 1280, 1920]}
+                sizes="100vw"
+                alt=""
+                class="pano-bg"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="pano-copy" data-pano-copy>
+                <p class="pano-over overline-label">
+                  {level.name} · {level.ages}
+                </p>
+                <h2 class="pano-title">
+                  {pano[i].lines.map((line) => (
+                    <span class="block">{line}</span>
+                  ))}
+                  <span class="is-accent block">{pano[i].accent}</span>
+                </h2>
+                <a href={`#${level.id}`} class="pano-link">
+                  Ver en detalle
+                  <Icon name="arrow-right" size={15} class="rotate-90" />
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="pano-progress" aria-hidden="true">
+        <div class="pano-bar">
+          <span class="pano-fill" data-pano-fill></span>
+        </div>
+        <ul class="pano-labels">
+          {levels.map((level) => <li data-pano-label>{level.name.replace("Nivel ", "")}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
 
   <!-- Barra sticky de recorrido -->
   <div
@@ -200,9 +227,6 @@ const statements = [
   {
     levels.map((level, i) => (
       <>
-        <div class="container-site">
-          <Statement lines={statements[i].lines} meta={statements[i].meta} />
-        </div>
         <section
           id={level.id}
           class:list={[
@@ -225,17 +249,6 @@ const statements = [
                   {level.name}
                 </h2>
                 <p class="text-lead text-ink-soft relative mt-5">{level.lead}</p>
-
-                <figure class="relative mt-8 overflow-clip rounded-2xl">
-                  <Picture
-                    src={level.image}
-                    formats={["avif", "webp"]}
-                    widths={[480, 720, 960]}
-                    sizes="(min-width: 1024px) 36vw, 92vw"
-                    alt={level.imageAlt}
-                    class="aspect-[5/4] w-full object-cover"
-                  />
-                </figure>
               </div>
 
               <div class="lg:col-span-7 lg:pt-6">

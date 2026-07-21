@@ -25,10 +25,11 @@ export interface NavItem {
 
 /** Navegación principal (el resto de las páginas vive en el footer). */
 export const NAV: NavItem[] = [
-  { label: "Institución", href: "/" },
   { label: "Proyecto educativo", href: "/proyecto-educativo" },
   { label: "Áreas", href: "/areas" },
   { label: "Equipo", href: "/equipo" },
+  { label: "Exalumnos", href: "/exalumnos" },
+  { label: "Servicios", href: "/servicios" },
   { label: "Contacto", href: "/contacto" },
 ];
 

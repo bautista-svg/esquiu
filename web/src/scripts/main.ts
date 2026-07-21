@@ -286,9 +286,13 @@ function initGalleryCarousel(): void {
     carousel.classList.add("is-paused");
     const actualShift = readShift();
 
-    // Medir el layout FINAL sin transiciones (todo en el mismo task: el
-    // navegador no pinta estados intermedios) para saber cuánto deslizar
-    // la cinta y que la foto expandida quede centrada en el carrusel.
+    // FLIP: capturar los anchos ACTUALES (aunque haya una transición en
+    // vuelo) — sin esto, cambiar de foto a mitad de animación hacía saltar
+    // los anchos al estado base sin transición ("se acopla sin transición").
+    const currentWidths = items.map((other) => other.getBoundingClientRect().width);
+
+    // Medir el layout FINAL sin transiciones (mismo task: no se pinta nada
+    // intermedio) para saber cuánto deslizar la cinta para el encaje.
     shiftLayer.classList.add("gallery-measuring");
     shiftLayer.style.setProperty("--shift", `${actualShift.toFixed(1)}px`);
     applyState(item);
@@ -297,10 +301,7 @@ function initGalleryCarousel(): void {
     const carouselRect = carousel.getBoundingClientRect();
 
     // Encajar, NO centrar: la cinta se corre apenas lo justo para que la foto
-    // expandida entre completa. Centrar movía la cinta lejos del cursor y lo
-    // dejaba sobre la vecina → cualquier micro-movimiento encadenaba saltos.
-    // Con el encaje mínimo, el cursor queda SIEMPRE dentro de la foto activa
-    // (solo crece alrededor de su posición): imposible encadenar.
+    // expandida entre completa — el cursor queda siempre dentro de la activa.
     const MARGEN = 28;
     let delta = 0;
     if (itemRect.right > carouselRect.right - MARGEN) {
@@ -308,18 +309,25 @@ function initGalleryCarousel(): void {
     } else if (itemRect.left < carouselRect.left + MARGEN) {
       delta = carouselRect.left + MARGEN - itemRect.left;
     }
-    // Nunca dejar huecos en los bordes de la cinta
     delta = Math.min(delta, carouselRect.left - layerRect.left);
     delta = Math.max(delta, carouselRect.right - layerRect.right);
 
-    // Volver al estado previo, reactivar transiciones…
-    applyState(null);
+    // Fijar los anchos actuales inline (las clases finales ya están puestas,
+    // pero el inline gana) y recién ahí reactivar transiciones…
+    items.forEach((other, i) => {
+      other.style.width = `${currentWidths[i].toFixed(1)}px`;
+    });
     void shiftLayer.offsetWidth;
     shiftLayer.classList.remove("gallery-measuring");
 
-    // …y aplicar expansión + centrado juntos: animan a la vez.
-    applyState(item);
-    shiftLayer.style.setProperty("--shift", `${(actualShift + delta).toFixed(1)}px`);
+    // …y soltar: los anchos transicionan desde su valor real actual hacia
+    // los de las clases, junto con el deslizamiento de la cinta.
+    requestAnimationFrame(() => {
+      items.forEach((other) => {
+        other.style.width = "";
+      });
+      shiftLayer.style.setProperty("--shift", `${(actualShift + delta).toFixed(1)}px`);
+    });
   };
 
   // Hover con mousemove, NO mouseenter: cuando la cinta se desliza para
@@ -490,6 +498,57 @@ function initStatements(): void {
   update();
 }
 
+/* -------------------- panorama horizontal de niveles (proyecto) -------- */
+function initLevelsPanorama(): void {
+  const wrap = document.querySelector<HTMLElement>("[data-pano]");
+  const track = wrap?.querySelector<HTMLElement>("[data-pano-track]");
+  if (!wrap || !track) return;
+  if (prefersReducedMotion.matches) return; // fallback CSS: paneles apilados
+
+  const copies = Array.from(wrap.querySelectorAll<HTMLElement>("[data-pano-copy]"));
+  const fill = wrap.querySelector<HTMLElement>("[data-pano-fill]");
+  const labels = Array.from(wrap.querySelectorAll<HTMLElement>("[data-pano-label]"));
+  const panels = Array.from(wrap.querySelectorAll<HTMLElement>(".pano-panel"));
+  const inks = ["var(--color-ink)", "var(--color-paper)", "var(--color-paper)"];
+  const progress = wrap.querySelector<HTMLElement>(".pano-progress");
+
+  let ticking = false;
+  let lastSeg = -1;
+
+  const update = () => {
+    ticking = false;
+    const rect = wrap.getBoundingClientRect();
+    const range = rect.height - window.innerHeight;
+    if (range <= 0) return;
+    const p = Math.min(1, Math.max(0, -rect.top / range));
+
+    track.style.transform = `translate3d(${(-p * 2 * window.innerWidth).toFixed(1)}px, 0, 0)`;
+    // Micro-parallax: el texto de cada panel se adelanta/atrasa levemente
+    copies.forEach((copy, i) => {
+      copy.style.transform = `translate3d(${((p * 2 - i) * -60).toFixed(1)}px, 0, 0)`;
+    });
+    if (fill) fill.style.transform = `scaleX(${p.toFixed(4)})`;
+
+    const seg = Math.min(panels.length - 1, Math.round(p * (panels.length - 1)));
+    if (seg !== lastSeg) {
+      lastSeg = seg;
+      labels.forEach((label, i) => label.classList.toggle("is-active", i === seg));
+      progress?.style.setProperty("--pano-ink", inks[seg] ?? "currentColor");
+    }
+  };
+
+  const requestUpdate = () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  };
+
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate, { passive: true });
+  update();
+}
+
 initReveals();
 initHeader();
 initMobileNav();
@@ -498,6 +557,7 @@ initParallax();
 initLevelsProgress();
 initGalleryCarousel();
 initStatements();
+initLevelsPanorama();
 initLevelsDeck();
 initSinkTitles();
 
