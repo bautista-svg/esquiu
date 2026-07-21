@@ -1,0 +1,41 @@
+---
+import Icon from "./Icon.astro";
+
+/** Banda de cierre que invita a iniciar el proceso de admisión. */
+interface Props {
+  title?: string;
+  lead?: string;
+}
+
+const {
+  title = "Conocé el Esquiú por dentro",
+  lead = "El proceso de admisión comienza con una entrevista personalizada en nuestra sede de Belgrano.",
+} = Astro.props;
+---
+
+<section class="section-y">
+  <div class="container-site">
+    <div
+      class="bg-night text-paper relative overflow-clip rounded-[2rem] px-7 py-14 sm:px-12 lg:px-16 lg:py-20"
+      data-reveal-group
+    >
+      <div
+        class="parallax-glow bg-rose/15 pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full blur-3xl"
+        aria-hidden="true"
+      >
+      </div>
+      <div class="relative max-w-2xl">
+        <p class="overline-label text-rose" data-reveal>Admisiones 2026</p>
+        <h2 class="text-title-xl mt-4" data-reveal>{title}</h2>
+        <p class="text-paper/70 mt-5" data-reveal>{lead}</p>
+        <div class="mt-9 flex flex-wrap items-center gap-4" data-reveal>
+          <a href="/admisiones" class="btn btn-light">
+            Iniciar admisión
+            <Icon name="arrow-right" size={16} class="btn-arrow" />
+          </a>
+          <a href="/contacto" class="btn btn-ghost-light">Hacer una consulta</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

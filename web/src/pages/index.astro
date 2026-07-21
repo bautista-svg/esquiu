@@ -1,0 +1,755 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image, Picture, getImage } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import BrandStripes from "../components/BrandStripes.astro";
+import Icon from "../components/Icon.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import SunMark from "../components/SunMark.astro";
+import { AREAS } from "../data/areas";
+import { LEVELS } from "../data/levels";
+import { CAMBRIDGE_EXAMS, UNIVERSITIES } from "../data/partners";
+import { SITE } from "../data/site";
+
+import asambleaPatio from "../assets/img/asamblea-patio.jpg";
+import celebracionPatio from "../assets/img/celebracion-patio.jpg";
+import escudo from "../assets/img/escudo.png";
+import heroVideoPoster from "../assets/img/hero-video-poster.jpg";
+import lecturaPatio from "../assets/img/lectura-patio.jpg";
+import misaPatio from "../assets/img/misa-patio.jpg";
+import rugbyGarin from "../assets/img/rugby-garin.jpg";
+import tabletsAula from "../assets/img/tablets-aula.jpg";
+
+// Primer frame del hero.mp4: mismo píxel que el video al arrancar → sin flash.
+const heroPoster = await getImage({
+  src: heroVideoPoster,
+  width: 1920,
+  format: "webp",
+  quality: 78,
+});
+
+// Imagen por área para el mosaico (el DOE lleva pieza tipográfica).
+const areaImages: Record<string, ImageMetadata | null> = {
+  ingles: asambleaPatio,
+  pastoral: misaPatio,
+  doe: null,
+  "educacion-fisica": rugbyGarin,
+  tecnologia: tabletsAula,
+};
+
+const areaAltTexts: Record<string, string> = {
+  ingles:
+    "Alumnos de primaria reunidos en el patio histórico del colegio durante el saludo de la mañana",
+  pastoral: "Sacerdote celebrando una misa al aire libre frente a los alumnos en el patio",
+  "educacion-fisica": "Alumno pateando a los palos en el campo de deportes de Garín",
+  tecnologia: "Alumnas de primaria trabajando con tablets en el aula",
+};
+
+const [areaIngles, areaPastoral, areaDoe, areaEdFisica, areaTecnologia] = AREAS;
+
+// Galería "La vida en el Esquiú": el día a día real, sin producción.
+const stripPhotos = [
+  {
+    src: celebracionPatio,
+    alt: "Alumnas de primaria festejando con los brazos en alto en el patio",
+    title: "El patio en fiesta",
+    sub: "Festejos de primaria",
+  },
+  {
+    src: lecturaPatio,
+    alt: "Un alumno le lee un cuento a un compañero más chico, sentados en el patio",
+    title: "Grandes y chicos",
+    sub: "Semana de la Literatura",
+  },
+  {
+    src: rugbyGarin,
+    alt: "Alumno pateando a los palos en el campo de deportes de Garín",
+    title: "Campo de deportes",
+    sub: "Rugby en Garín",
+  },
+  {
+    src: asambleaPatio,
+    alt: "Todo el colegio reunido en el patio durante el saludo de la mañana",
+    title: "El saludo de la mañana",
+    sub: "Toda la comunidad reunida",
+  },
+  {
+    src: tabletsAula,
+    alt: "Alumnas trabajando con tablets en el aula",
+    title: "Tecnología en el aula",
+    sub: "Pensamiento computacional",
+  },
+  {
+    src: misaPatio,
+    alt: "Misa al aire libre en el patio, con la comunidad reunida",
+    title: "La fe compartida",
+    sub: "Misa en el patio",
+  },
+];
+---
+
+<BaseLayout
+  title="Colegio Esquiú · Educación católica bilingüe en Belgrano, desde 1957"
+  description="Mucho más que un colegio, una comunidad. Asociación civil sin fines de lucro con nivel inicial, primario y secundario bilingüe en Belgrano, CABA. Admisiones 2026 abiertas."
+  headerTone="dark"
+>
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    href={heroPoster.src}
+    type="image/webp"
+    fetchpriority="high"
+  />
+
+  <!-- ============================================================ HERO -->
+  <section class="relative flex min-h-[100svh] flex-col overflow-clip">
+    <div class="hero-zoom hero-exit-media bg-night absolute inset-0">
+      <!--
+        Poster = primer frame exacto del mp4. El browser muestra el poster y
+        al reproducir arranca en el mismo cuadro → no hay flash de otra foto.
+      -->
+      <video
+        class="absolute inset-0 h-full w-full object-cover"
+        src="/videos/hero.mp4"
+        poster={heroPoster.src}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        aria-hidden="true"
+        tabindex="-1"></video>
+    </div>
+    <!-- Overlay compuesto + radial detrás del contenido (nunca negro plano) -->
+    <div class="hero-overlay pointer-events-none absolute inset-0" aria-hidden="true"></div>
+    <div class="hero-radial pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+    <div
+      class="container-site hero-exit-content relative flex w-full flex-1 flex-col pt-[clamp(6.5rem,21svh,19rem)] md:pt-[clamp(7.5rem,27svh,22rem)]"
+    >
+      <!-- Eyebrow -->
+      <p
+        class="hero-fade text-rose text-[12px] leading-[1.7] font-bold tracking-[0.22em] uppercase"
+        style="--d:100ms"
+      >
+        Belgrano · Buenos Aires<br />
+        desde {SITE.founded}
+      </p>
+
+      <!-- Título editorial: tres líneas, la última en itálica coral -->
+      <h1
+        class="font-display text-paper mt-5 font-semibold tracking-[-0.02em]"
+        style="font-size: clamp(2.7rem, 11.5vw, 4.9rem); line-height: 0.97"
+      >
+        <span class="hero-line"><span style="--d:180ms">Mucho más</span></span>
+        <span class="hero-line"><span style="--d:260ms">que un colegio,</span></span>
+        <span class="hero-line mt-[0.3em]"
+          ><span style="--d:380ms" class="text-rose text-[1.05em] italic">una comunidad.</span
+          ></span
+        >
+      </h1>
+
+      <!-- Descripción corta -->
+      <p
+        class="hero-fade text-paper/85 mt-6 max-w-[21rem] text-[19px] leading-[1.45] sm:max-w-md sm:text-[20px]"
+        style="--d:500ms"
+      >
+        Educación bilingüe, acompañando a cada alumno desde los 2 años hasta el secundario.
+      </p>
+
+      <!-- CTAs -->
+      <div
+        class="hero-fade mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6"
+        style="--d:600ms"
+      >
+        <a href="/admisiones" class="btn btn-primary btn-hero justify-center">
+          Admisiones 2026
+          <Icon name="arrow-right" size={17} class="btn-arrow" />
+        </a>
+        <a href="/proyecto-educativo" class="btn btn-glass btn-hero justify-center">
+          Conocer el proyecto
+        </a>
+      </div>
+
+      <!-- Indicadores inferiores: tres columnas con divisores sutiles -->
+      <div class="hero-fade mt-auto pt-12 pb-7 md:pb-9" style="--d:720ms">
+        <ul class="divide-paper/15 grid max-w-xl grid-cols-3 divide-x">
+          {
+            [
+              { icon: "globe" as const, title: "Inglés bilingüe", sub: "Cambridge" },
+              { icon: "book" as const, title: "Tres niveles", sub: "Un recorrido completo" },
+              { icon: "medal" as const, title: "Sin fines de lucro", sub: `Desde ${SITE.founded}` },
+            ].map((item) => (
+              <li class="flex flex-col items-start gap-1.5 px-4 py-1 first:pl-0">
+                <Icon name={item.icon} size={19} class="text-paper/65" />
+                <span class="text-paper/90 mt-1 text-[0.82rem] leading-tight font-semibold">
+                  {item.title}
+                </span>
+                <span class="text-paper/50 text-[0.72rem] leading-tight">{item.sub}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <!-- Indicador de scroll, discreto (solo desktop) -->
+    <div class="absolute right-10 bottom-9 hidden lg:block" aria-hidden="true">
+      <span class="scroll-cue block"></span>
+    </div>
+  </section>
+  <BrandStripes />
+
+  <!-- ======================================================== ESENCIA -->
+  <section class="section-y" aria-labelledby="esencia">
+    <div class="container-site">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-5" data-reveal-group>
+          <p class="overline-label text-garnet" data-reveal>Nuestra esencia</p>
+          <h2 id="esencia" class="text-title-xl mt-4" data-reveal>La Pedagogía del Vínculo</h2>
+          <p class="text-lead text-ink-soft mt-5" data-reveal>
+            Es la que mejor define nuestra cotidianeidad: conocer a cada alumno por su nombre, su
+            historia y sus talentos.
+          </p>
+        </div>
+
+        <div class="lg:col-span-6 lg:col-start-7" data-reveal-group>
+          <p data-reveal>
+            Nuestra propuesta se centra en <strong
+              >despertar inquietudes y talentos sin desatender las individualidades</strong
+            >: promover valores, espíritu comunitario y vocación de servicio, acompañando el
+            crecimiento integral de cada persona.
+          </p>
+          <ul class="mt-8">
+            {
+              [
+                {
+                  title: "Formación integral",
+                  text: "Lo académico, lo espiritual y lo comunitario se integran en un mismo proyecto.",
+                },
+                {
+                  title: "Comunidad que sostiene",
+                  text: "Familias socias de una asociación civil sin fines de lucro, no clientes de una empresa.",
+                },
+                {
+                  title: "Vocación de servicio",
+                  text: "Del aula a la misión: el compromiso con el otro se aprende haciéndolo.",
+                },
+              ].map((item) => (
+                <li class="hairline-t flex gap-4 py-5" data-reveal>
+                  <Icon name="check" size={18} class="text-garnet mt-1.5 shrink-0" />
+                  <p class="text-ink-soft text-[0.97rem] leading-relaxed">
+                    <strong class="text-ink font-semibold">{item.title}.</strong> {item.text}
+                  </p>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-16 grid items-end gap-10 lg:mt-24 lg:grid-cols-12">
+        <figure class="lg:col-span-5" data-reveal="blur">
+          <div class="parallax-frame rounded-2xl">
+            <Picture
+              src={lecturaPatio}
+              formats={["avif", "webp"]}
+              widths={[480, 730]}
+              sizes="(min-width: 1024px) 38vw, 94vw"
+              alt="Un alumno mayor le lee un libro a un compañero más chico, sentados en el patio del colegio"
+              class="parallax-inner w-full rounded-2xl object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <figcaption class="text-ink-soft/80 mt-3 text-[0.82rem]">
+            El vínculo entre grandes y chicos, en el patio de Belgrano.
+          </figcaption>
+        </figure>
+        <blockquote class="text-quote text-ink max-w-xl lg:col-span-7 lg:pb-10" data-reveal>
+          “Despertar inquietudes y talentos, sin desatender las individualidades.”
+          <cite class="overline-label text-ink-soft mt-6 block not-italic"
+            >Proyecto educativo Esquiú</cite
+          >
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================= VIDA EN EL ESQUIÚ -->
+  <section class="pb-14 md:pb-20" aria-label="La vida en el colegio, en imágenes">
+    <div
+      class="container-site flex flex-wrap items-baseline justify-between gap-4"
+      data-reveal-group
+    >
+      <p class="overline-label text-garnet" data-reveal>La vida en el Esquiú</p>
+      <p class="text-ink-soft hidden text-[0.85rem] sm:block" data-reveal>
+        El día a día, tal como es
+      </p>
+    </div>
+
+    <!-- Calesita acordeón: gira sola; al posar el mouse frena y la foto se
+         expande revelando su historia (los vecinos se comprimen). -->
+    <div class="gallery-carousel mt-8" data-gallery data-reveal>
+      <div class="gallery-flow">
+        <ul class="gallery-track">
+          {
+            stripPhotos.map((photo) => (
+              <li class="gallery-item" data-gallery-item tabindex="0" aria-label={photo.alt}>
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  widths={[520, 900]}
+                  sizes="(min-width: 768px) 30rem, 20rem"
+                  class="gallery-img"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="gallery-scrim" aria-hidden="true" />
+                <div class="gallery-caption">
+                  <p class="font-display text-paper text-[1.25rem] font-semibold tracking-tight md:text-[1.45rem]">
+                    {photo.title}
+                  </p>
+                  <p class="text-paper/65 mt-1 text-[0.82rem] md:text-[0.88rem]">{photo.sub}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+        <ul class="gallery-track" aria-hidden="true">
+          {
+            stripPhotos.map((photo) => (
+              <li class="gallery-item" data-gallery-item>
+                <Image
+                  src={photo.src}
+                  alt=""
+                  widths={[520, 900]}
+                  sizes="(min-width: 768px) 30rem, 20rem"
+                  class="gallery-img"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="gallery-scrim" aria-hidden="true" />
+                <div class="gallery-caption">
+                  <p class="font-display text-paper text-[1.25rem] font-semibold tracking-tight md:text-[1.45rem]">
+                    {photo.title}
+                  </p>
+                  <p class="text-paper/65 mt-1 text-[0.82rem] md:text-[0.88rem]">{photo.sub}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================== PATRONO -->
+  <section
+    class="bg-night text-paper relative overflow-clip py-24 md:py-32"
+    aria-labelledby="patrono"
+  >
+    <SunMark
+      size={520}
+      class="sun-spin sun-watermark text-rose pointer-events-none absolute -top-40 -right-32"
+    />
+    <div class="container-site relative" data-reveal-group>
+      <p class="overline-label text-rose" data-reveal id="patrono">
+        Fray Mamerto Esquiú · Nuestro patrono
+      </p>
+      <blockquote class="text-quote mt-8 max-w-4xl" data-reveal>
+        “La donación más valiosa es la que el hombre hace de sí mismo.”
+      </blockquote>
+      <p class="text-paper/65 mt-8 max-w-2xl" data-reveal>
+        Fraile franciscano nacido en Catamarca y beatificado por la Iglesia, su vida de entrega da
+        nombre y espíritu a nuestro colegio. Cada año, nuestros alumnos misioneros vuelven a su
+        tierra.
+      </p>
+      <a
+        href="/#esencia"
+        class="link-accent text-rose mt-8 inline-block text-[0.95rem] font-medium"
+        data-reveal
+      >
+        Conocer nuestra historia
+      </a>
+    </div>
+  </section>
+
+  <!-- ====================================================== RECORRIDO -->
+  <section class="section-y" aria-labelledby="recorrido">
+    <div class="container-site">
+      <SectionHeader
+        overline="Proyecto educativo"
+        title="Un recorrido pensado de los 2 a los 18"
+        lead="Tres niveles con identidad propia y un mismo hilo conductor: el inglés, la fe y el deporte acompañan todo el camino."
+        id="recorrido"
+      />
+
+      <ol class="mt-14">
+        {
+          LEVELS.map((level) => (
+            <li
+              class="hairline-t grid gap-6 py-10 lg:grid-cols-12 lg:gap-8 lg:py-12"
+              data-reveal-group
+            >
+              <div class="lg:col-span-2" data-reveal>
+                <span class="numeral-ghost numeral-drift" aria-hidden="true">
+                  {level.index}
+                </span>
+              </div>
+              <div class="lg:col-span-6" data-reveal>
+                <div class="flex flex-wrap items-baseline gap-x-4 gap-y-2">
+                  <h3 class="text-title-sm">{level.name}</h3>
+                  <span class="overline-label text-garnet text-[0.62rem]">{level.ages}</span>
+                </div>
+                <p class="text-ink-soft mt-3 max-w-xl text-[0.97rem] leading-relaxed">
+                  {level.summary}
+                </p>
+              </div>
+              <div class="lg:col-span-4 lg:justify-self-end" data-reveal>
+                <ul class="text-ink-soft space-y-2 text-[0.88rem]">
+                  {level.highlights.map((highlight) => (
+                    <li class="flex gap-2.5">
+                      <span
+                        class="bg-garnet mt-[0.55rem] h-1 w-1 shrink-0 rounded-full"
+                        aria-hidden="true"
+                      />
+                      {highlight}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={`/proyecto-educativo#${level.id}`}
+                  class="link-accent text-ink mt-5 inline-flex items-center gap-1.5 text-[0.9rem] font-medium"
+                >
+                  Ver nivel
+                  <Icon name="arrow-right" size={14} />
+                </a>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========================================================= ÁREAS -->
+  <section class="section-y bg-cream" aria-labelledby="areas">
+    <div class="container-site">
+      <SectionHeader
+        overline="Áreas transversales"
+        title="Cinco áreas que atraviesan los tres niveles"
+        lead="No son materias sueltas: son los ejes que le dan continuidad al proyecto, de la primera sala al último año."
+        id="areas"
+      />
+
+      <div class="mt-14 grid gap-5 lg:grid-cols-12" data-reveal-group>
+        <!-- Inglés — protagonista -->
+        <a
+          href="/areas#ingles"
+          class="group relative col-span-full min-h-[24rem] overflow-clip rounded-3xl lg:col-span-7"
+          data-reveal
+        >
+          <Picture
+            src={areaImages.ingles!}
+            formats={["avif", "webp"]}
+            widths={[640, 960, 1400]}
+            sizes="(min-width: 1024px) 56vw, 94vw"
+            alt={areaAltTexts.ingles}
+            class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            loading="lazy"
+            decoding="async"
+          />
+          <div
+            class="from-night/85 via-night/25 absolute inset-0 bg-gradient-to-t to-transparent"
+            aria-hidden="true"
+          >
+          </div>
+          <div class="text-paper absolute inset-x-0 bottom-0 p-7 lg:p-9">
+            <p class="overline-label text-rose">{areaIngles.name}</p>
+            <h3 class="text-title-sm text-paper mt-2.5">{areaIngles.title}</h3>
+            <p class="text-paper/75 mt-2 max-w-md text-[0.92rem]">{areaIngles.blurb}</p>
+          </div>
+          <span
+            class="bg-paper/15 text-paper group-hover:bg-paper group-hover:text-ink absolute top-6 right-6 flex h-11 w-11 items-center justify-center rounded-full backdrop-blur-sm transition-colors duration-300"
+            aria-hidden="true"
+          >
+            <Icon name="arrow-up-right" size={18} />
+          </span>
+        </a>
+
+        <!-- Pastoral -->
+        <a
+          href="/areas#pastoral"
+          class="group relative col-span-full min-h-[24rem] overflow-clip rounded-3xl lg:col-span-5"
+          data-reveal
+        >
+          <Picture
+            src={areaImages.pastoral!}
+            formats={["avif", "webp"]}
+            widths={[560, 880, 1200]}
+            sizes="(min-width: 1024px) 40vw, 94vw"
+            alt={areaAltTexts.pastoral}
+            class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+          />
+          <div
+            class="from-night/85 via-night/25 absolute inset-0 bg-gradient-to-t to-transparent"
+            aria-hidden="true"
+          >
+          </div>
+          <div class="text-paper absolute inset-x-0 bottom-0 p-7">
+            <p class="overline-label text-rose">{areaPastoral.name}</p>
+            <h3 class="text-title-sm text-paper mt-2.5">{areaPastoral.title}</h3>
+            <p class="text-paper/75 mt-2 text-[0.92rem]">{areaPastoral.blurb}</p>
+          </div>
+          <span
+            class="bg-paper/15 text-paper group-hover:bg-paper group-hover:text-ink absolute top-6 right-6 flex h-11 w-11 items-center justify-center rounded-full backdrop-blur-sm transition-colors duration-300"
+            aria-hidden="true"
+          >
+            <Icon name="arrow-up-right" size={18} />
+          </span>
+        </a>
+
+        <!-- DOE — pieza tipográfica -->
+        <a
+          href="/areas#doe"
+          class="group border-line-soft hover:shadow-float relative col-span-full flex min-h-[19rem] flex-col justify-between gap-6 overflow-clip rounded-3xl border bg-white p-7 transition-shadow duration-300 lg:col-span-4"
+          data-reveal
+        >
+          <div>
+            <p class="overline-label text-garnet">{areaDoe.name}</p>
+            <h3 class="text-title-sm mt-2.5">{areaDoe.title}</h3>
+          </div>
+          <p class="text-ink-soft text-[0.92rem] leading-relaxed">{areaDoe.blurb}</p>
+          <span
+            class="border-line text-ink-soft group-hover:border-paper group-hover:bg-paper group-hover:text-ink absolute top-6 right-6 flex h-11 w-11 items-center justify-center rounded-full border transition-colors duration-300"
+            aria-hidden="true"
+          >
+            <Icon name="arrow-up-right" size={18} />
+          </span>
+        </a>
+
+        <!-- Educación Física -->
+        <a
+          href="/areas#educacion-fisica"
+          class="group relative col-span-full min-h-[19rem] overflow-clip rounded-3xl lg:col-span-4"
+          data-reveal
+        >
+          <Picture
+            src={areaImages["educacion-fisica"]!}
+            formats={["avif", "webp"]}
+            widths={[480, 651]}
+            sizes="(min-width: 1024px) 30vw, 94vw"
+            alt={areaAltTexts["educacion-fisica"]}
+            class="absolute inset-0 h-full w-full object-cover object-[center_35%] transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+          />
+          <div
+            class="from-night/85 via-night/25 absolute inset-0 bg-gradient-to-t to-transparent"
+            aria-hidden="true"
+          >
+          </div>
+          <div class="text-paper absolute inset-x-0 bottom-0 p-7">
+            <p class="overline-label text-rose">{areaEdFisica.name}</p>
+            <h3 class="text-title-sm text-paper mt-2.5">{areaEdFisica.title}</h3>
+          </div>
+          <span
+            class="bg-paper/15 text-paper group-hover:bg-paper group-hover:text-ink absolute top-6 right-6 flex h-11 w-11 items-center justify-center rounded-full backdrop-blur-sm transition-colors duration-300"
+            aria-hidden="true"
+          >
+            <Icon name="arrow-up-right" size={18} />
+          </span>
+        </a>
+
+        <!-- Tecnología -->
+        <a
+          href="/areas#tecnologia"
+          class="group relative col-span-full min-h-[19rem] overflow-clip rounded-3xl lg:col-span-4"
+          data-reveal
+        >
+          <Picture
+            src={areaImages.tecnologia!}
+            formats={["avif", "webp"]}
+            widths={[480, 800, 1200]}
+            sizes="(min-width: 1024px) 30vw, 94vw"
+            alt={areaAltTexts.tecnologia}
+            class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+          />
+          <div
+            class="from-night/85 via-night/25 absolute inset-0 bg-gradient-to-t to-transparent"
+            aria-hidden="true"
+          >
+          </div>
+          <div class="text-paper absolute inset-x-0 bottom-0 p-7">
+            <p class="overline-label text-rose">{areaTecnologia.name}</p>
+            <h3 class="text-title-sm text-paper mt-2.5">{areaTecnologia.title}</h3>
+          </div>
+          <span
+            class="bg-paper/15 text-paper group-hover:bg-paper group-hover:text-ink absolute top-6 right-6 flex h-11 w-11 items-center justify-center rounded-full backdrop-blur-sm transition-colors duration-300"
+            aria-hidden="true"
+          >
+            <Icon name="arrow-up-right" size={18} />
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================== COMUNIDAD -->
+  <section class="relative overflow-clip" aria-labelledby="comunidad">
+    <div class="absolute inset-0 overflow-clip" aria-hidden="true">
+      <Picture
+        src={celebracionPatio}
+        formats={["avif", "webp"]}
+        widths={[768, 1280, 1920]}
+        sizes="100vw"
+        alt=""
+        class="parallax-media h-full w-full object-cover object-[center_35%]"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="bg-night/25 absolute inset-0"></div>
+      <div class="from-night via-night/50 to-night/20 absolute inset-0 bg-gradient-to-t"></div>
+    </div>
+
+    <div
+      class="container-site relative flex min-h-[34rem] items-end pt-40 pb-16 md:min-h-[38rem] md:pb-20"
+    >
+      <div class="text-paper max-w-2xl" data-reveal-group>
+        <p class="overline-label text-rose" data-reveal id="comunidad">Comunidad</p>
+        <h2 class="text-title-xl text-paper mt-4" data-reveal>Una comunidad para toda la vida.</h2>
+        <p class="text-paper/80 mt-5" data-reveal>
+          Las familias conducen la institución, los exalumnos vuelven como catequistas y
+          acompañantes, y hace más de veinte años el grupo misionero Mi.Es. lleva el espíritu Esquiú
+          a Catamarca, la tierra de nuestro patrono.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4" data-reveal>
+          <a href="/exalumnos" class="btn btn-ghost-light">Exalumnos</a>
+          <a
+            href="/areas#pastoral"
+            class="link-accent text-rose inline-flex items-center gap-1.5 py-3 text-[0.95rem] font-medium"
+          >
+            Grupo misionero Mi.Es.
+            <Icon name="arrow-right" size={15} />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== RESULTADOS -->
+  <section class="section-y" aria-labelledby="resultados">
+    <div class="container-site grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-5" data-reveal-group>
+        <p class="overline-label text-garnet" data-reveal>Resultados que abren puertas</p>
+        <h2 id="resultados" class="text-title-xl mt-4" data-reveal>
+          Egresan bilingües, con certificaciones internacionales
+        </h2>
+        <p class="text-ink-soft mt-5" data-reveal>
+          La certificación oficial de <strong class="text-ink">Educación Bilingüe en Inglés</strong>
+          (Res. 1597/15) acompaña el título secundario, junto con los exámenes internacionales de la Universidad
+          de Cambridge que los alumnos se preparan para rendir.
+        </p>
+        <p class="text-ink-soft mt-4" data-reveal>
+          La orientación vocacional y las actividades de aproximación al mundo universitario
+          completan la preparación para lo que viene.
+        </p>
+      </div>
+
+      <div class="lg:col-span-6 lg:col-start-7">
+        <div data-reveal-group>
+          <p class="overline-label text-ink-soft" data-reveal>Exámenes University of Cambridge</p>
+          <ul class="mt-5 flex flex-wrap gap-2.5">
+            {
+              CAMBRIDGE_EXAMS.map((exam) => (
+                <li class="chip" data-reveal>
+                  {exam}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="hairline-t mt-10 pt-9" data-reveal-group>
+          <p class="overline-label text-ink-soft" data-reveal>Vínculo universitario</p>
+          <p class="mt-5 flex flex-wrap gap-x-7 gap-y-3" data-reveal>
+            {
+              UNIVERSITIES.map((university) => (
+                <span class="font-display text-ink-soft text-[1.35rem] font-medium tracking-tight">
+                  {university}
+                </span>
+              ))
+            }
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================== ADMISIONES -->
+  <section class="pb-[clamp(4.5rem,9vw,8.25rem)]" aria-labelledby="admisiones">
+    <div class="container-site">
+      <div
+        class="bg-night text-paper grid overflow-clip rounded-[2rem] lg:grid-cols-2"
+        data-reveal="blur"
+      >
+        <div class="p-8 sm:p-12 lg:p-16">
+          <p class="overline-label text-gold">Admisiones 2026</p>
+          <h2 id="admisiones" class="text-title-xl text-paper mt-4">
+            Formá parte de la comunidad Esquiú
+          </h2>
+          <p class="text-paper/70 mt-5">
+            El recorrido empieza con una charla. Contanos quiénes son y coordinamos una entrevista
+            personalizada en nuestra sede de Belgrano.
+          </p>
+
+          <ol class="mt-9 space-y-5">
+            {
+              [
+                { step: "01", text: "Completás el formulario de admisión" },
+                { step: "02", text: "Los recibimos en una entrevista personalizada" },
+                { step: "03", text: "Le damos la bienvenida a tu familia" },
+              ].map((item) => (
+                <li class="flex items-baseline gap-4">
+                  <span class="font-display text-gold text-[1.1rem] font-semibold">
+                    {item.step}
+                  </span>
+                  <span class="text-paper/85 text-[0.97rem]">{item.text}</span>
+                </li>
+              ))
+            }
+          </ol>
+
+          <div class="mt-10 flex flex-wrap items-center gap-4">
+            <a href="/admisiones" class="btn btn-light">
+              Iniciar admisión
+              <Icon name="arrow-right" size={16} class="btn-arrow" />
+            </a>
+            <a href={`mailto:${SITE.email}`} class="btn btn-ghost-light">Escribinos</a>
+          </div>
+        </div>
+
+        <!-- Panel de marca: escudo + sol en marino profundo -->
+        <div
+          class="bg-night-soft relative hidden min-h-full items-center justify-center overflow-clip lg:flex"
+        >
+          <SunMark
+            size={430}
+            class="sun-spin text-rose pointer-events-none absolute -right-24 -bottom-28 opacity-[0.14]"
+          />
+          <div class="relative flex flex-col items-center gap-6 p-10 text-center">
+            <Image
+              src={escudo}
+              alt="Escudo del Colegio Esquiú"
+              width={280}
+              height={295}
+              densities={[1, 2]}
+              class="h-44 w-auto drop-shadow-[0_18px_40px_rgba(0,0,0,0.45)]"
+            />
+            <p class="overline-label text-paper/55">Veritas · desde {SITE.founded}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

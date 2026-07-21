@@ -1,0 +1,93 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
+import PageHero from "../components/PageHero.astro";
+import { SITE } from "../data/site";
+
+import casona from "../assets/img/casona.jpg";
+---
+
+<BaseLayout
+  title="Contacto · Belgrano, CABA | Colegio Esquiú"
+  description="Contactá al Colegio Esquiú: 11 de Septiembre de 1888 1240, Belgrano, CABA. Teléfono +54 11 4784-3222 · institucionales@colegioesquiu.edu.ar"
+  headerTone="dark"
+>
+  <PageHero
+    overline="Contacto"
+    title="Hablemos"
+    lead="Para consultas generales, administrativas o de admisión, estos son todos los caminos para llegar a nosotros."
+    image={casona}
+    imageAlt="Fachada de la casona histórica del Colegio Esquiú en Belgrano"
+    imagePosition="center 40%"
+  />
+
+  <section class="section-y" aria-label="Datos de contacto">
+    <div class="container-site grid gap-5 lg:grid-cols-3" data-reveal-group>
+      <a
+        href={`mailto:${SITE.email}`}
+        class="card group hover:shadow-float p-8 transition-all duration-300 hover:-translate-y-1"
+        data-reveal
+      >
+        <span
+          class="bg-garnet/10 text-garnet flex h-11 w-11 items-center justify-center rounded-full"
+        >
+          <Icon name="mail" size={19} />
+        </span>
+        <h2 class="text-title-sm mt-6">Escribinos</h2>
+        <p class="text-ink-soft mt-2 text-[0.93rem] break-words">{SITE.email}</p>
+        <p class="link-accent text-ink mt-5 inline-block text-[0.9rem] font-medium">Enviar email</p>
+      </a>
+
+      <a
+        href={SITE.phoneHref}
+        class="card group hover:shadow-float p-8 transition-all duration-300 hover:-translate-y-1"
+        data-reveal
+      >
+        <span
+          class="bg-garnet/10 text-garnet flex h-11 w-11 items-center justify-center rounded-full"
+        >
+          <Icon name="phone" size={19} />
+        </span>
+        <h2 class="text-title-sm mt-6">Llamanos</h2>
+        <p class="text-ink-soft mt-2 text-[0.93rem]">{SITE.phone}</p>
+        <p class="link-accent text-ink mt-5 inline-block text-[0.9rem] font-medium">Llamar ahora</p>
+      </a>
+
+      <a
+        href={SITE.mapsUrl}
+        target="_blank"
+        rel="noreferrer"
+        class="card group hover:shadow-float p-8 transition-all duration-300 hover:-translate-y-1"
+        data-reveal
+      >
+        <span
+          class="bg-garnet/10 text-garnet flex h-11 w-11 items-center justify-center rounded-full"
+        >
+          <Icon name="pin" size={19} />
+        </span>
+        <h2 class="text-title-sm mt-6">Visitanos</h2>
+        <p class="text-ink-soft mt-2 text-[0.93rem]">
+          {SITE.address.street}<br />
+          {SITE.address.neighborhood}, {SITE.address.zip} — CABA
+        </p>
+        <p class="link-accent text-ink mt-5 inline-block text-[0.9rem] font-medium">Cómo llegar</p>
+      </a>
+    </div>
+
+    <div class="container-site mt-12">
+      <div
+        class="hairline-t flex flex-col justify-between gap-6 pt-9 sm:flex-row sm:items-center"
+        data-reveal
+      >
+        <p class="text-ink-soft max-w-xl text-[0.95rem]">
+          ¿La consulta es sobre vacantes? El proceso de admisión tiene su propio canal, con
+          entrevista personalizada incluida.
+        </p>
+        <a href="/admisiones" class="btn btn-primary shrink-0">
+          Ir a Admisiones
+          <Icon name="arrow-right" size={16} class="btn-arrow" />
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

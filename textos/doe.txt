@@ -1,0 +1,46 @@
+URL: https://www.colegioesquiu.edu.ar/copia-de-pastoral-1
+TITULO: DOE | Colegio Esquiú
+
+--- CONTENIDO ---
+
+[span] top of page
+[span] ADMISIONES
+[li] Inicio
+[li] Acerca de
+[li] Admisiones
+[li] Nuestro equipo
+[li] Proyecto Pedagógico
+[li] Areas Transversales Inglés Pastoral DOE Ed Fisica Tecnología
+[p] Areas Transversales
+[li] Inglés
+[li] Pastoral
+[li] DOE
+[li] Ed Fisica
+[li] Tecnología
+[li] Comisión Directiva
+[li] ExAlumnos
+[li] Servicios
+[li] More
+[h1] Departamento de Orientación Escolar
+[p] Se realizan tareas de prevención primaria en el contexto escolar, con el objetivo de favorecer la optimización del aprendizaje y el desarrollo de habilidades sociales.
+[p] Se elaboran y llevan adelante proyectos específicos que surgen del diálogo permanente con la comunidad educativa.
+[p] Tareas específicas con los alumnos
+[p] Se acompañan las diferentes trayectorias escolares de todos los alumnos considerando las necesidades individuales de cada uno.
+[p] Con diferentes modalidades según el nivel educativo, el DOE participa del proceso de admisión con encuentros con los niños y adolescentes y sus familias.
+[p] Acompañamiento de los procesos de articulación en la trayectoria escolar, entendiendo que son cambios significativos para los alumnos y momentos de nuevos desafíos.
+[p] En el nivel secundario, se realiza un proceso de orientación vocacional con los alumnos que se encuentran en la última etapa de su escolaridad.
+[p] Con los docentes y directivos
+[p] Trabajo colaborativo con el equipo de docentes y directivos para el desarrollo integral de los alumnos.
+[p] Con las familias
+[p] Se llevan adelante entrevistas de seguimiento y orientación para conversar con las familias acerca de situaciones particulares que puedan estar atravesando nuestros alumnos. El trabajo en conjunto, colegio y familia resulta siempre un facilitador del acompañamiento y desempeño de los alumnos.
+[p] Las entrevistas de derivación a profesionales externos se realizan ante alguna problemática detectada en el aprendizaje, en el desarrollo de los vínculos o en el desempeño integral de nuestros alumnos.
+[p] Mediante encuentros con las familias, se asesora en temáticas vinculadas con los procesos de maduración emocional e intelectual, implementación de estrategias de aprendizaje y dinámicas de convivencia.
+[p] Con los profesionales externos
+[p] Se mantiene un contacto permanente con los profesionales que llevan adelante los tratamientos que nuestros alumnos requieren. Cuando se considera necesario, se realizan reuniones para compartir miradas acerca de la evolución de los alumnos y la aplicación de estrategias en el ámbito escolar.
+[span] Volver
+[h2] Colegio Esquiú
+[p] 11 de Septiembre de 1888 1240, C1426BKK CABA, Argentina
+[p] institucionales@colegioesquiu.edu.ar
+[p] +54 11 4784 3222
+[p] ©2025 por Colegio Esquiú
+[span] bottom of page

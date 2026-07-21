@@ -1,0 +1,182 @@
+---
+import { Image } from "astro:assets";
+import BrandStripes from "./BrandStripes.astro";
+import Icon from "./Icon.astro";
+import SunMark from "./SunMark.astro";
+import escudo from "../assets/img/escudo.png";
+import { NAV, SITE } from "../data/site";
+
+interface Props {
+  /** "dark": texto claro mientras el header flota sobre un hero oscuro (vuelve a tinta al scrollear). */
+  tone?: "light" | "dark";
+}
+
+const { tone = "light" } = Astro.props;
+
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isCurrent = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+
+/** Menú móvil ordenado por importancia (sin duplicar Inicio/Institución → home). */
+const NAV_PRIMARY = [
+  { label: "Proyecto educativo", href: "/proyecto-educativo" },
+  { label: "Áreas", href: "/areas" },
+  { label: "Equipo", href: "/equipo" },
+  { label: "Contacto", href: "/contacto" },
+];
+const NAV_SECONDARY = [
+  { label: "Exalumnos", href: "/exalumnos" },
+  { label: "Servicios", href: "/servicios" },
+];
+---
+
+<header class="site-header fixed inset-x-0 top-0 z-50" data-header data-tone={tone}>
+  <div class="container-site flex h-[4.5rem] items-center justify-between gap-6">
+    <a href="/" class="flex items-center gap-3" aria-label="Colegio Esquiú — Inicio">
+      <Image
+        src={escudo}
+        alt=""
+        width={88}
+        height={93}
+        densities={[1, 2]}
+        class="h-11 w-auto"
+        loading="eager"
+      />
+      <span class="flex flex-col leading-none">
+        <span class="brand-name font-display text-[1.06rem] font-semibold tracking-tight">
+          Colegio Esquiú
+        </span>
+        <span class="brand-sub overline-label text-ink-soft mt-1.5 hidden text-[0.6rem] sm:block">
+          Belgrano · desde {SITE.founded}
+        </span>
+      </span>
+    </a>
+
+    <nav class="hidden items-center gap-7 lg:flex" aria-label="Principal">
+      {
+        NAV.map((item) => (
+          <a
+            href={item.href}
+            class="nav-link"
+            aria-current={isCurrent(item.href) ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a href="/admisiones" class="btn btn-primary btn-sm">
+        Admisiones
+        <Icon name="arrow-right" size={15} class="btn-arrow" />
+      </a>
+    </nav>
+
+    <button
+      type="button"
+      class="nav-burger -mr-2 flex h-11 w-11 items-center justify-center rounded-full lg:hidden"
+      data-nav-toggle
+      aria-expanded="false"
+      aria-controls="nav-panel"
+      aria-label="Abrir menú"
+    >
+      <span class="sr-only">Menú</span>
+      <span class="burger-lines" aria-hidden="true">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </span>
+    </button>
+  </div>
+</header>
+
+<!-- Panel móvil: atmósfera night + jerarquía clara -->
+<div class="nav-panel lg:hidden" id="nav-panel" data-nav-panel>
+  <div class="nav-panel-glow" aria-hidden="true"></div>
+  <SunMark
+    size={380}
+    class="sun-spin nav-panel-sun pointer-events-none absolute -right-20 -bottom-24"
+  />
+
+  <!-- El header (logo + burger→X) queda encima; acá solo reservamos su altura -->
+  <div class="nav-panel-spacer shrink-0" aria-hidden="true"></div>
+
+  <div class="relative z-10 shrink-0 px-0">
+    <BrandStripes />
+  </div>
+
+  <nav
+    class="nav-panel-links container-site relative z-10 flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain pt-7 pb-4"
+    aria-label="Menú móvil"
+  >
+    <p class="overline-label text-rose nav-panel-link mb-4 tracking-[0.22em]" style="--i:0">
+      Explorar
+    </p>
+    <ul class="nav-panel-primary">
+      {
+        NAV_PRIMARY.map((item, i) => (
+          <li>
+            <a
+              href={item.href}
+              class:list={[
+                "nav-panel-link nav-panel-item group",
+                isCurrent(item.href) && "is-current",
+              ]}
+              style={`--i:${i + 1}`}
+              aria-current={isCurrent(item.href) ? "page" : undefined}
+            >
+              <span class="nav-panel-index" aria-hidden="true">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span class="nav-panel-label">{item.label}</span>
+              <Icon name="arrow-right" size={15} class="nav-panel-arrow" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="nav-panel-link nav-panel-also" style="--i:5">
+      <p class="overline-label text-paper/40 mb-3 tracking-[0.22em]">También</p>
+      <ul class="flex flex-wrap gap-x-6 gap-y-2.5">
+        {
+          NAV_SECONDARY.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={["nav-panel-secondary", isCurrent(item.href) && "is-current"]}
+                aria-current={isCurrent(item.href) ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </nav>
+
+  <div
+    class="nav-panel-foot container-site relative z-10 shrink-0 pt-4 pb-[max(2rem,env(safe-area-inset-bottom))]"
+    style="--i:8"
+  >
+    <a href="/admisiones" class="btn btn-light w-full justify-center">
+      Admisiones 2026
+      <Icon name="arrow-right" size={16} class="btn-arrow" />
+    </a>
+    <div class="mt-5 flex items-center justify-between gap-4">
+      <a
+        href={`mailto:${SITE.email}`}
+        class="text-paper/55 hover:text-paper text-[0.78rem] underline-offset-4 transition-colors hover:underline"
+      >
+        {SITE.email}
+      </a>
+      <a
+        href={SITE.instagram}
+        target="_blank"
+        rel="noreferrer"
+        class="nav-panel-social"
+        aria-label="Instagram del Colegio Esquiú"
+      >
+        <Icon name="instagram" size={17} />
+      </a>
+    </div>
+  </div>
+</div>

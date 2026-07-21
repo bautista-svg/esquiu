@@ -1,0 +1,1153 @@
+/* ---------------------------------------------------------------------------
+   Colegio Esquiú — Design System
+   Paleta derivada del escudo institucional (negro, dorado, granate, papel).
+   Tipografía: Fraunces (display serif editorial) + Inter (texto/UI).
+--------------------------------------------------------------------------- */
+@import "./fonts.css";
+@import "tailwindcss";
+
+/* Fallbacks con métricas ajustadas para minimizar CLS mientras cargan las webfonts */
+@font-face {
+  font-family: "Fraunces Fallback";
+  src: local("Georgia");
+  size-adjust: 104%;
+  ascent-override: 96%;
+}
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial");
+  size-adjust: 100%;
+}
+
+@theme {
+  --font-display: "Fraunces Variable", "Fraunces Fallback", Georgia, serif;
+  --font-sans: "Inter Variable", "Inter Fallback", system-ui, sans-serif;
+
+  /* Paleta institucional: rojo y azul exactos del escudo + ámbar anaranjado */
+  --color-paper: #faf8f4;
+  --color-cream: #f2eee5;
+  --color-ink: #1c1a16;
+  --color-ink-soft: #59544b;
+  --color-line: rgb(28 26 22 / 0.14);
+  --color-line-soft: rgb(28 26 22 / 0.08);
+  --color-garnet: #8b1d1a;
+  --color-garnet-deep: #701511;
+  --color-rose: #e0a19c;
+  --color-rose-soft: #f2d0cc;
+  /* Alias del viejo celeste → rojo claro (misma familia que rose) */
+  --color-sky: #e0a19c;
+  --color-sky-soft: #f2d0cc;
+  --color-navy: #0e265e;
+  --color-night: #0b1633;
+  --color-night-soft: #16234a;
+  --color-gold: #e8940a;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-inout-soft: cubic-bezier(0.65, 0.05, 0.36, 1);
+
+  --shadow-card: 0 1px 2px rgb(28 26 22 / 0.05), 0 10px 28px -14px rgb(28 26 22 / 0.16);
+  --shadow-float: 0 2px 6px rgb(28 26 22 / 0.07), 0 28px 56px -20px rgb(28 26 22 / 0.28);
+}
+
+/* ------------------------------------------------------------------ base */
+@layer base {
+  html {
+    scroll-padding-top: 6.5rem;
+    accent-color: var(--color-garnet);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background-color: rgb(143 170 232 / 0.35);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-garnet);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  strong {
+    font-weight: 600;
+  }
+}
+
+/* Transiciones de vista entre páginas (cross-document, sin JS) */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.26s;
+  animation-timing-function: var(--ease-out-soft);
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* ------------------------------------------------------- layout & texto */
+@utility container-site {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 76rem;
+  padding-inline: 1.5rem;
+  @media (width >= 40rem) {
+    padding-inline: 2rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 3rem;
+  }
+}
+
+@utility section-y {
+  padding-block: clamp(4.5rem, 9vw, 8.25rem);
+}
+
+@utility text-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-variation-settings:
+    "SOFT" 0,
+    "WONK" 0;
+  font-weight: 560;
+  font-size: clamp(2.65rem, 6.3vw, 4.9rem);
+  line-height: 1.03;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
+}
+
+@utility text-title-xl {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-variation-settings:
+    "SOFT" 0,
+    "WONK" 0;
+  font-weight: 550;
+  font-size: clamp(2.05rem, 4.2vw, 3.3rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+@utility text-title {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-variation-settings:
+    "SOFT" 0,
+    "WONK" 0;
+  font-weight: 550;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  line-height: 1.14;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+
+@utility text-title-sm {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-variation-settings:
+    "SOFT" 0,
+    "WONK" 0;
+  font-weight: 560;
+  font-size: clamp(1.32rem, 2.1vw, 1.66rem);
+  line-height: 1.24;
+  letter-spacing: -0.012em;
+}
+
+@utility text-quote {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-style: italic;
+  font-variation-settings:
+    "SOFT" 80,
+    "WONK" 0;
+  font-weight: 480;
+  font-size: clamp(1.65rem, 3.6vw, 2.7rem);
+  line-height: 1.32;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+@utility text-lead {
+  font-size: clamp(1.06rem, 1.35vw, 1.27rem);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+@utility overline-label {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+@utility numeral-ghost {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(3.2rem, 7vw, 5.6rem);
+  line-height: 0.9;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgb(28 26 22 / 0.22);
+  font-variation-settings:
+    "SOFT" 0,
+    "WONK" 0;
+}
+
+/* --------------------------------------------------------- componentes */
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 530;
+  line-height: 1;
+  padding: 0.86rem 1.55rem;
+  transition:
+    background-color 0.25s var(--ease-out-soft),
+    border-color 0.25s var(--ease-out-soft),
+    color 0.25s var(--ease-out-soft),
+    translate 0.25s var(--ease-out-soft),
+    box-shadow 0.25s var(--ease-out-soft);
+  &:hover {
+    translate: 0 -1px;
+  }
+  &:active {
+    translate: 0 0;
+  }
+  & .btn-arrow {
+    transition: translate 0.25s var(--ease-out-soft);
+  }
+  &:hover .btn-arrow {
+    translate: 4px 0;
+  }
+}
+
+@utility btn-primary {
+  background-color: var(--color-garnet);
+  color: var(--color-paper);
+  &:hover {
+    background-color: var(--color-garnet-deep);
+    box-shadow: 0 10px 24px -12px rgb(139 29 26 / 0.55);
+  }
+}
+
+@utility btn-light {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  &:hover {
+    background-color: white;
+    box-shadow: 0 12px 28px -12px rgb(4 9 26 / 0.55);
+  }
+}
+
+@utility btn-ghost {
+  background-color: transparent;
+  border: 1px solid var(--color-line);
+  color: var(--color-ink);
+  &:hover {
+    border-color: rgb(28 26 22 / 0.45);
+    background-color: white;
+  }
+}
+
+@utility btn-ghost-light {
+  background-color: transparent;
+  border: 1px solid rgb(250 248 244 / 0.28);
+  color: var(--color-paper);
+  &:hover {
+    border-color: rgb(250 248 244 / 0.65);
+    background-color: rgb(250 248 244 / 0.08);
+  }
+}
+
+@utility btn-sm {
+  padding: 0.62rem 1.15rem;
+  font-size: 0.875rem;
+}
+
+/* CTA del hero: 58px de alto, 17px/600, elevación de 3px al hover */
+@utility btn-hero {
+  height: 58px;
+  padding-inline: 2.1rem;
+  font-size: 17px;
+  font-weight: 600;
+  border-radius: 999px;
+  box-shadow: 0 10px 30px -14px rgb(8 12 18 / 0.55);
+  &:hover {
+    translate: 0 -3px;
+  }
+  &:active {
+    translate: 0 -1px;
+  }
+}
+
+/* Botón vidrio (glassmorphism) sobre video: blur real + iluminación al hover */
+@utility btn-glass {
+  background-color: rgb(255 255 255 / 0.04);
+  border: 1px solid rgb(255 255 255 / 0.2);
+  color: var(--color-paper);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  &:hover {
+    background-color: rgb(255 255 255 / 0.11);
+    border-color: rgb(255 255 255 / 0.38);
+  }
+}
+
+/* Link con subrayado animado dorado */
+@utility link-accent {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 100% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 2px;
+  transition:
+    color 0.25s var(--ease-out-soft),
+    background-size 0.3s var(--ease-out-soft);
+  &:hover {
+    color: var(--color-garnet);
+    background-size: 0% 1px;
+  }
+}
+
+@utility card {
+  background-color: white;
+  border: 1px solid var(--color-line-soft);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow-card);
+}
+
+@utility chip {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--color-line);
+  background-color: white;
+  border-radius: 999px;
+  padding: 0.42rem 0.9rem;
+  font-size: 0.86rem;
+  font-weight: 480;
+  color: var(--color-ink-soft);
+  transition:
+    border-color 0.25s var(--ease-out-soft),
+    color 0.25s var(--ease-out-soft);
+  &:hover {
+    border-color: rgb(160 39 48 / 0.45);
+    color: var(--color-ink);
+  }
+}
+
+@utility hairline-t {
+  border-top: 1px solid var(--color-line-soft);
+}
+
+@utility hairline-b {
+  border-bottom: 1px solid var(--color-line-soft);
+}
+
+/* --------------------------------------------------------------- motion */
+/* Los elementos [data-reveal] solo se ocultan si hay JS (html.js). */
+html.js [data-reveal] {
+  opacity: 0;
+  translate: 0 26px;
+  transition:
+    opacity 0.75s var(--ease-out-soft),
+    translate 0.75s var(--ease-out-soft),
+    filter 0.75s var(--ease-out-soft);
+  transition-delay: calc(var(--reveal-delay, 0) * 1ms);
+}
+html.js [data-reveal="blur"] {
+  filter: blur(7px);
+}
+html.js [data-reveal="left"] {
+  translate: -30px 0;
+}
+html.js [data-reveal="right"] {
+  translate: 30px 0;
+}
+html.js [data-reveal].is-inview {
+  opacity: 1;
+  translate: 0 0;
+  filter: blur(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal] {
+    opacity: 1;
+    translate: 0 0;
+    filter: none;
+    transition: none;
+  }
+}
+
+/* Entrada del hero (CSS puro, corre al cargar) */
+.hero-line {
+  display: block;
+  /* Padding evita que itálicas/descenders se corten con el mask de la animación */
+  overflow: hidden;
+  padding-block: 0.12em;
+  margin-block: -0.12em;
+}
+.hero-line > span {
+  display: block;
+  translate: 0 112%;
+  animation: hero-rise 0.95s var(--ease-out-soft) forwards;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes hero-rise {
+  to {
+    translate: 0 0;
+  }
+}
+.hero-fade {
+  opacity: 0;
+  translate: 0 14px;
+  animation: hero-fade 0.9s var(--ease-out-soft) forwards;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes hero-fade {
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+.hero-media {
+  clip-path: inset(6% 6% 6% 6% round 1.5rem);
+  animation: hero-unmask 1.15s var(--ease-inout-soft) 0.15s forwards;
+}
+@keyframes hero-unmask {
+  to {
+    clip-path: inset(0 0 0 0 round 1.5rem);
+  }
+}
+/* Overlay compuesto del hero: gradiente vertical + radial suave detrás del
+   contenido. Nunca un negro plano — conserva la riqueza del video. */
+.hero-overlay {
+  background: linear-gradient(
+    180deg,
+    rgb(8 12 18 / 0.1) 0%,
+    rgb(8 12 18 / 0.18) 25%,
+    rgb(8 12 18 / 0.42) 60%,
+    rgb(8 12 18 / 0.82) 100%
+  );
+}
+.hero-radial {
+  background: radial-gradient(circle at 22% 42%, rgb(0 0 0 / 0.18), transparent 60%);
+}
+
+/* Zoom de entrada del video: 104% → 100%, suave */
+.hero-zoom {
+  scale: 1.04;
+  animation: hero-zoom 1.2s var(--ease-out-soft) forwards;
+}
+@keyframes hero-zoom {
+  to {
+    scale: 1;
+  }
+}
+
+/* Indicador de scroll: línea con destello que cae, muy sutil (solo desktop) */
+.scroll-cue {
+  position: relative;
+  width: 1px;
+  height: 54px;
+  overflow: hidden;
+  background: linear-gradient(rgb(255 255 255 / 0), rgb(255 255 255 / 0.35));
+}
+.scroll-cue::after {
+  content: "";
+  position: absolute;
+  top: -45%;
+  left: 0;
+  width: 100%;
+  height: 45%;
+  background: linear-gradient(rgb(255 255 255 / 0), rgb(255 255 255 / 0.9));
+  animation: cue-fall 2.4s var(--ease-inout-soft) infinite;
+}
+@keyframes cue-fall {
+  to {
+    top: 115%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue::after {
+    animation: none;
+  }
+}
+.sun-spin {
+  animation: sun-spin 90s linear infinite;
+  transform-origin: center;
+}
+@keyframes sun-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+/* Marca de agua decorativa (el sol del escudo) — la opacidad vive acá para que
+   ningún reset de motion pueda pisarla. */
+.sun-watermark {
+  opacity: 0.12;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-line > span,
+  .hero-fade,
+  .hero-media,
+  .hero-zoom,
+  .sun-spin {
+    animation: none;
+  }
+  .hero-line > span,
+  .hero-fade {
+    opacity: 1;
+    translate: 0 0;
+  }
+  .hero-media {
+    clip-path: none;
+  }
+  .hero-zoom {
+    scale: 1;
+  }
+}
+
+/* Video de fondo diferido (bandas fuera del viewport inicial): crossfade
+   sobre su propia foto de fondo mientras el video termina de cargar. */
+video[data-lazy-video] {
+  opacity: 0;
+  transition: opacity 1.8s var(--ease-out-soft);
+}
+video[data-lazy-video].is-playing {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  video[data-lazy-video] {
+    transition: none;
+  }
+}
+
+/* Calesita acordeón "La vida en el Esquiú": la cinta gira sola en loop;
+   al posar el mouse (o al tocar en mobile) frena y la foto activa se expande
+   revelando su leyenda mientras las vecinas se comprimen — los anchos están
+   calibrados para que el total no cambie y la cinta no salte de posición. */
+.gallery-carousel {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+}
+.gallery-flow {
+  display: flex;
+  width: max-content;
+  animation: gallery-spin 48s linear infinite;
+}
+.gallery-carousel:hover .gallery-flow,
+.gallery-carousel.is-paused .gallery-flow {
+  animation-play-state: paused;
+}
+.gallery-track {
+  display: flex;
+  gap: 0.8rem;
+  padding-right: 0.8rem;
+}
+@keyframes gallery-spin {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.gallery-item {
+  position: relative;
+  width: 8rem;
+  height: 21rem;
+  flex: none;
+  overflow: clip;
+  border-radius: 1.35rem;
+  cursor: pointer;
+  transition: width 0.7s var(--ease-inout-soft);
+}
+/* Suma constante: activa 8+5*(8-4.4) = expande lo que las demás ceden */
+.gallery-item.is-active {
+  width: 26rem;
+}
+.gallery-item.is-dim {
+  width: 4.4rem;
+}
+.gallery-item:focus-visible {
+  outline: 2px solid var(--color-garnet);
+  outline-offset: 3px;
+}
+.gallery-img {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.gallery-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgb(8 12 18 / 0.72),
+    rgb(8 12 18 / 0.12) 45%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.55s var(--ease-out-soft);
+}
+.gallery-caption {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  padding: 1.4rem 1.5rem;
+  opacity: 0;
+  translate: 0 14px;
+  transition:
+    opacity 0.5s var(--ease-out-soft) 0.18s,
+    translate 0.5s var(--ease-out-soft) 0.18s;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.gallery-item.is-active .gallery-scrim {
+  opacity: 1;
+}
+.gallery-item.is-active .gallery-caption {
+  opacity: 1;
+  translate: 0 0;
+}
+@media (width >= 48rem) {
+  .gallery-item {
+    width: 13rem;
+    height: clamp(22rem, 52vh, 27rem);
+  }
+  .gallery-item.is-active {
+    width: 34rem;
+  }
+  .gallery-item.is-dim {
+    width: 8.8rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gallery-flow {
+    animation: none;
+  }
+  .gallery-carousel {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .gallery-track[aria-hidden] {
+    display: none;
+  }
+  .gallery-item,
+  .gallery-scrim,
+  .gallery-caption {
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Profundidad / parallax. El movimiento lo asigna JS (initParallax en main.ts)
+   via la variable --py, con requestAnimationFrame y translate3d compuesto:
+   funciona en TODOS los navegadores, no solo los que soportan scroll-timeline.
+   Con prefers-reduced-motion el script no corre y todo queda estatico.
+--------------------------------------------------------------------------- */
+.parallax-frame {
+  /* clip y no hidden: hidden crea un scroll container y ademas bloquea
+     cualquier interaccion de scroll accidental */
+  overflow: clip;
+}
+.parallax-inner {
+  transform: translate3d(0, var(--py, 0px), 0) scale(1.16);
+  will-change: transform;
+}
+.parallax-media {
+  position: relative;
+  top: -12%;
+  height: 124%;
+  transform: translate3d(0, var(--py, 0px), 0);
+  will-change: transform;
+}
+.numeral-drift {
+  transform: translate3d(0, var(--py, 0px), 0);
+  will-change: transform;
+}
+.sun-watermark {
+  transform: translate3d(0, var(--py, 0px), 0);
+}
+.parallax-glow {
+  transform: translate3d(0, var(--py, 0px), 0) scale(var(--ps, 1));
+  will-change: transform;
+}
+.hero-exit-media {
+  transform: translate3d(0, var(--py, 0px), 0);
+  will-change: transform;
+}
+/* El copy del hero queda fijo: el exit-parallax solo mueve el media */
+
+/* ------------------------------------------- espina de progreso (niveles) */
+.levels-fill {
+  position: absolute;
+  top: 0;
+  left: -1.5px;
+  width: 4px;
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(to bottom, var(--color-garnet), var(--color-rose));
+  transform: scaleY(var(--progress, 0));
+  transform-origin: top;
+  will-change: transform;
+}
+.levels-fill-x {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--color-garnet), var(--color-rose));
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left;
+  will-change: transform;
+}
+.level-node {
+  position: absolute;
+  top: 0.55rem;
+  left: 8px;
+  z-index: 1;
+  width: 17px;
+  height: 17px;
+  translate: -50% 0;
+  border-radius: 9999px;
+  border: 2.5px solid var(--color-line);
+  background-color: var(--color-paper);
+  transition:
+    border-color 0.35s var(--ease-out-soft),
+    background-color 0.35s var(--ease-out-soft),
+    scale 0.35s var(--ease-out-soft),
+    box-shadow 0.35s var(--ease-out-soft);
+}
+.level-node.is-active {
+  border-color: var(--color-garnet);
+  background-color: var(--color-garnet);
+  scale: 1.2;
+  box-shadow: 0 0 0 6px rgb(139 29 26 / 0.12);
+}
+@media (width >= 48rem) {
+  .level-node {
+    left: 11px;
+  }
+}
+.level-tab {
+  position: relative;
+}
+.level-tab.is-active {
+  color: var(--color-ink);
+}
+
+/* Título que "baja" con el scroll dentro de su sección (DOE) */
+.sink-title {
+  transform: translate3d(0, var(--sink, 0px), 0);
+  will-change: transform;
+  transition: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sink-title {
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------ header/nav */
+.site-header {
+  view-transition-name: site-header;
+  transition:
+    background-color 0.3s var(--ease-out-soft),
+    border-color 0.3s var(--ease-out-soft),
+    box-shadow 0.3s var(--ease-out-soft),
+    backdrop-filter 0.3s var(--ease-out-soft);
+  border-bottom: 1px solid transparent;
+}
+.site-header.is-scrolled {
+  background-color: rgb(250 248 244 / 0.86);
+  backdrop-filter: blur(14px);
+  border-bottom-color: var(--color-line-soft);
+}
+
+/* Sobre heroes fotográficos: tipografía clara, sin barra ni blur */
+.site-header[data-tone="dark"]:not(.is-scrolled) {
+  background: transparent;
+  backdrop-filter: none;
+  border-bottom-color: transparent;
+}
+.site-header[data-tone="dark"]:not(.is-scrolled) .nav-link::after {
+  display: none;
+}
+.site-header[data-tone="dark"]:not(.is-scrolled) .btn-primary {
+  background-color: var(--color-paper);
+  color: var(--color-night);
+}
+.site-header[data-tone="dark"]:not(.is-scrolled) .btn-primary:hover {
+  background-color: var(--color-rose-soft);
+}
+
+.nav-link {
+  position: relative;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--color-ink-soft);
+  transition: color 0.22s var(--ease-out-soft);
+  padding-block: 0.35rem;
+}
+.nav-link:hover {
+  color: var(--color-ink);
+}
+.nav-link::after {
+  content: none;
+}
+.nav-link[aria-current="page"] {
+  color: var(--color-ink);
+}
+
+/* Panel móvil — atmósfera night, jerarquía clara */
+.nav-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 50% at 100% 0%, rgb(224 161 156 / 0.18), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 0% 100%, rgb(14 38 94 / 0.55), transparent 50%),
+    var(--color-night);
+  color: var(--color-paper);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.35s var(--ease-out-soft),
+    visibility 0.35s;
+}
+.nav-panel-glow {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgb(11 22 51 / 0.2), transparent 40%);
+}
+.nav-panel-sun {
+  color: rgb(224 161 156 / 0.12);
+  opacity: 1;
+}
+html.menu-open .nav-panel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+html.menu-open {
+  overflow: hidden;
+}
+.nav-panel-spacer {
+  height: 4.5rem;
+}
+.nav-panel-links {
+  min-height: 0;
+}
+/* El burger (que se vuelve X) tiene que quedar clickeable encima del panel */
+html.menu-open .site-header {
+  z-index: 70;
+  pointer-events: none;
+}
+html.menu-open .site-header .nav-burger {
+  pointer-events: auto;
+}
+html.menu-open .site-header .brand-name {
+  color: var(--color-paper);
+}
+html.menu-open .site-header .brand-sub {
+  color: rgb(250 248 244 / 0.65);
+}
+html.menu-open .burger-line {
+  background-color: var(--color-paper);
+}
+.nav-panel-foot {
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  translate: 0 14px;
+  transition:
+    opacity 0.5s var(--ease-out-soft),
+    translate 0.5s var(--ease-out-soft);
+  transition-delay: calc(var(--i) * 40ms + 100ms);
+}
+html.menu-open .nav-panel-foot {
+  opacity: 1;
+  translate: 0 0;
+}
+.nav-panel-link {
+  opacity: 0;
+  translate: 0 16px;
+  transition:
+    opacity 0.5s var(--ease-out-soft),
+    translate 0.5s var(--ease-out-soft),
+    color 0.2s var(--ease-out-soft);
+  transition-delay: calc(var(--i) * 40ms + 80ms);
+}
+html.menu-open .nav-panel-link {
+  opacity: 1;
+  translate: 0 0;
+}
+.nav-panel-primary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.nav-panel-item {
+  display: grid;
+  grid-template-columns: 2.1rem 1fr auto;
+  align-items: baseline;
+  gap: 0.85rem;
+  padding-block: 0.7rem;
+  color: var(--color-paper);
+  border-bottom: 1px solid rgb(250 248 244 / 0.08);
+  transition:
+    opacity 0.5s var(--ease-out-soft),
+    translate 0.5s var(--ease-out-soft),
+    color 0.2s var(--ease-out-soft),
+    border-color 0.2s var(--ease-out-soft);
+}
+.nav-panel-item:last-child {
+  border-bottom: none;
+}
+.nav-panel-index {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: rgb(224 161 156 / 0.55);
+  padding-top: 0.45rem;
+  transition: color 0.2s var(--ease-out-soft);
+}
+.nav-panel-label {
+  font-family: var(--font-display);
+  font-size: clamp(1.65rem, 6.5vw, 2.05rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.nav-panel-arrow {
+  color: rgb(250 248 244 / 0.28);
+  align-self: center;
+  transition:
+    color 0.2s var(--ease-out-soft),
+    translate 0.25s var(--ease-out-soft);
+}
+.nav-panel-item:hover,
+.nav-panel-item:focus-visible {
+  color: var(--color-rose-soft);
+}
+.nav-panel-item:hover .nav-panel-index,
+.nav-panel-item:focus-visible .nav-panel-index,
+.nav-panel-item.is-current .nav-panel-index {
+  color: var(--color-rose);
+}
+.nav-panel-item:hover .nav-panel-arrow,
+.nav-panel-item:focus-visible .nav-panel-arrow {
+  color: var(--color-rose-soft);
+  translate: 3px 0;
+}
+.nav-panel-item.is-current {
+  color: var(--color-rose-soft);
+  border-bottom-color: rgb(224 161 156 / 0.28);
+}
+.nav-panel-also {
+  margin-top: 1.75rem;
+  padding-top: 1.35rem;
+  border-top: 1px solid rgb(250 248 244 / 0.12);
+}
+.nav-panel-secondary {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgb(250 248 244 / 0.62);
+  transition: color 0.2s var(--ease-out-soft);
+}
+.nav-panel-secondary:hover,
+.nav-panel-secondary:focus-visible,
+.nav-panel-secondary.is-current {
+  color: var(--color-paper);
+}
+.nav-panel-social {
+  display: flex;
+  height: 2.5rem;
+  width: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid rgb(250 248 244 / 0.22);
+  color: rgb(250 248 244 / 0.7);
+  transition:
+    border-color 0.2s var(--ease-out-soft),
+    color 0.2s var(--ease-out-soft),
+    background-color 0.2s var(--ease-out-soft);
+}
+.nav-panel-social:hover,
+.nav-panel-social:focus-visible {
+  border-color: rgb(250 248 244 / 0.5);
+  color: var(--color-paper);
+  background-color: rgb(250 248 244 / 0.06);
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-panel,
+  .nav-panel-link,
+  .nav-panel-foot,
+  .nav-panel-arrow {
+    transition: none;
+  }
+}
+
+/* Hamburguesa: tres líneas que se convierten en una X.
+   Sobre heroes oscuros el botón es un círculo glass estilo iOS. */
+.nav-burger {
+  border: 1px solid transparent;
+  transition:
+    background-color 0.3s var(--ease-out-soft),
+    border-color 0.3s var(--ease-out-soft),
+    scale 0.3s var(--ease-out-soft);
+}
+.nav-burger:hover {
+  scale: 1.06;
+}
+.nav-burger:active {
+  scale: 0.94;
+}
+.site-header[data-tone="dark"]:not(.is-scrolled) .nav-burger {
+  background-color: rgb(255 255 255 / 0.05);
+  border-color: rgb(255 255 255 / 0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.site-header[data-tone="dark"]:not(.is-scrolled) .nav-burger:hover {
+  background-color: rgb(255 255 255 / 0.12);
+}
+.burger-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 4.4px;
+}
+.burger-line {
+  display: block;
+  width: 1.35rem;
+  height: 1.7px;
+  border-radius: 2px;
+  background-color: var(--color-ink);
+  transition:
+    translate 0.3s var(--ease-out-soft),
+    rotate 0.3s var(--ease-out-soft),
+    opacity 0.25s var(--ease-out-soft),
+    background-color 0.3s var(--ease-out-soft);
+}
+html.menu-open .burger-line:nth-child(1) {
+  translate: 0 6.1px;
+  rotate: 45deg;
+}
+html.menu-open .burger-line:nth-child(2) {
+  opacity: 0;
+}
+html.menu-open .burger-line:nth-child(3) {
+  translate: 0 -6.1px;
+  rotate: -45deg;
+}
+
+/* Header en modo claro-sobre-oscuro (heroes con foto/video); vuelve a tinta al scrollear */
+.site-header[data-tone="dark"]:not(.is-scrolled) .brand-name {
+  color: var(--color-paper);
+}
+.site-header[data-tone="dark"]:not(.is-scrolled) .brand-sub {
+  color: rgb(250 248 244 / 0.65);
+}
+.site-header[data-tone="dark"]:not(.is-scrolled) .nav-link {
+  color: rgb(250 248 244 / 0.8);
+}
+.site-header[data-tone="dark"]:not(.is-scrolled) .nav-link:hover,
+.site-header[data-tone="dark"]:not(.is-scrolled) .nav-link[aria-current="page"] {
+  color: var(--color-paper);
+}
+.site-header[data-tone="dark"]:not(.is-scrolled) .burger-line {
+  background-color: var(--color-paper);
+}
+.brand-name,
+.brand-sub {
+  transition: color 0.3s var(--ease-out-soft);
+}
+
+/* ------------------------------------------------------------- formularios */
+.field-label {
+  display: block;
+  font-size: 0.86rem;
+  font-weight: 560;
+  margin-bottom: 0.45rem;
+  color: var(--color-ink);
+}
+.field-input {
+  width: 100%;
+  border: 1px solid var(--color-line);
+  background-color: white;
+  border-radius: 0.9rem;
+  padding: 0.82rem 1.05rem;
+  font-size: 0.97rem;
+  color: var(--color-ink);
+  transition:
+    border-color 0.2s var(--ease-out-soft),
+    box-shadow 0.2s var(--ease-out-soft);
+}
+.field-input::placeholder {
+  color: rgb(89 84 75 / 0.55);
+}
+.field-input:focus {
+  outline: none;
+  border-color: var(--color-garnet);
+  box-shadow: 0 0 0 3px rgb(160 39 48 / 0.14);
+}
+.field-input[aria-invalid="true"] {
+  border-color: var(--color-garnet);
+}
+.field-error {
+  display: none;
+  font-size: 0.82rem;
+  color: var(--color-garnet);
+  margin-top: 0.35rem;
+}
+[data-invalid] .field-error {
+  display: block;
+}
+
+/* Tabla editorial (comisión directiva) */
+.table-editorial {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.97rem;
+}
+.table-editorial th {
+  text-align: left;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  padding: 0.9rem 0.5rem;
+  border-bottom: 1px solid var(--color-line);
+}
+.table-editorial td {
+  padding: 0.82rem 0.5rem;
+  border-bottom: 1px solid var(--color-line-soft);
+}

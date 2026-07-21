@@ -1,0 +1,36 @@
+URL: https://www.colegioesquiu.edu.ar/admision
+TITULO: Admisiones | Colegio Esquiú
+
+--- CONTENIDO ---
+
+[span] top of page
+[span] ADMISIONES
+[li] Inicio
+[li] Acerca de
+[li] Admisiones
+[li] Nuestro equipo
+[li] Proyecto Pedagógico
+[li] Areas Transversales Inglés Pastoral DOE Ed Fisica Tecnología
+[p] Areas Transversales
+[li] Inglés
+[li] Pastoral
+[li] DOE
+[li] Ed Fisica
+[li] Tecnología
+[li] Comisión Directiva
+[li] ExAlumnos
+[li] Servicios
+[li] More
+[h1] PROCESO DE ADMISIÓN
+[h2] Admisiones 2026
+[p] Completando el siguiente formulario,
+[p] podrán registrar sus datos para una entrevista personalizada en nuestro colegio, sito en el barrio de Belgrano - CABA.
+[span] podrán registrar sus datos
+[span] para una entrevista personalizada en nuestro colegio, sito en el barrio de Belgrano - CABA.
+[span] Enviar
+[h2] Colegio Esquiú
+[p] 11 de Septiembre de 1888 1240, C1426BKK CABA, Argentina
+[p] institucionales@colegioesquiu.edu.ar
+[p] +54 11 4784 3222
+[p] ©2025 por Colegio Esquiú
+[span] bottom of page

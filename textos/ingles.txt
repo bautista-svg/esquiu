@@ -1,0 +1,48 @@
+URL: https://www.colegioesquiu.edu.ar/general-6
+TITULO: Inglés | Colegio Esquiú
+
+--- CONTENIDO ---
+
+[span] top of page
+[span] ADMISIONES
+[li] Inicio
+[li] Acerca de
+[li] Admisiones
+[li] Nuestro equipo
+[li] Proyecto Pedagógico
+[li] Areas Transversales Inglés Pastoral DOE Ed Fisica Tecnología
+[p] Areas Transversales
+[li] Inglés
+[li] Pastoral
+[li] DOE
+[li] Ed Fisica
+[li] Tecnología
+[li] Comisión Directiva
+[li] ExAlumnos
+[li] Servicios
+[li] More
+[p] Nuestro colegio ofrece una educación bilingüe en inglés, a la cual se hace referencia en la certificación de fines de estudios del Nivel Secundario, según Resolución 1597/15.
+[p] Los alumnos desarrollan integralmente y en forma paulatina las competencias lingüísticas, comunicacionales e interpersonales que les permiten interactuar en el contexto internacional actual.
+[p] Éste requiere la formación en habilidades, no sólo lingüísticas sino también en aquellas que favorecen el flujo de información y oportunidades para el encuentro con otros: colaboración, flexibilidad y participación activa en la resolución de situaciones. En este mismo sentido, se busca el desarrollo del pensamiento crítico y activo.
+[p] Respecto de los contenidos disciplinares, éstos provienen de diferentes áreas del conocimiento: lengua, matemática, área humanística, científica y técnica o vocacional.
+[p] Los objetivos de la educación bilingüe en inglés son:
+[p] • Facilitar la participación satisfactoria en el mundo, tanto en contextos sociales como profesionales y académicos, a través del conocimiento del idioma inglés, siendo este el canal de comunicación internacional.
+[p] • Desarrollar una curiosidad informada y una pasión duradera por el aprendizaje.
+[p] • Construir conocimientos significativos de una variedad de disciplinas.
+[p] • Preparar a los alumnos para la resolución efectiva de problemas en una cultura de pensamiento crítico.
+[p] • Comprender y producir una variedad de textos escritos y orales, coherentes, con cohesión y apropiados a diferentes situaciones comunicativas.
+[p] Para lograr estos objetivos la propuesta del Colegio Esquiu se desarrolla desde Nivel Inicial hasta 5° Año de Secundaria.
+[p] Nivel Inicial: En Kinder 2, 3 y 4 comienza la enseñanza de la segunda lengua a cargo de las mismas maestras de cada sala, quienes tienen formación bilingüe. En Kinder 5, maestras especiales de inglés dedican específicamente a esta tarea estímulos semanales en el contra turno.
+[p] Primaria: Los alumnos de 1º a 7º grado se organizan en tres grupos mixtos. Adherimos al Aprendizaje Basado en Proyectos, mediante el cual se desarrollan contenidos de diversos espacios curriculares, a la vez que se profundizan las competencias lingüísticas. Se incluye un estímulo de Drama en el primer ciclo y, a partir de 6° Grado, se les otorga especificidad a las áreas de History, Literature y Science.
+[p] Secundaria: Se mantiene la misma modalidad de agrupamiento que en Primaria. Los procesos de enseñanza- aprendizaje se organizan en disciplinas como English Language, Spanish, Mathematics, Biology, History, Literature, Drama, ICT y Business Studies.
+[p] Los alumnos tienen la posibilidad de obtener certificaciones otorgadas por la Universidad de Cambridge. Estas son:
+[p] • First Certificate in English (FCE)
+[p] • Certificate of Advanced English (CAE)
+[p] • International Certificate of Secondary Education (IGCSE) para obtener el International Certificate of Education (ICE) de las materias mencionadas anteriormente.
+[span] Volver
+[h2] Colegio Esquiú
+[p] 11 de Septiembre de 1888 1240, C1426BKK CABA, Argentina
+[p] institucionales@colegioesquiu.edu.ar
+[p] +54 11 4784 3222
+[p] ©2025 por Colegio Esquiú
+[span] bottom of page

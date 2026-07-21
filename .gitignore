@@ -1,0 +1,13 @@
+# Dependencias y artefactos de build (se regeneran con npm install / npm run build)
+web/node_modules/
+web/dist/
+web/.astro/
+
+# Logs y temporales
+*.log
+__pycache__/
+*.pyc
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

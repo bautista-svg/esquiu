@@ -1,0 +1,381 @@
+---
+import { Picture } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CtaBand from "../components/CtaBand.astro";
+import Icon from "../components/Icon.astro";
+import PageHero from "../components/PageHero.astro";
+import { TECH_PARTNERS } from "../data/partners";
+
+import misaPatio from "../assets/img/misa-patio.jpg";
+import pastoralPan from "../assets/img/pastoral-pan.jpg";
+import rugbyGarin from "../assets/img/rugby-garin.jpg";
+import tabletsAula from "../assets/img/tablets-aula.jpg";
+
+const subnav = [
+  { label: "Inglés", href: "#ingles" },
+  { label: "Pastoral", href: "#pastoral" },
+  { label: "Orientación Escolar", href: "#doe" },
+  { label: "Educación Física", href: "#educacion-fisica" },
+  { label: "Tecnología", href: "#tecnologia" },
+];
+
+const inglesEtapas = [
+  {
+    name: "Nivel Inicial",
+    text: "En las salas de 2, 3 y 4, las propias maestras — con formación bilingüe — integran el idioma al día a día. En sala de 5 se suman maestras especiales de inglés en el contraturno.",
+  },
+  {
+    name: "Nivel Primario",
+    text: "Grupos mixtos de 1.º a 7.º con Aprendizaje Basado en Proyectos, estímulo de drama en el primer ciclo y, desde 6.º, History, Literature y Science con especificidad propia.",
+  },
+  {
+    name: "Nivel Secundario",
+    text: "English Language, Spanish, Mathematics, Biology, History, Literature, Drama, ICT y Business Studies, con preparación para los exámenes de Cambridge.",
+  },
+];
+
+const pastoralNiveles = [
+  {
+    name: "Inicial",
+    text: "Un vínculo de familiaridad con Dios: cada sala celebra su fiesta anual junto a las familias.",
+  },
+  {
+    name: "Primario",
+    text: "Un vínculo de confianza: convivencias espirituales por grado y celebraciones como la Primera Comunión en 4.º.",
+  },
+  {
+    name: "Secundario",
+    text: "Un vínculo de amistad: retiros anuales, pensamiento crítico sobre la realidad y compromiso solidario.",
+  },
+];
+
+const deportes = [
+  "Atletismo",
+  "Básquetbol",
+  "Fútbol",
+  "Hockey",
+  "Vóley",
+  "Rugby",
+  "Softball",
+  "Vida en la naturaleza",
+];
+
+const edFisicaExtra = [
+  "Sábados deportivos",
+  "Torneos e intercolegiales amistosos",
+  "Campamentos por nivel",
+  "Giras deportivas (secundario)",
+  "Fiesta del deporte en familia",
+];
+---
+
+<BaseLayout
+  title="Áreas transversales · Inglés, Pastoral, DOE, Ed. Física y Tecnología | Colegio Esquiú"
+  description="Las cinco áreas que atraviesan los tres niveles del Colegio Esquiú: educación bilingüe con Cambridge, pastoral y misiones, orientación escolar, deporte en Garín y tecnología."
+  headerTone="dark"
+>
+  <PageHero
+    overline="Áreas transversales"
+    title="Los ejes que unen todo el recorrido"
+    lead="Cinco áreas acompañan a los alumnos desde la sala de 2 hasta 5.º año. No son materias aisladas: son la columna vertebral del proyecto."
+    image={tabletsAula}
+    imageAlt="Alumnas de primaria trabajando con tablets en el aula"
+    imagePosition="center"
+  >
+    <nav class="flex flex-wrap gap-2.5" aria-label="Áreas">
+      {
+        subnav.map((item) => (
+          <a href={item.href} class="chip">
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </PageHero>
+
+  <!-- ========================================================= INGLÉS -->
+  <section class="section-y" aria-labelledby="ingles">
+    <div class="container-site">
+      <div class="max-w-3xl" data-reveal-group>
+        <p class="overline-label text-garnet" data-reveal>Inglés</p>
+        <h2 id="ingles" class="text-title-xl mt-4" data-reveal>
+          Educación bilingüe, certificada oficialmente
+        </h2>
+        <p class="text-lead text-ink-soft mt-5" data-reveal>
+          La certificación de Educación Bilingüe en Inglés (Res. 1597/15) acompaña el título
+          secundario. Pero el objetivo es más grande: que el idioma sea una puerta al mundo, no una
+          materia.
+        </p>
+      </div>
+
+      <div class="mt-12 grid gap-5 lg:grid-cols-3" data-reveal-group>
+        {
+          inglesEtapas.map((etapa) => (
+            <article class="card p-7 sm:p-8" data-reveal>
+              <h3 class="text-title-sm">{etapa.name}</h3>
+              <p class="text-ink-soft mt-3 text-[0.92rem] leading-relaxed">{etapa.text}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <p class="text-ink-soft mt-10 max-w-3xl" data-reveal>
+        Los alumnos se preparan para rendir <strong class="text-ink"
+          >FCE, CAE y la familia IGCSE</strong
+        > de la Universidad de Cambridge — de English Literature a Business — y pueden alcanzar el International
+        Certificate of Education (ICE).
+      </p>
+    </div>
+  </section>
+
+  <!-- ======================================================= PASTORAL -->
+  <section class="bg-night text-paper relative overflow-clip" aria-labelledby="pastoral">
+    <figure class="absolute inset-0" aria-hidden="true">
+      <Picture
+        src={pastoralPan}
+        formats={["avif", "webp"]}
+        widths={[768, 1280, 1920, 2400]}
+        sizes="100vw"
+        alt=""
+        class="h-full w-full object-cover opacity-25"
+      />
+      <div class="from-night/70 via-night/40 to-night absolute inset-0 bg-gradient-to-b"></div>
+    </figure>
+
+    <div class="container-site section-y relative">
+      <div class="max-w-3xl" data-reveal-group>
+        <p class="overline-label text-rose" data-reveal>Pastoral</p>
+        <h2 id="pastoral" class="text-title-xl text-paper mt-4" data-reveal>
+          La fe, vivida en comunidad
+        </h2>
+        <p class="text-lead text-paper/75 mt-5" data-reveal>
+          La catequesis anima todos los procesos académicos a la luz del Evangelio, invitando a
+          celebrar el Misterio de Jesús en comunidad — cada nivel, a su manera.
+        </p>
+      </div>
+
+      <div class="mt-12 grid gap-5 lg:grid-cols-3" data-reveal-group>
+        {
+          pastoralNiveles.map((nivel) => (
+            <article
+              class="border-paper/12 bg-paper/[0.04] rounded-3xl border p-7 backdrop-blur-sm"
+              data-reveal
+            >
+              <h3 class="text-title-sm text-paper">{nivel.name}</h3>
+              <p class="text-paper/70 mt-3 text-[0.92rem] leading-relaxed">{nivel.text}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="mt-16 grid items-center gap-10 lg:grid-cols-12">
+        <figure class="lg:col-span-6" data-reveal="blur">
+          <div class="parallax-frame rounded-3xl">
+            <Picture
+              src={misaPatio}
+              formats={["avif", "webp"]}
+              widths={[560, 880, 1200]}
+              sizes="(min-width: 1024px) 46vw, 94vw"
+              alt="Misa de bendición de los misioneros en el patio del colegio, con la mochila de viaje junto al altar"
+              class="parallax-inner aspect-[3/2] w-full rounded-3xl object-cover"
+            />
+          </div>
+        </figure>
+        <div class="lg:col-span-6" data-reveal-group>
+          <p class="overline-label text-rose" data-reveal>Escuela misionera · Mi.Es.</p>
+          <h3 class="text-title text-paper mt-3" data-reveal>Más de veinte años de misión</h3>
+          <p class="text-paper/75 mt-5" data-reveal>
+            Fieles al espíritu de Fray Mamerto Esquiú, los alumnos de 1.º y 2.º año misionan en San
+            Miguel del Monte, y los de 3.º a 5.º viajan a <strong class="text-paper"
+              >Catamarca, la cuna de nuestro patrono</strong
+            > — acompañados por exalumnos, catequistas y docentes.
+          </p>
+          <p class="text-paper/75 mt-4" data-reveal>
+            La misión se prepara todo el año, en reuniones semanales donde se cultivan la oración,
+            el espíritu de comunidad y el compromiso de anunciar el Evangelio.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ DOE -->
+  <section class="section-y bg-cream" aria-labelledby="doe" data-sink-section>
+    <div class="container-site grid gap-12 lg:grid-cols-12 lg:items-stretch">
+      <div class="relative h-full lg:col-span-5">
+        <div class="sink-title" data-sink-title>
+          <p class="overline-label text-garnet">Departamento de Orientación Escolar</p>
+          <h2 id="doe" class="text-title-xl mt-4">Nadie aprende igual que otro — y está bien</h2>
+          <p class="text-lead text-ink-soft mt-5">
+            El DOE acompaña las trayectorias de todos los alumnos considerando las necesidades de
+            cada uno, con tareas de prevención en el contexto escolar.
+          </p>
+        </div>
+      </div>
+
+      <div class="lg:col-span-6 lg:col-start-7" data-reveal-group>
+        <ul class="space-y-0">
+          {
+            [
+              {
+                title: "Con los alumnos",
+                text: "Acompañamiento de las trayectorias y articulaciones entre niveles, participación en las admisiones y orientación vocacional en la última etapa del secundario.",
+              },
+              {
+                title: "Con los docentes",
+                text: "Trabajo colaborativo con maestros y directivos para el desarrollo integral de cada grupo.",
+              },
+              {
+                title: "Con las familias",
+                text: "Entrevistas de seguimiento y asesoramiento sobre maduración emocional, estrategias de aprendizaje y convivencia.",
+              },
+              {
+                title: "Con los profesionales externos",
+                text: "Contacto permanente con los tratamientos en curso, compartiendo miradas y estrategias para el ámbito escolar.",
+              },
+            ].map((item) => (
+              <li class="hairline-t border-line py-6 first:pt-0" data-reveal>
+                <h3 class="font-semibold">{item.title}</h3>
+                <p class="text-ink-soft mt-2 text-[0.93rem] leading-relaxed">{item.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================ EDUCACIÓN FÍSICA -->
+  <section class="section-y" aria-labelledby="educacion-fisica">
+    <div class="container-site">
+      <div class="grid items-stretch gap-10 lg:grid-cols-12 lg:gap-12">
+        <div class="flex flex-col lg:col-span-6">
+          <div data-reveal-group>
+            <p class="overline-label text-garnet" data-reveal>Educación Física</p>
+            <h2 id="educacion-fisica" class="text-title-xl mt-4" data-reveal>
+              Ganar sin trampas, jugar limpio
+            </h2>
+            <p class="text-lead text-ink-soft mt-5" data-reveal>
+              Del nivel inicial al secundario: aprender a jugar, respetar las propias posibilidades
+              y las del otro, y construir un modo de vida sano y activo.
+            </p>
+          </div>
+
+          <div class="text-ink-soft mt-8 space-y-4 text-[0.95rem]" data-reveal-group>
+            <p data-reveal>
+              Las clases curriculares son <strong class="text-ink">dos veces por semana</strong>, y
+              la vida deportiva sigue fuera del horario: sábados deportivos, torneos, campamentos
+              adaptados a cada edad y giras deportivas en el secundario.
+            </p>
+            <p data-reveal>
+              Las actividades se realizan en las instalaciones del colegio y en nuestro
+              <strong class="text-ink">campo de deportes de Garín</strong>, provincia de Buenos
+              Aires — el mismo al que la primaria viaja cada semana en su doble jornada.
+            </p>
+          </div>
+
+          <div class="mt-8" data-reveal>
+            <p class="overline-label text-ink-soft">Deportes</p>
+            <ul class="mt-3 flex flex-wrap gap-2">
+              {deportes.map((deporte) => <li class="chip">{deporte}</li>)}
+            </ul>
+          </div>
+
+          <div class="mt-7" data-reveal>
+            <p class="overline-label text-ink-soft">Extracurriculares</p>
+            <ul class="text-ink-soft mt-3 grid gap-2 text-[0.9rem] sm:grid-cols-2">
+              {
+                edFisicaExtra.map((item) => (
+                  <li class="flex gap-2.5">
+                    <span
+                      class="bg-garnet mt-[0.55rem] h-1 w-1 shrink-0 rounded-full"
+                      aria-hidden="true"
+                    />
+                    {item}
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+
+        <figure class="flex flex-col lg:col-span-6" data-reveal="right">
+          <div class="overflow-clip rounded-3xl lg:min-h-full">
+            <Picture
+              src={rugbyGarin}
+              formats={["avif", "webp"]}
+              widths={[640, 960, 1280]}
+              sizes="(min-width: 1024px) 42vw, 94vw"
+              alt="Alumno del secundario pateando a los palos durante un partido de rugby en el campo de deportes de Garín"
+              class="aspect-[4/5] h-full w-full object-cover lg:aspect-auto lg:min-h-[36rem]"
+            />
+          </div>
+          <figcaption class="text-ink-soft/80 mt-3 text-[0.82rem]">
+            Campo de deportes de Garín, Buenos Aires.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== TECNOLOGÍA -->
+  <section class="section-y" aria-labelledby="tecnologia">
+    <div class="container-site grid items-center gap-12 lg:grid-cols-12">
+      <figure class="lg:col-span-6" data-reveal="blur">
+        <div class="parallax-frame rounded-3xl">
+          <Picture
+            src={tabletsAula}
+            formats={["avif", "webp"]}
+            widths={[560, 880, 1200]}
+            sizes="(min-width: 1024px) 46vw, 94vw"
+            alt="Alumnas de primaria trabajando con tablets en el aula"
+            class="parallax-inner aspect-[3/2] w-full rounded-3xl object-cover"
+          />
+        </div>
+      </figure>
+
+      <div class="lg:col-span-6">
+        <div data-reveal-group>
+          <p class="overline-label text-garnet" data-reveal>Tecnología</p>
+          <h2 id="tecnologia" class="text-title-xl mt-4" data-reveal>
+            Herramientas de hoy, criterio para siempre
+          </h2>
+          <p class="text-ink-soft mt-5" data-reveal>
+            Gabinete de tecnología, aulas equipadas y el programa
+            <strong class="text-ink">“Bring your own device”</strong> en el secundario: la tecnología
+            se integra al programa pedagógico en lugar de interrumpirlo.
+          </p>
+          <p class="text-ink-soft mt-4" data-reveal>
+            Con Digital House, los alumnos aprenden a diseñar páginas web en HTML y obtienen su
+            certificación en 2.º año del secundario — el pensamiento computacional empieza en
+            primaria.
+          </p>
+        </div>
+
+        <div class="mt-8" data-reveal>
+          <p class="overline-label text-ink-soft">Alianzas</p>
+          <ul class="mt-4 flex flex-wrap gap-x-8 gap-y-3">
+            {
+              TECH_PARTNERS.map((partner) => (
+                <li class="font-display text-ink-soft text-[1.2rem] font-medium tracking-tight">
+                  {partner}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <a
+          href="/servicios"
+          class="link-accent text-ink mt-9 inline-flex items-center gap-1.5 text-[0.95rem] font-medium"
+          data-reveal
+        >
+          Ver portales y servicios digitales
+          <Icon name="arrow-right" size={15} />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>

@@ -1,0 +1,102 @@
+---
+import { Picture } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import BrandStripes from "../components/BrandStripes.astro";
+import Icon from "../components/Icon.astro";
+import { SITE } from "../data/site";
+
+import exalumnosPoster from "../assets/img/exalumnos-poster.jpg";
+
+const mailtoExalumnos = `mailto:${SITE.email}?subject=${encodeURIComponent(
+  "Soy exalumno/a — quiero mantenerme en contacto",
+)}&body=${encodeURIComponent(
+  "Nombre y apellido:\nAño de egreso:\nEmail:\nTeléfono:\n\nMe gustaría recibir novedades de la comunidad Esquiú.",
+)}`;
+---
+
+<BaseLayout
+  title="Exalumnos · Una comunidad para toda la vida | Colegio Esquiú"
+  description="El departamento de Exalumnos del Colegio Esquiú mantiene viva la comunidad: dejanos tus datos y seguí en contacto con Relaciones Institucionales."
+  headerTone="dark"
+>
+  <section class="relative flex min-h-[72svh] items-end overflow-clip md:min-h-[78svh]">
+    <div class="absolute inset-0">
+      <Picture
+        src={exalumnosPoster}
+        formats={["avif", "webp"]}
+        widths={[768, 1280, 1920]}
+        sizes="100vw"
+        alt="Birretes de egreso lanzados al cielo"
+        class="hero-zoom absolute inset-0 h-full w-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <video
+        class="absolute inset-0 h-full w-full object-cover"
+        data-lazy-video
+        data-src="/videos/exalumnos.mp4"
+        muted
+        loop
+        playsinline
+        preload="none"
+        aria-hidden="true"
+        tabindex="-1"></video>
+      <div
+        class="from-night/70 via-night/25 pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b to-transparent"
+        aria-hidden="true"
+      >
+      </div>
+      <div
+        class="from-night/92 via-night/40 pointer-events-none absolute inset-0 bg-gradient-to-t to-transparent"
+        aria-hidden="true"
+      >
+      </div>
+    </div>
+
+    <div class="container-site relative w-full pt-[9rem] pb-12 md:pb-14">
+      <p class="overline-label hero-fade text-rose" style="--d:60ms">Exalumnos</p>
+      <h1 class="text-display text-paper hero-fade mt-4 max-w-3xl" style="--d:140ms">
+        Una comunidad para toda la vida.
+      </h1>
+      <p class="text-lead hero-fade text-paper/80 mt-5 max-w-xl" style="--d:230ms">
+        Algo que distingue al Colegio Esquiú es su comunidad. Desde el departamento de Ex Alumnos,
+        se realizan actividades para seguir en contacto con nuestros egresados.
+      </p>
+    </div>
+  </section>
+  <BrandStripes />
+
+  <section class="section-y" aria-label="Mantenete en contacto">
+    <div class="container-site grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-6" data-reveal-group>
+        <p data-reveal>
+          Algo distingue al Colegio Esquiú: <strong>su comunidad no termina con el egreso</strong>.
+          Desde el departamento de Exalumnos organizamos actividades y reencuentros para seguir en
+          contacto con quienes se formaron acá.
+        </p>
+        <p class="text-ink-soft mt-5" data-reveal>
+          Muchos exalumnos acompañan hoy al grupo misionero en San Miguel del Monte y Catamarca,
+          otros vuelven a contar su experiencia en la Semana de la Literatura, y cada año más eligen
+          el colegio para sus propios hijos.
+        </p>
+      </div>
+
+      <div class="lg:col-span-5 lg:col-start-8" data-reveal="right">
+        <div class="card p-8 sm:p-9">
+          <h2 class="text-title-sm">Estamos en contacto</h2>
+          <p class="text-ink-soft mt-3 text-[0.93rem] leading-relaxed">
+            Dejanos tus datos como exalumno y el área de Relaciones Institucionales te va a mantener
+            al tanto de encuentros y novedades.
+          </p>
+          <a href={mailtoExalumnos} class="btn btn-primary mt-7 w-full">
+            Enviar mis datos
+            <Icon name="mail" size={16} />
+          </a>
+          <p class="text-ink-soft/80 mt-4 text-center text-[0.82rem]">
+            Se abre tu correo con el mensaje ya preparado.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

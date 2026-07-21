@@ -1,0 +1,64 @@
+URL: https://www.colegioesquiu.edu.ar/
+TITULO: Colegio Esquiú - Belgrano - 11 de Septiembre de1888 1240, Buenos Aires, Argentina
+
+--- CONTENIDO ---
+
+[span] top of page
+[span] ADMISIONES
+[li] Inicio
+[li] Acerca de
+[li] Admisiones
+[li] Nuestro equipo
+[li] Proyecto Pedagógico
+[li] Areas Transversales Inglés Pastoral DOE Ed Fisica Tecnología
+[p] Areas Transversales
+[li] Inglés
+[li] Pastoral
+[li] DOE
+[li] Ed Fisica
+[li] Tecnología
+[li] Comisión Directiva
+[li] ExAlumnos
+[li] Servicios
+[li] More
+[h3] Te damos la bienvenida al COLEGIO ESQUIÚ
+[span] Te damos la bienvenida al
+[span] COLEGIO ESQUIÚ
+[p] Este es nuestro sitio oficial, donde queremos darte a conocer el proyecto educativo que nos identifica.
+[span] Este es nuestro sitio oficial, donde queremos darte a conocer el proyecto educativo
+[span] que nos identifica.
+[p] Aquí podrás conocer sobre nuestra institución, nuestra misión, nuestros valores y el proceso de admisión.
+[h2] Mucho más que un colegio, una comunidad.
+[span] Mucho más que un colegio,
+[span] una comunidad.
+[h2] Nuestro proyecto educativo
+[span] Nuestro
+[span] proyecto
+[span] educativo
+[p] Nuestra propuesta educativa se centra en despertar inquietudes y talentos sin desatender las individualidades. Promover valores, espíritu comunitario y vocación de servicio, acompañando el crecimiento integral de la persona.
+[p] La Pedagogía del Vínculo, es la que mejor define nuestra esencia y cotidianeidad.
+[p] Por otro lado, nuestros alumnos egresan con idioma ingles bilingüe,
+[p] el cual es desarrollado desde nivel inicial.
+[p] Nivel Inicial
+[p] Nivel Primario
+[p] Nivel Secundario
+[h2] ​Áreas transversales
+[p] Departamento de
+[p] Orientación Escolar
+[span] Saber más
+[p] Educación Física
+[h2] Nuestros valores
+[span] Fray Mamerto Esquiú
+[p] “La donación más valiosa, es la que el hombre hace de sí mismo”
+[h3] Departamento de Pastoral
+[p] Acompañamos el crecimiento y desarrollo de la fé de nuestros alumnos.
+[p] Enseñanza pastoral desde nivel inicial hasta el nivel secundario.
+[p] Grupo misionero desde infancia misionera hasta la misión anual a Catamarca.
+[p] Compartimos a lo largo del camino de los alumnos en la institución, momentos de campamentos, retiros espirituales y  convivencias.
+[h2] Nuestras redes
+[h2] Colegio Esquiú
+[p] 11 de Septiembre de 1888 1240, C1426BKK CABA, Argentina
+[p] institucionales@colegioesquiu.edu.ar
+[p] +54 11 4784 3222
+[p] ©2025 por Colegio Esquiú
+[span] bottom of page

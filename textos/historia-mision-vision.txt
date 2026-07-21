@@ -1,0 +1,36 @@
+URL: https://www.colegioesquiu.edu.ar/blank-1
+TITULO: Acerca de | Colegio Esquiú
+
+--- CONTENIDO ---
+
+[span] top of page
+[span] ADMISIONES
+[li] Inicio
+[li] Acerca de
+[li] Admisiones
+[li] Nuestro equipo
+[li] Proyecto Pedagógico
+[li] Areas Transversales Inglés Pastoral DOE Ed Fisica Tecnología
+[p] Areas Transversales
+[li] Inglés
+[li] Pastoral
+[li] DOE
+[li] Ed Fisica
+[li] Tecnología
+[li] Comisión Directiva
+[li] ExAlumnos
+[li] Servicios
+[li] More
+[h1] NUESTRA HISTORIA
+[p] El Colegio Esquiu fue fundado hace más de 65 años por una Comisión de padres preocupados por la educación de sus hijos de acuerdo con los valores cristianos que los representaban.
+[p] Desde entonces es una Asociación Civil sin fines de lucro, dirigido por las mismas familias que lo conforman.
+[h2] MISIÓN Y VISIÓN
+[p] Nuestra misión de impartir una enseñanza de alta jerarquía académica con prescindencia de ideologías políticas y dentro de los preceptos y principios de la Fe Católica.
+[p] Capacitando a los alumnos para adoptar un compromiso de vida frente a los valores, estimulando el esfuerzo como instrumento de superación ante la dificultad.
+[span] Nuestro Ideario
+[h2] Colegio Esquiú
+[p] 11 de Septiembre de 1888 1240, C1426BKK CABA, Argentina
+[p] institucionales@colegioesquiu.edu.ar
+[p] +54 11 4784 3222
+[p] ©2025 por Colegio Esquiú
+[span] bottom of page

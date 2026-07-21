@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
+---
+
+<BaseLayout
+  title="Página no encontrada | Colegio Esquiú"
+  description="La página que buscás no existe o cambió de lugar."
+  noindex
+>
+  <section class="flex min-h-[calc(100vh-4.5rem)] items-center pt-[4.5rem]">
+    <div class="container-site py-24 text-center">
+      <p class="numeral-ghost hero-fade mx-auto !text-[clamp(5rem,14vw,9rem)]">404</p>
+      <h1 class="text-title-xl hero-fade mt-6" style="--d:120ms">
+        Esta página se fue de campamento
+      </h1>
+      <p class="text-lead hero-fade text-ink-soft mx-auto mt-5 max-w-lg" style="--d:220ms">
+        La dirección que buscás no existe o cambió de lugar. Te llevamos de vuelta a terreno
+        conocido.
+      </p>
+      <div class="hero-fade mt-10 flex flex-wrap justify-center gap-4" style="--d:320ms">
+        <a href="/" class="btn btn-primary">
+          Ir al inicio
+          <Icon name="arrow-right" size={16} class="btn-arrow" />
+        </a>
+        <a href="/contacto" class="btn btn-ghost">Contactarnos</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

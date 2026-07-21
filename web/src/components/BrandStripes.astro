@@ -1,0 +1,22 @@
+---
+/**
+ * Tres franjas institucionales (navy / granate / oro), como en el sitio oficial.
+ */
+---
+
+<div class="brand-stripes" aria-hidden="true">
+  <span class="bg-navy"></span>
+  <span class="bg-garnet"></span>
+  <span class="bg-gold"></span>
+</div>
+
+<style>
+  .brand-stripes {
+    display: grid;
+    grid-template-rows: repeat(3, 4px);
+    width: 100%;
+  }
+  .brand-stripes > span {
+    display: block;
+  }
+</style>

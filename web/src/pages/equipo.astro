@@ -1,0 +1,122 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CtaBand from "../components/CtaBand.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import { BOARD } from "../data/board";
+import { STAFF } from "../data/staff";
+
+import entradaFamilias from "../assets/img/entrada-familias.jpg";
+---
+
+<BaseLayout
+  title="Nuestro equipo · Autoridades académicas | Colegio Esquiú"
+  description="Las autoridades académicas del Colegio Esquiú: rectoría, direcciones de nivel, coordinaciones de inglés, pastoral, DOE, educación física y convivencia. Incluye la Comisión Directiva."
+  headerTone="dark"
+>
+  <PageHero
+    overline="Nuestro equipo"
+    title="Las personas detrás del proyecto"
+    lead="El Esquiú no sería lo mismo sin la dedicación de un gran equipo de profesionales que guía a los alumnos y a sus familias durante todo el recorrido."
+    image={entradaFamilias}
+    imageAlt="Familias y comunidad en la entrada del colegio"
+    imagePosition="center 30%"
+  />
+
+  <section class="section-y" aria-label="Autoridades académicas">
+    <div class="container-site">
+      <ul class="grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        {
+          STAFF.map((member, i) => (
+            <li class="group text-center">
+              <div class="relative mx-auto w-full max-w-[11rem]">
+                <Image
+                  src={member.photo}
+                  alt={`Retrato de ${member.name}`}
+                  width={220}
+                  height={220}
+                  densities={[1, 1.5, 2]}
+                  sizes="176px"
+                  loading={i < 5 ? "eager" : "lazy"}
+                  fetchpriority={i === 0 ? "high" : undefined}
+                  decoding="async"
+                  class="shadow-card aspect-square w-full rounded-full object-cover transition-transform duration-500 ease-out group-hover:-translate-y-1.5"
+                />
+                <span
+                  class="ring-ink/10 group-hover:ring-garnet/50 pointer-events-none absolute inset-0 rounded-full ring-1 transition-shadow duration-500 ring-inset"
+                  aria-hidden="true"
+                />
+              </div>
+              <h2 class="font-display mt-5 text-[1.05rem] leading-snug font-semibold tracking-tight">
+                {member.name}
+              </h2>
+              <p class="text-ink-soft mx-auto mt-1.5 max-w-[13rem] text-[0.82rem] leading-snug">
+                {member.role}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Comisión Directiva (antes en /institucion) -->
+  <section class="section-y bg-cream" aria-labelledby="comision-directiva">
+    <div class="container-site">
+      <SectionHeader
+        overline="Gobierno de la asociación"
+        title="Comisión Directiva"
+        lead="Nueve miembros titulares y tres suplentes — todos padres del colegio — dirigen la asociación de manera completamente ad honorem, junto a una Comisión Revisora de Cuentas."
+        id="comision-directiva"
+      />
+
+      <div class="mt-14 grid gap-12 lg:grid-cols-12">
+        <div class="text-ink-soft space-y-5 text-[0.97rem] lg:col-span-5" data-reveal-group>
+          <p data-reveal>
+            La Comisión Directiva ejerce la administración y representación de la asociación: cumple
+            y hace cumplir el estatuto, convoca las asambleas, presenta memorias y balances,
+            resuelve el ingreso de socios y fija cuotas y aranceles.
+          </p>
+          <p data-reveal>
+            La <strong class="text-ink">Comisión Revisora de Cuentas</strong> fiscaliza todos los actos
+            vinculados con los fondos y el patrimonio social: la transparencia es parte del diseño institucional,
+            no una promesa.
+          </p>
+          <p data-reveal>
+            En estrecha vinculación con las autoridades pedagógicas, vela por que la enseñanza
+            mantenga la orientación y los valores que dieron origen al colegio.
+          </p>
+        </div>
+
+        <div class="lg:col-span-6 lg:col-start-7" data-reveal>
+          <table class="table-editorial">
+            <caption class="sr-only">Integrantes de la Comisión Directiva 2025</caption>
+            <thead>
+              <tr>
+                <th scope="col">Cargo</th>
+                <th scope="col">Nombre</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                BOARD.map((member) => (
+                  <tr>
+                    <td class="text-ink-soft">{member.role}</td>
+                    <td class="font-medium">{member.name}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+          <p class="text-ink-soft/80 mt-4 text-[0.82rem]">Comisión Directiva 2025.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    title="¿Querés conocerlos en persona?"
+    lead="En la entrevista de admisión vas a charlar con quienes van a acompañar a tus hijos todos los días."
+  />
+</BaseLayout>

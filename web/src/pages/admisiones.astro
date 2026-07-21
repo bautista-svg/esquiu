@@ -1,0 +1,264 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
+import PageHero from "../components/PageHero.astro";
+import { SITE } from "../data/site";
+
+import heroPorton from "../assets/img/hero-porton.jpg";
+
+const steps = [
+  {
+    step: "01",
+    title: "Formulario",
+    text: "Completá los datos de tu familia y el nivel de interés.",
+  },
+  {
+    step: "02",
+    title: "Entrevista personalizada",
+    text: "Los recibimos en la sede de Belgrano para conocernos y recorrer el colegio.",
+  },
+  {
+    step: "03",
+    title: "Bienvenida",
+    text: "Confirmada la vacante, tu familia pasa a formar parte de la asociación.",
+  },
+];
+
+const niveles = ["Nivel Inicial", "Nivel Primario", "Nivel Secundario"];
+const aniosIngreso = ["2026", "2027", "A definir"];
+---
+
+<BaseLayout
+  title="Admisiones 2026 · Entrevista personalizada | Colegio Esquiú"
+  description="Iniciá el proceso de admisión 2026 al Colegio Esquiú de Belgrano: completá el formulario y coordinamos una entrevista personalizada para conocer a tu familia."
+  headerTone="dark"
+>
+  <PageHero
+    overline="Admisiones 2026"
+    title="El primer paso es una charla"
+    lead="Registrá los datos de tu familia y coordinamos una entrevista personalizada en nuestra sede del barrio de Belgrano."
+    image={heroPorton}
+    imageAlt="Portón de hierro forjado de la entrada del Colegio Esquiú"
+    imagePosition="center"
+  />
+
+  <section class="section-y" aria-label="Proceso y formulario de admisión">
+    <div class="container-site grid gap-14 lg:grid-cols-12">
+      <!-- Proceso + contacto -->
+      <aside class="lg:col-span-5">
+        <ol data-reveal-group>
+          {
+            steps.map((item, i) => (
+              <li class={`flex gap-6 pb-9 ${i < steps.length - 1 ? "relative" : ""}`} data-reveal>
+                {i < steps.length - 1 && (
+                  <span
+                    class="bg-line absolute top-12 left-[1.18rem] h-[calc(100%-3.4rem)] w-px"
+                    aria-hidden="true"
+                  />
+                )}
+                <span class="border-garnet/40 font-display text-garnet flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-[0.95rem] font-semibold">
+                  {i + 1}
+                </span>
+                <div class="pt-1.5">
+                  <h2 class="text-title-sm">{item.title}</h2>
+                  <p class="text-ink-soft mt-2 text-[0.93rem] leading-relaxed">{item.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+
+        <div class="bg-cream rounded-3xl p-7" data-reveal>
+          <p class="overline-label text-garnet">¿Preferís hablar directo?</p>
+          <ul class="mt-5 space-y-3.5 text-[0.95rem]">
+            <li>
+              <a
+                href={`mailto:${SITE.email}`}
+                class="group inline-flex items-center gap-3 font-medium"
+              >
+                <Icon name="mail" size={17} class="text-garnet" />
+                <span class="link-accent">{SITE.email}</span>
+              </a>
+            </li>
+            <li>
+              <a href={SITE.phoneHref} class="group inline-flex items-center gap-3 font-medium">
+                <Icon name="phone" size={17} class="text-garnet" />
+                <span class="link-accent">{SITE.phone}</span>
+              </a>
+            </li>
+            <li class="text-ink-soft flex items-start gap-3">
+              <Icon name="pin" size={17} class="text-garnet mt-1 shrink-0" />
+              <span>{SITE.address.street}, {SITE.address.neighborhood} — CABA</span>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Formulario -->
+      <div class="lg:col-span-6 lg:col-start-7" data-reveal="right">
+        <form class="card p-7 sm:p-10" id="form-admision" novalidate>
+          <h2 class="text-title-sm">Formulario de admisión</h2>
+          <p class="text-ink-soft mt-2 text-[0.9rem]">
+            Al enviarlo, el equipo de Relaciones Institucionales se pondrá en contacto con vos.
+          </p>
+
+          <div class="mt-8 grid gap-6 sm:grid-cols-2">
+            <div data-field>
+              <label for="nombre" class="field-label">Nombre y apellido</label>
+              <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                class="field-input"
+                autocomplete="name"
+                required
+              />
+              <p class="field-error" id="error-nombre">Contanos tu nombre.</p>
+            </div>
+
+            <div data-field>
+              <label for="telefono" class="field-label">Teléfono</label>
+              <input
+                type="tel"
+                id="telefono"
+                name="telefono"
+                class="field-input"
+                autocomplete="tel"
+                required
+              />
+              <p class="field-error" id="error-telefono">Necesitamos un teléfono de contacto.</p>
+            </div>
+
+            <div class="sm:col-span-2" data-field>
+              <label for="email" class="field-label">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="field-input"
+                autocomplete="email"
+                required
+              />
+              <p class="field-error" id="error-email">Ingresá un email válido.</p>
+            </div>
+
+            <div data-field>
+              <label for="nivel" class="field-label">Nivel de interés</label>
+              <select id="nivel" name="nivel" class="field-input" required>
+                <option value="" selected disabled>Elegí un nivel</option>
+                {niveles.map((nivel) => <option value={nivel}>{nivel}</option>)}
+              </select>
+              <p class="field-error" id="error-nivel">Elegí el nivel de interés.</p>
+            </div>
+
+            <div data-field>
+              <label for="ingreso" class="field-label">Año de ingreso</label>
+              <select id="ingreso" name="ingreso" class="field-input" required>
+                <option value="" selected disabled>Elegí un año</option>
+                {aniosIngreso.map((anio) => <option value={anio}>{anio}</option>)}
+              </select>
+              <p class="field-error" id="error-ingreso">Elegí el año estimado.</p>
+            </div>
+
+            <div class="sm:col-span-2" data-field>
+              <label for="mensaje" class="field-label">
+                Mensaje <span class="text-ink-soft font-normal">(opcional)</span>
+              </label>
+              <textarea
+                id="mensaje"
+                name="mensaje"
+                rows="4"
+                class="field-input resize-y"
+                placeholder="Contanos lo que quieras: edades de tus hijos, colegio actual, dudas…"
+              ></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary mt-8 w-full sm:w-auto">
+            Enviar solicitud
+            <Icon name="arrow-right" size={16} class="btn-arrow" />
+          </button>
+          <p class="text-ink-soft/80 mt-4 text-[0.8rem] leading-relaxed">
+            Tus datos se usan únicamente para coordinar la entrevista de admisión.
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  /**
+   * Envío del formulario de admisión.
+   * Si FORM_ENDPOINT está configurado (Formspree, Basin, API propia…) se envía
+   * por POST y se redirige a /gracias. Si no, se abre el cliente de correo del
+   * usuario con el mensaje ya redactado hacia institucionales@.
+   */
+  const FORM_ENDPOINT = "";
+
+  const form = document.getElementById("form-admision") as HTMLFormElement | null;
+
+  function validateField(field: HTMLElement): boolean {
+    const input = field.querySelector<HTMLInputElement | HTMLSelectElement>("input, select");
+    if (!input) return true;
+    const valid = input.checkValidity();
+    field.toggleAttribute("data-invalid", !valid);
+    input.setAttribute("aria-invalid", String(!valid));
+    const error = field.querySelector(".field-error");
+    if (error?.id) {
+      input.setAttribute("aria-describedby", valid ? "" : error.id);
+    }
+    return valid;
+  }
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const fields = Array.from(form.querySelectorAll<HTMLElement>("[data-field]"));
+    const results = fields.map(validateField);
+    if (results.includes(false)) {
+      fields[results.indexOf(false)]?.querySelector<HTMLElement>("input, select")?.focus();
+      return;
+    }
+
+    const data = new FormData(form);
+    const get = (key: string) => String(data.get(key) ?? "").trim();
+
+    if (FORM_ENDPOINT) {
+      const button = form.querySelector<HTMLButtonElement>("button[type=submit]");
+      if (button) button.disabled = true;
+      try {
+        const response = await fetch(FORM_ENDPOINT, {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: data,
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        window.location.assign("/gracias");
+      } catch {
+        if (button) button.disabled = false;
+        window.alert("No pudimos enviar el formulario. Probá de nuevo o escribinos por email.");
+      }
+      return;
+    }
+
+    const subject = `Solicitud de admisión — ${get("nombre")}`;
+    const body = [
+      `Nombre: ${get("nombre")}`,
+      `Email: ${get("email")}`,
+      `Teléfono: ${get("telefono")}`,
+      `Nivel de interés: ${get("nivel")}`,
+      `Año de ingreso: ${get("ingreso")}`,
+      "",
+      get("mensaje"),
+    ].join("\n");
+
+    window.location.href = `mailto:institucionales@colegioesquiu.edu.ar?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+
+  // Limpiar el estado de error al corregir.
+  form?.addEventListener("input", (event) => {
+    const field = (event.target as HTMLElement).closest<HTMLElement>("[data-field]");
+    if (field?.hasAttribute("data-invalid")) validateField(field);
+  });
+</script>

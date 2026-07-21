@@ -1,0 +1,38 @@
+URL: https://www.colegioesquiu.edu.ar/servicios
+TITULO: Servicios | Colegio Esquiú
+
+--- CONTENIDO ---
+
+[span] top of page
+[span] ADMISIONES
+[li] Inicio
+[li] Acerca de
+[li] Admisiones
+[li] Nuestro equipo
+[li] Proyecto Pedagógico
+[li] Areas Transversales Inglés Pastoral DOE Ed Fisica Tecnología
+[p] Areas Transversales
+[li] Inglés
+[li] Pastoral
+[li] DOE
+[li] Ed Fisica
+[li] Tecnología
+[li] Comisión Directiva
+[li] ExAlumnos
+[li] Servicios
+[li] More
+[p] En esta sección les acercamos los links a las herramientas
+[p] que se utilizan en el colegio.
+[h2] Handing
+[p] Nivel inicial y nivel primario.
+[h2] Acadeu
+[p] Nivel secundario.
+[h2] Intranet
+[p] Administración.
+[h2] Manual de Uniformes
+[h2] Colegio Esquiú
+[p] 11 de Septiembre de 1888 1240, C1426BKK CABA, Argentina
+[p] institucionales@colegioesquiu.edu.ar
+[p] +54 11 4784 3222
+[p] ©2025 por Colegio Esquiú
+[span] bottom of page

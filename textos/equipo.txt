@@ -1,0 +1,62 @@
+URL: https://www.colegioesquiu.edu.ar/equipo
+TITULO: Nuestro equipo | Colegio Esquiú
+
+--- CONTENIDO ---
+
+[span] top of page
+[span] ADMISIONES
+[li] Inicio
+[li] Acerca de
+[li] Admisiones
+[li] Nuestro equipo
+[li] Proyecto Pedagógico
+[li] Areas Transversales Inglés Pastoral DOE Ed Fisica Tecnología
+[p] Areas Transversales
+[li] Inglés
+[li] Pastoral
+[li] DOE
+[li] Ed Fisica
+[li] Tecnología
+[li] Comisión Directiva
+[li] ExAlumnos
+[li] Servicios
+[li] More
+[h1] CONOCE A NUESTRO EQUIPO
+[p] Autoridades Académicas
+[p] Nuestro Colegio Esquiú no sería lo mismo sin la dedicación de un gran equipo de profesionales. Están aquí para guiar a los alumnos y a sus familias, y para ayudarlos a aprovechar al máximo su periodo formativo. Lee a continuación un poco más acerca de ellos.
+[p] Rectora
+[p] Patricia Doria Medina
+[p] Directora  Nivel Inicial
+[p] Silvia Lavandeira Fonte
+[p] Directora Ingles Nivel Primario e Inicial
+[p] Carolina Pinto
+[p] Vicedirección Nivel Primaria
+[p] María José Castro Gil
+[p] Coordinador DOE
+[p] Rosario Avendaño
+[p] Coordinador de Pastoral
+[p] Lucas Walton
+[p] Secretaria Nivel Primario
+[p] Fernanda Marsicovetere
+[p] Gerente de Administración
+[p] Pablo Sanchez Terrero
+[p] Directora Nivel Primario
+[p] María Laura Castro
+[p] Directora Ingles Nivel Secundario
+[p] Adriana Premuz
+[p] Directora de Estudios Nivel Secundaria
+[p] M. Victoria Garcia Bouza
+[p] Coordinador Educación Fisica
+[p] Ignacio Raña Gómez
+[p] Coordinadora de Convivencia
+[p] Gisela Esteban
+[p] Secretaria Nivel Inicial
+[p] María B. Arana
+[p] Secretaria Nivel Secundario
+[p] Luz Nievas Zabala
+[h2] Colegio Esquiú
+[p] 11 de Septiembre de 1888 1240, C1426BKK CABA, Argentina
+[p] institucionales@colegioesquiu.edu.ar
+[p] +54 11 4784 3222
+[p] ©2025 por Colegio Esquiú
+[span] bottom of page

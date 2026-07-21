@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
+import SunMark from "../components/SunMark.astro";
+---
+
+<BaseLayout
+  title="¡Gracias por tu contacto! | Colegio Esquiú"
+  description="Recibimos tu mensaje. El departamento de Relaciones Institucionales del Colegio Esquiú se pondrá en contacto a la brevedad."
+  noindex
+>
+  <section class="flex min-h-[calc(100vh-4.5rem)] items-center pt-[4.5rem]">
+    <div class="container-site py-24 text-center">
+      <SunMark size={56} class="hero-fade text-garnet mx-auto" />
+      <h1 class="text-display hero-fade mt-8" style="--d:120ms">Gracias por tu contacto</h1>
+      <p class="text-lead hero-fade text-ink-soft mx-auto mt-6 max-w-xl" style="--d:220ms">
+        En breve nos pondremos en contacto desde el departamento de Relaciones Institucionales.
+        Mientras tanto, seguí recorriendo el colegio.
+      </p>
+      <div class="hero-fade mt-10 flex flex-wrap justify-center gap-4" style="--d:320ms">
+        <a href="/" class="btn btn-primary">
+          Volver al inicio
+          <Icon name="arrow-right" size={16} class="btn-arrow" />
+        </a>
+        <a href="/proyecto-educativo" class="btn btn-ghost">Ver el proyecto educativo</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

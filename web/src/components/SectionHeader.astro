@@ -1,0 +1,39 @@
+---
+/** Encabezado de sección: overline + título + lead opcional, con reveal en cascada. */
+interface Props {
+  overline: string;
+  title: string;
+  lead?: string;
+  tone?: "light" | "dark";
+  align?: "left" | "center";
+  as?: "h1" | "h2";
+  id?: string;
+}
+
+const {
+  overline,
+  title,
+  lead,
+  tone = "light",
+  align = "left",
+  as: Heading = "h2",
+  id,
+} = Astro.props;
+
+const overlineColor = tone === "dark" ? "text-rose" : "text-garnet";
+const titleColor = tone === "dark" ? "text-paper" : "text-ink";
+const leadColor = tone === "dark" ? "text-paper/70" : "text-ink-soft";
+const alignClass = align === "center" ? "text-center mx-auto" : "";
+---
+
+<div class={`max-w-3xl ${alignClass}`} data-reveal-group>
+  <p class={`overline-label ${overlineColor}`} data-reveal>{overline}</p>
+  <Heading id={id} class={`text-title-xl mt-4 ${titleColor}`} data-reveal>{title}</Heading>
+  {
+    lead && (
+      <p class={`text-lead mt-5 ${leadColor}`} data-reveal>
+        {lead}
+      </p>
+    )
+  }
+</div>
