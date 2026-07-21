@@ -986,32 +986,32 @@ video[data-lazy-video].is-playing {
 }
 
 /* -------------------- panorama horizontal de niveles (proyecto) ---------- */
-/* Scroll vertical que maneja un viaje lateral: wrapper alto + sticky 100vh;
-   el track (300vw) se traslada -p*200vw. Cada panel: color propio, foto al
-   20% y titular centrado con micro-parallax. Barra de progreso abajo. */
+/* Base (mobile / reduced-motion): paneles apilados verticales, cada uno con
+   la foto a plena opacidad + scrim de tinta y TODA la info del nivel.
+   En desktop (≥64rem): scroll vertical → viaje lateral (wrapper alto +
+   sticky 100vh, track 300vw trasladado -p*200vw, micro-parallax del texto,
+   barra de progreso). Sin filtros de color: solo degradado neutro. */
 .pano-wrap {
-  height: 380vh;
-}
-.pano-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow: clip;
+  position: relative;
 }
 .pano-track {
   display: flex;
-  width: 300vw;
-  height: 100%;
-  will-change: transform;
+  flex-direction: column;
 }
 .pano-panel {
   position: relative;
-  width: 100vw;
-  height: 100%;
   display: grid;
-  place-items: center;
+  align-content: center;
+  min-height: 100svh;
   overflow: clip;
-  padding-inline: 1.5rem;
+  background: var(--color-night);
+  color: var(--color-paper);
+  padding-block: clamp(5.5rem, 12svh, 8rem);
+}
+/* En mobile el primer panel arranca en el tope del documento: aire extra
+   para que el numeral fantasma no quede debajo del header fijo. */
+.pano-panel:first-child {
+  padding-top: clamp(10rem, 18svh, 12rem);
 }
 .pano-bg {
   position: absolute;
@@ -1019,121 +1019,200 @@ video[data-lazy-video].is-playing {
   height: 100%;
   width: 100%;
   object-fit: cover;
-  opacity: 0.18;
 }
-.pano-inicial {
-  background: var(--color-cream);
-  color: var(--color-ink);
+.pano-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    200deg,
+    rgb(11 13 18 / 0.32) 0%,
+    rgb(11 13 18 / 0.6) 46%,
+    rgb(11 13 18 / 0.86) 100%
+  );
 }
-.pano-primaria {
-  background: var(--color-night);
-  color: var(--color-paper);
-}
-.pano-secundaria {
-  background: var(--color-garnet-deep);
-  color: var(--color-paper);
-}
-.pano-copy {
+.pano-content {
   position: relative;
-  max-width: 62rem;
-  text-align: center;
-  will-change: transform;
+  display: grid;
+  gap: 2.6rem;
+  width: 100%;
 }
-.pano-over {
-  letter-spacing: 0.22em;
+.pano-head {
+  position: relative;
+  max-width: 34rem;
 }
-.pano-inicial .pano-over {
-  color: var(--color-garnet);
-}
-.pano-primaria .pano-over {
-  color: var(--color-rose);
-}
-.pano-secundaria .pano-over {
-  color: var(--color-rose-soft);
+.pano-num {
+  position: absolute;
+  top: -4.6rem;
+  left: -0.4rem;
+  font-family: var(--font-display);
+  font-weight: 560;
+  font-size: clamp(4.6rem, 8vw, 7rem);
+  line-height: 1;
+  color: rgb(250 248 244 / 0.16);
+  pointer-events: none;
+  user-select: none;
 }
 .pano-title {
-  margin-top: 1.1rem;
+  margin-top: 0.9rem;
   font-family: var(--font-display);
   font-optical-sizing: auto;
   font-variation-settings:
     "SOFT" 0,
     "WONK" 0;
   font-weight: 550;
-  font-size: clamp(2.3rem, 6vw, 4.7rem);
+  font-size: clamp(2.1rem, 3.9vw, 3.5rem);
   line-height: 1.05;
   letter-spacing: -0.02em;
 }
 .pano-title .is-accent {
   font-style: italic;
+  color: var(--color-rose);
   font-variation-settings:
     "SOFT" 80,
     "WONK" 0;
 }
-.pano-inicial .pano-title .is-accent {
-  color: var(--color-garnet);
+.pano-lead {
+  margin-top: 1.2rem;
+  max-width: 28rem;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: rgb(250 248 244 / 0.82);
 }
-.pano-primaria .pano-title .is-accent {
-  color: var(--color-rose);
-}
-.pano-secundaria .pano-title .is-accent {
-  color: var(--color-rose-soft);
-}
-.pano-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 2.2rem;
-  font-size: 0.92rem;
-  font-weight: 560;
-  opacity: 0.85;
-  transition: opacity 0.25s var(--ease-out-soft);
-}
-.pano-link:hover {
-  opacity: 1;
-}
-.pano-progress {
-  position: absolute;
-  bottom: 1.9rem;
-  inset-inline: 0;
+.pano-info {
   display: grid;
-  gap: 0.65rem;
-  justify-items: center;
+  gap: 1.9rem;
+  border: 1px solid rgb(250 248 244 / 0.14);
+  border-radius: 1.3rem;
+  background: rgb(11 13 18 / 0.42);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: clamp(1.5rem, 2.4vw, 2.3rem);
 }
-.pano-bar {
-  width: min(26rem, 68vw);
-  height: 2px;
-  border-radius: 2px;
-  background: rgb(127 120 110 / 0.35);
-  overflow: hidden;
+.pano-points {
+  display: grid;
 }
-.pano-fill {
-  display: block;
-  height: 100%;
-  width: 100%;
-  background: var(--color-rose);
-  transform: scaleX(0);
-  transform-origin: left;
+.pano-points li {
+  padding-block: 0.85rem;
 }
-.pano-labels {
+.pano-points li + li {
+  border-top: 1px solid rgb(250 248 244 / 0.13);
+}
+.pano-points li:first-child {
+  padding-top: 0;
+}
+.pano-points li:last-child {
+  padding-bottom: 0;
+}
+.pano-points h3 {
+  font-size: 0.96rem;
+  font-weight: 620;
+  letter-spacing: -0.01em;
+}
+.pano-points p {
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgb(250 248 244 / 0.68);
+}
+.pano-meta .overline-label {
+  color: rgb(250 248 244 / 0.55);
+}
+.pano-meta ul {
+  margin-top: 0.8rem;
+  display: grid;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: rgb(250 248 244 / 0.78);
+}
+.pano-meta li {
   display: flex;
-  width: min(26rem, 68vw);
-  justify-content: space-between;
-  font-size: 0.66rem;
-  font-weight: 650;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  gap: 0.65rem;
 }
-.pano-labels li {
-  opacity: 0.45;
-  transition: opacity 0.3s var(--ease-out-soft);
-  color: inherit;
+.pano-dot {
+  margin-top: 0.48rem;
+  height: 0.25rem;
+  width: 0.25rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: var(--color-rose);
 }
-.pano-labels li.is-active {
-  opacity: 1;
-}
-/* El color del progreso hereda del panel actualmente visible via JS */
 .pano-progress {
-  color: var(--pano-ink, currentColor);
+  display: none;
+}
+@media (min-width: 64rem) {
+  .pano-wrap {
+    height: 420vh;
+  }
+  .pano-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: clip;
+  }
+  .pano-track {
+    flex-direction: row;
+    width: 300vw;
+    height: 100%;
+    will-change: transform;
+  }
+  .pano-panel,
+  .pano-panel:first-child {
+    width: 100vw;
+    height: 100%;
+    min-height: 0;
+    padding-block: 0;
+  }
+  .pano-content {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    align-items: center;
+    gap: clamp(3rem, 5vw, 5.5rem);
+    will-change: transform;
+  }
+  .pano-meta ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.4rem;
+  }
+  .pano-progress {
+    position: absolute;
+    bottom: 1.9rem;
+    inset-inline: 0;
+    display: grid;
+    gap: 0.65rem;
+    justify-items: center;
+    color: var(--color-paper);
+  }
+  .pano-bar {
+    width: min(26rem, 68vw);
+    height: 2px;
+    border-radius: 2px;
+    background: rgb(250 248 244 / 0.28);
+    overflow: hidden;
+  }
+  .pano-fill {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: var(--color-rose);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .pano-labels {
+    display: flex;
+    width: min(26rem, 68vw);
+    justify-content: space-between;
+    font-size: 0.66rem;
+    font-weight: 650;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .pano-labels li {
+    opacity: 0.5;
+    transition: opacity 0.3s var(--ease-out-soft);
+  }
+  .pano-labels li.is-active {
+    opacity: 1;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .pano-wrap {
@@ -1144,15 +1223,18 @@ video[data-lazy-video].is-playing {
     height: auto;
   }
   .pano-track {
-    width: 100%;
     flex-direction: column;
+    width: 100%;
+    height: auto;
     transform: none !important;
   }
   .pano-panel {
     width: 100%;
-    min-height: 72svh;
+    height: auto;
+    min-height: 100svh;
+    padding-block: clamp(5.5rem, 12svh, 8rem);
   }
-  .pano-copy {
+  .pano-content {
     transform: none !important;
   }
   .pano-progress {

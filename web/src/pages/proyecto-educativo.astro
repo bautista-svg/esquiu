@@ -2,12 +2,9 @@
 import { Picture } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CtaBand from "../components/CtaBand.astro";
-import Icon from "../components/Icon.astro";
-import PageHero from "../components/PageHero.astro";
 
 import celebracionPatio from "../assets/img/celebracion-patio.jpg";
 import lecturaPatio from "../assets/img/lectura-patio.jpg";
-import patioPanoramica from "../assets/img/patio-panoramica.jpg";
 import rugbyGarin from "../assets/img/rugby-garin.jpg";
 
 const levels = [
@@ -16,9 +13,11 @@ const levels = [
     index: "01",
     name: "Nivel Inicial",
     ages: "Salas de 2 a 5 años",
-    lead: "El juego es el puente didáctico que integra todos los contenidos: desde lo matemático y lo lingüístico hasta las ciencias, la música y la fe.",
+    headline: { lines: ["El juego no es", "un recreo:"], accent: "es el método." },
+    lead: "El juego integra todos los contenidos: lo matemático, lo lingüístico, las ciencias, la música y la fe.",
     image: lecturaPatio,
     imageAlt: "Un alumno le lee un cuento a un compañero más chico en el patio",
+    imagePosition: "center 40%",
     points: [
       {
         title: "Inglés desde el primer día",
@@ -35,18 +34,10 @@ const levels = [
     ],
     metaTitle: "Jornadas",
     meta: [
-      "Sala de 2 — jornada simple, turno mañana",
-      "Sala de 3 — jornada simple, con opción de extender",
-      "Salas de 4 y 5 — jornada doble obligatoria",
+      "Sala de 2 — simple, turno mañana",
+      "Sala de 3 — simple, opción de extender",
+      "Salas de 4 y 5 — doble obligatoria",
       "Mañana 8:20–11:50 · tarde 13:00–16:30",
-    ],
-    chips: [
-      "Comunicación",
-      "Curiosidad",
-      "Autonomía",
-      "Colaboración",
-      "Responsabilidad",
-      "Resolución de problemas",
     ],
   },
   {
@@ -54,9 +45,11 @@ const levels = [
     index: "02",
     name: "Nivel Primario",
     ages: "1.º a 7.º grado · 8:00 a 16:30",
-    lead: "Doble jornada con inglés intensivo tres tardes por semana y deporte en Garín las restantes: cuerpo, mente y comunidad en equilibrio.",
+    headline: { lines: ["Cuerpo, mente", "y amigos:"], accent: "crecen juntos." },
+    lead: "Doble jornada con inglés intensivo tres tardes por semana y deporte en Garín las restantes.",
     image: celebracionPatio,
     imageAlt: "Alumnas de primaria festejando en el patio",
+    imagePosition: "center 30%",
     points: [
       {
         title: "Semana de la Literatura",
@@ -68,11 +61,11 @@ const levels = [
       },
       {
         title: "Olimpíadas y Cartelera",
-        text: "Desafíos matemáticos y Aprendizaje Basado en Proyectos frente a toda la comunidad.",
+        text: "Desafíos matemáticos y proyectos frente a toda la comunidad.",
       },
       {
         title: "Juegoteca y Digital House",
-        text: "Juegos en el recreo del mediodía y programación web hacia la certificación en secundario.",
+        text: "Juegos en el recreo del mediodía y programación web con certificación.",
       },
     ],
     metaTitle: "Talleres",
@@ -83,24 +76,25 @@ const levels = [
       "Banda y orquesta",
       "Aerofósforomodelismo (7.º)",
     ],
-    chips: ["Inglés intensivo", "Deporte en Garín", "Proyectos", "Doble jornada"],
   },
   {
     id: "secundaria",
     index: "03",
     name: "Nivel Secundario",
     ages: "1.º a 5.º año · tres orientaciones",
-    lead: "Carga horaria ampliada en inglés, catequesis, educación física, talleres de arte y tutoría — con certificación bilingüe que acompaña el título.",
+    headline: { lines: ["Egresan bilingües,", "con valores"], accent: "y con rumbo." },
+    lead: "Carga ampliada en inglés, catequesis, educación física, arte y tutoría — con certificación bilingüe de Cambridge.",
     image: rugbyGarin,
     imageAlt: "Alumno pateando a los palos en el campo de deportes de Garín",
+    imagePosition: "center 35%",
     points: [
       {
         title: "Más allá del aula",
-        text: "Olimpíadas, Modelo de ONU, campamentos, viajes de estudio, competencias y microemprendimientos.",
+        text: "Olimpíadas, Modelo de ONU, campamentos, viajes de estudio y microemprendimientos.",
       },
       {
         title: "Hacia la universidad",
-        text: "Orientación vocacional, ACAP y convenios con UCA, Di Tella, UdeSA, ITBA, Austral, UCEMA, UB y Palermo.",
+        text: "Orientación vocacional, ACAP y convenios con UCA, Di Tella, UdeSA, ITBA, Austral y más.",
       },
       {
         title: "Tutoría continua",
@@ -113,16 +107,8 @@ const levels = [
       "02 · Ciencias Naturales",
       "03 · Economía y Administración",
     ],
-    chips: ["Curioso y autónomo", "Bilingüe Cambridge", "Pensamiento crítico", "Fe en comunidad"],
   },
 ] as const;
-
-/** Paneles del recorrido horizontal (uno por nivel). */
-const pano = [
-  { lines: ["El juego", "no es un recreo:"], accent: "es el método." },
-  { lines: ["Cuerpo, mente", "y amigos:"], accent: "crecen juntos." },
-  { lines: ["Egresan bilingües,", "con valores"], accent: "y con rumbo." },
-];
 ---
 
 <BaseLayout
@@ -130,56 +116,63 @@ const pano = [
   description="Un recorrido de los 2 a los 18 años: nivel inicial con eje lúdico, primaria de doble jornada con inglés intensivo y secundaria con tres orientaciones y exámenes de Cambridge."
   headerTone="dark"
 >
-  <PageHero
-    overline="Proyecto educativo"
-    title="Un camino, tres niveles"
-    lead="Lo espiritual, lo académico y lo comunitario unidos desde la sala de 2 hasta el último año."
-    image={patioPanoramica}
-    imageAlt="Vista panorámica del patio del colegio, con la palmera y alumnos jugando"
-    imagePosition="center 62%"
-  >
-    <nav class="flex flex-wrap gap-2.5" aria-label="Niveles">
-      {
-        levels.map((level) => (
-          <a href={`#${level.id}`} class="chip">
-            {level.name}
-          </a>
-        ))
-      }
-    </nav>
-  </PageHero>
+  <h1 class="sr-only">Proyecto educativo del Colegio Esquiú</h1>
 
-  <!-- ============== Panorama horizontal: scroll vertical → viaje lateral ==== -->
+  <!-- Sin hero: quien llegó acá ya sabe dónde está. Directo al recorrido:
+       scroll vertical → viaje lateral, con toda la info de cada nivel. -->
   <section class="pano-wrap" data-pano aria-label="Los tres niveles, en un recorrido">
     <div class="pano-sticky">
       <div class="pano-track" data-pano-track>
         {
-          levels.map((level, i) => (
-            <article class:list={["pano-panel", `pano-${level.id}`]}>
+          levels.map((level) => (
+            <article class="pano-panel" id={level.id}>
               <Picture
                 src={level.image}
                 formats={["avif", "webp"]}
                 widths={[768, 1280, 1920]}
                 sizes="100vw"
-                alt=""
+                alt={level.imageAlt}
                 class="pano-bg"
+                style={`object-position: ${level.imagePosition}`}
                 loading="lazy"
                 decoding="async"
               />
-              <div class="pano-copy" data-pano-copy>
-                <p class="pano-over overline-label">
-                  {level.name} · {level.ages}
-                </p>
-                <h2 class="pano-title">
-                  {pano[i].lines.map((line) => (
-                    <span class="block">{line}</span>
-                  ))}
-                  <span class="is-accent block">{pano[i].accent}</span>
-                </h2>
-                <a href={`#${level.id}`} class="pano-link">
-                  Ver en detalle
-                  <Icon name="arrow-right" size={15} class="rotate-90" />
-                </a>
+              <div class="pano-scrim" aria-hidden="true"></div>
+
+              <div class="pano-content container-site" data-pano-copy>
+                <header class="pano-head">
+                  <span class="pano-num" aria-hidden="true">{level.index}</span>
+                  <p class="overline-label text-rose">
+                    {level.name} · {level.ages}
+                  </p>
+                  <h2 class="pano-title">
+                    {level.headline.lines.map((line) => <span class="block">{line}</span>)}
+                    <span class="is-accent block">{level.headline.accent}</span>
+                  </h2>
+                  <p class="pano-lead">{level.lead}</p>
+                </header>
+
+                <div class="pano-info">
+                  <ul class="pano-points">
+                    {level.points.map((point) => (
+                      <li>
+                        <h3>{point.title}</h3>
+                        <p>{point.text}</p>
+                      </li>
+                    ))}
+                  </ul>
+                  <div class="pano-meta">
+                    <p class="overline-label">{level.metaTitle}</p>
+                    <ul>
+                      {level.meta.map((item) => (
+                        <li>
+                          <span class="pano-dot" aria-hidden="true" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
             </article>
           ))
@@ -196,101 +189,6 @@ const pano = [
       </div>
     </div>
   </section>
-
-  <!-- Barra sticky de recorrido -->
-  <div
-    class="border-line-soft bg-paper/90 sticky top-[4.5rem] z-30 border-b backdrop-blur-md"
-    data-levels-track
-  >
-    <div class="container-site relative flex items-stretch">
-      <div class="bg-line absolute inset-x-0 bottom-0 h-px overflow-hidden" aria-hidden="true">
-        <div class="levels-fill-x" data-levels-fill></div>
-      </div>
-      {
-        levels.map((level) => (
-          <a
-            href={`#${level.id}`}
-            class="level-tab text-ink-soft hover:text-ink flex-1 py-3.5 text-center text-[0.78rem] font-semibold tracking-wide uppercase transition-colors"
-            data-level-node
-          >
-            <span class="text-garnet font-display mr-1.5 tracking-normal normal-case">
-              {level.index}
-            </span>
-            <span class="hidden sm:inline">{level.name.replace("Nivel ", "")}</span>
-            <span class="sm:hidden">{level.index}</span>
-          </a>
-        ))
-      }
-    </div>
-  </div>
-
-  {
-    levels.map((level, i) => (
-      <>
-        <section
-          id={level.id}
-          class:list={[
-            "relative scroll-mt-36 overflow-clip",
-            i % 2 === 0 ? "bg-paper" : "bg-cream",
-          ]}
-          aria-labelledby={`${level.id}-title`}
-        >
-          <div class="container-site section-y">
-            <div class="grid items-start gap-10 lg:grid-cols-12 lg:gap-14">
-              <div class="relative lg:col-span-5">
-                <span
-                  class="font-display text-garnet/10 pointer-events-none absolute -top-8 -left-2 text-[clamp(6rem,18vw,11rem)] leading-none font-semibold select-none"
-                  aria-hidden="true"
-                >
-                  {level.index}
-                </span>
-                <p class="overline-label text-garnet relative">{level.ages}</p>
-                <h2 id={`${level.id}-title`} class="text-title-xl relative mt-3">
-                  {level.name}
-                </h2>
-                <p class="text-lead text-ink-soft relative mt-5">{level.lead}</p>
-              </div>
-
-              <div class="lg:col-span-7 lg:pt-6">
-                <ul class="space-y-0">
-                  {level.points.map((point) => (
-                    <li class="hairline-t py-5 first:border-t-0 first:pt-0">
-                      <h3 class="text-[1.05rem] font-semibold tracking-tight">{point.title}</h3>
-                      <p class="text-ink-soft mt-1.5 max-w-xl text-[0.92rem] leading-relaxed">
-                        {point.text}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-
-                <div class="mt-8 grid gap-8 sm:grid-cols-2">
-                  <div>
-                    <p class="overline-label text-ink-soft">{level.metaTitle}</p>
-                    <ul class="text-ink-soft mt-3 space-y-2 text-[0.88rem] leading-snug">
-                      {level.meta.map((item) => (
-                        <li class="flex gap-2.5">
-                          <span class="bg-garnet mt-[0.45rem] h-1 w-1 shrink-0 rounded-full" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <p class="overline-label text-ink-soft">En foco</p>
-                    <ul class="mt-3 flex flex-wrap gap-2">
-                      {level.chips.map((chip) => (
-                        <li class="chip">{chip}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </>
-    ))
-  }
 
   <CtaBand
     title="¿Querés verlo en persona?"

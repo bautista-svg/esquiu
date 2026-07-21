@@ -503,14 +503,14 @@ function initLevelsPanorama(): void {
   const wrap = document.querySelector<HTMLElement>("[data-pano]");
   const track = wrap?.querySelector<HTMLElement>("[data-pano-track]");
   if (!wrap || !track) return;
-  if (prefersReducedMotion.matches) return; // fallback CSS: paneles apilados
+  // En mobile y con reduced-motion el CSS apila los paneles: no hay viaje lateral.
+  const desktop = window.matchMedia("(min-width: 64rem)");
+  if (!desktop.matches || prefersReducedMotion.matches) return;
 
   const copies = Array.from(wrap.querySelectorAll<HTMLElement>("[data-pano-copy]"));
   const fill = wrap.querySelector<HTMLElement>("[data-pano-fill]");
   const labels = Array.from(wrap.querySelectorAll<HTMLElement>("[data-pano-label]"));
   const panels = Array.from(wrap.querySelectorAll<HTMLElement>(".pano-panel"));
-  const inks = ["var(--color-ink)", "var(--color-paper)", "var(--color-paper)"];
-  const progress = wrap.querySelector<HTMLElement>(".pano-progress");
 
   let ticking = false;
   let lastSeg = -1;
@@ -533,7 +533,6 @@ function initLevelsPanorama(): void {
     if (seg !== lastSeg) {
       lastSeg = seg;
       labels.forEach((label, i) => label.classList.toggle("is-active", i === seg));
-      progress?.style.setProperty("--pano-ink", inks[seg] ?? "currentColor");
     }
   };
 
@@ -543,6 +542,25 @@ function initLevelsPanorama(): void {
       requestAnimationFrame(update);
     }
   };
+
+  // Los anchors (#inicial, etc.) viven dentro del sticky: un salto nativo
+  // aterriza en el tope del wrap. Traducimos el hash a la posición de scroll
+  // vertical que muestra ese panel.
+  const scrollToPanel = (hash: string) => {
+    const i = panels.findIndex((panel) => `#${panel.id}` === hash);
+    if (i < 0) return false;
+    const top = wrap.getBoundingClientRect().top + window.scrollY;
+    const range = wrap.offsetHeight - window.innerHeight;
+    window.scrollTo({ top: top + (range * i) / (panels.length - 1), behavior: "smooth" });
+    return true;
+  };
+
+  if (location.hash) {
+    requestAnimationFrame(() => scrollToPanel(location.hash));
+  }
+  window.addEventListener("hashchange", () => {
+    scrollToPanel(location.hash);
+  });
 
   window.addEventListener("scroll", requestUpdate, { passive: true });
   window.addEventListener("resize", requestUpdate, { passive: true });
