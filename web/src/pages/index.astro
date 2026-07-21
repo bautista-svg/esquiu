@@ -5,6 +5,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import BrandStripes from "../components/BrandStripes.astro";
 import Icon from "../components/Icon.astro";
 import SectionHeader from "../components/SectionHeader.astro";
+import Statement from "../components/Statement.astro";
 import SunMark from "../components/SunMark.astro";
 import { AREAS } from "../data/areas";
 import { LEVELS } from "../data/levels";
@@ -19,6 +20,7 @@ import heroVideoPoster from "../assets/img/hero-video-poster.jpg";
 import lecturaPatio from "../assets/img/lectura-patio.jpg";
 import misaPatio from "../assets/img/misa-patio.jpg";
 import pastoralPan from "../assets/img/pastoral-pan.jpg";
+import patioPanoramica from "../assets/img/patio-panoramica.jpg";
 import rugbyGarin from "../assets/img/rugby-garin.jpg";
 import tabletsAula from "../assets/img/tablets-aula.jpg";
 
@@ -35,7 +37,7 @@ const areaImages: Record<string, ImageMetadata | null> = {
   ingles: asambleaPatio,
   pastoral: misaPatio,
   doe: null,
-  "educacion-fisica": rugbyGarin,
+  "educacion-fisica": null,
   tecnologia: tabletsAula,
 };
 
@@ -43,7 +45,6 @@ const areaAltTexts: Record<string, string> = {
   ingles:
     "Alumnos de primaria reunidos en el patio histórico del colegio durante el saludo de la mañana",
   pastoral: "Sacerdote celebrando una misa al aire libre frente a los alumnos en el patio",
-  "educacion-fisica": "Alumno pateando a los palos en el campo de deportes de Garín",
   tecnologia: "Alumnas de primaria trabajando con tablets en el aula",
 };
 
@@ -59,22 +60,11 @@ const stripPhotos: {
   position?: string;
 }[] = [
   {
-    src: celebracionPatio,
-    alt: "Alumnas de primaria festejando con los brazos en alto en el patio",
-    title: "El patio en fiesta",
-    sub: "Festejos de primaria",
-  },
-  {
-    src: lecturaPatio,
-    alt: "Un alumno le lee un cuento a un compañero más chico, sentados en el patio",
-    title: "Grandes y chicos",
-    sub: "Semana de la Literatura",
-  },
-  {
-    src: rugbyGarin,
-    alt: "Alumno pateando a los palos en el campo de deportes de Garín",
-    title: "Campo de deportes",
-    sub: "Rugby en Garín",
+    src: casona,
+    alt: "Fachada de la casona histórica del colegio con su galería de hierro verde",
+    title: "La casona de Belgrano",
+    sub: "Nuestra sede desde 1957",
+    position: "center 32%",
   },
   {
     src: asambleaPatio,
@@ -83,30 +73,28 @@ const stripPhotos: {
     sub: "Toda la comunidad reunida",
   },
   {
-    src: tabletsAula,
-    alt: "Alumnas trabajando con tablets en el aula",
-    title: "Tecnología en el aula",
-    sub: "Pensamiento computacional",
-  },
-  {
     src: misaPatio,
     alt: "Misa al aire libre en el patio, con la comunidad reunida",
     title: "La fe compartida",
     sub: "Misa en el patio",
   },
   {
-    src: casona,
-    alt: "Fachada de la casona histórica del colegio con su galería de hierro verde",
-    title: "La casona de Belgrano",
-    sub: "Nuestra sede desde 1957",
-    position: "center 32%",
+    src: tabletsAula,
+    alt: "Alumnas trabajando con tablets en el aula",
+    title: "Tecnología en el aula",
+    sub: "Pensamiento computacional",
   },
   {
-    src: pastoralPan,
-    alt: "Sacerdote elevando la hostia durante una celebración en el patio",
-    title: "Momentos de fe",
-    sub: "Bendición en el patio",
-    position: "center 38%",
+    src: celebracionPatio,
+    alt: "Alumnas de primaria festejando con los brazos en alto en el patio",
+    title: "El patio en fiesta",
+    sub: "Festejos de primaria",
+  },
+  {
+    src: rugbyGarin,
+    alt: "Alumno pateando a los palos en el campo de deportes de Garín",
+    title: "Campo de deportes",
+    sub: "Rugby en Garín",
   },
 ];
 ---
@@ -276,18 +264,18 @@ const stripPhotos: {
         <figure class="lg:col-span-5" data-reveal="blur">
           <div class="parallax-frame rounded-2xl">
             <Picture
-              src={lecturaPatio}
+              src={patioPanoramica}
               formats={["avif", "webp"]}
-              widths={[480, 730]}
+              widths={[720, 1080, 1440]}
               sizes="(min-width: 1024px) 38vw, 94vw"
-              alt="Un alumno mayor le lee un libro a un compañero más chico, sentados en el patio del colegio"
+              alt="Vista panorámica del patio del colegio desde el balcón, con la palmera y alumnos jugando"
               class="parallax-inner w-full rounded-2xl object-cover"
               loading="lazy"
               decoding="async"
             />
           </div>
           <figcaption class="text-ink-soft/80 mt-3 text-[0.82rem]">
-            El vínculo entre grandes y chicos, en el patio de Belgrano.
+            El patio de Belgrano, el corazón del día a día.
           </figcaption>
         </figure>
         <blockquote class="text-quote text-ink max-w-xl lg:col-span-7 lg:pb-10" data-reveal>
@@ -385,21 +373,21 @@ const stripPhotos: {
       <p class="overline-label text-rose" data-reveal id="patrono">
         Fray Mamerto Esquiú · Nuestro patrono
       </p>
-      <blockquote class="text-quote mt-8 max-w-4xl" data-reveal>
-        “La donación más valiosa es la que el hombre hace de sí mismo.”
-      </blockquote>
-      <p class="text-paper/65 mt-8 max-w-2xl" data-reveal>
-        Fraile franciscano nacido en Catamarca y beatificado por la Iglesia, su vida de entrega da
-        nombre y espíritu a nuestro colegio. Cada año, nuestros alumnos misioneros vuelven a su
-        tierra.
+      <Statement
+        tone="dark"
+        compact
+        class="mt-8"
+        lines={[
+          { text: "“La donación más valiosa" },
+          { text: "es la que el hombre" },
+          { text: "hace de sí mismo.”", accent: true },
+        ]}
+        meta={["Fray Mamerto Esquiú", "Catamarca, 1826", "Beatificado en 2021"]}
+      />
+      <p class="text-paper/65 mt-10 max-w-2xl" data-reveal>
+        Fraile franciscano y obispo, su vida de entrega da nombre y espíritu a nuestro colegio. Cada
+        año, nuestros alumnos misioneros vuelven a su tierra.
       </p>
-      <a
-        href="/#esencia"
-        class="link-accent text-rose mt-8 inline-block text-[0.95rem] font-medium"
-        data-reveal
-      >
-        Conocer nuestra historia
-      </a>
     </div>
   </section>
 
@@ -556,31 +544,19 @@ const stripPhotos: {
           </span>
         </a>
 
-        <!-- Educación Física -->
+        <!-- Educación Física — pieza tipográfica -->
         <a
           href="/areas#educacion-fisica"
-          class="group relative col-span-full min-h-[19rem] overflow-clip rounded-3xl lg:col-span-4"
+          class="group border-line-soft hover:shadow-float relative col-span-full flex min-h-[19rem] flex-col justify-between gap-6 overflow-clip rounded-3xl border bg-white p-7 transition-shadow duration-300 lg:col-span-4"
           data-reveal
         >
-          <Picture
-            src={areaImages["educacion-fisica"]!}
-            formats={["avif", "webp"]}
-            widths={[480, 651]}
-            sizes="(min-width: 1024px) 30vw, 94vw"
-            alt={areaAltTexts["educacion-fisica"]}
-            class="absolute inset-0 h-full w-full object-cover object-[center_35%] transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-          />
-          <div
-            class="from-night/85 via-night/25 absolute inset-0 bg-gradient-to-t to-transparent"
-            aria-hidden="true"
-          >
+          <div>
+            <p class="overline-label text-garnet">{areaEdFisica.name}</p>
+            <h3 class="text-title-sm mt-2.5">{areaEdFisica.title}</h3>
           </div>
-          <div class="text-paper absolute inset-x-0 bottom-0 p-7">
-            <p class="overline-label text-rose">{areaEdFisica.name}</p>
-            <h3 class="text-title-sm text-paper mt-2.5">{areaEdFisica.title}</h3>
-          </div>
+          <p class="text-ink-soft text-[0.92rem] leading-relaxed">{areaEdFisica.blurb}</p>
           <span
-            class="bg-paper/15 text-paper group-hover:bg-paper group-hover:text-ink absolute top-6 right-6 flex h-11 w-11 items-center justify-center rounded-full backdrop-blur-sm transition-colors duration-300"
+            class="border-line text-ink-soft group-hover:border-garnet group-hover:bg-garnet group-hover:text-paper absolute top-6 right-6 flex h-11 w-11 items-center justify-center rounded-full border transition-colors duration-300"
             aria-hidden="true"
           >
             <Icon name="arrow-up-right" size={18} />
@@ -625,12 +601,12 @@ const stripPhotos: {
   <section class="relative overflow-clip" aria-labelledby="comunidad">
     <div class="absolute inset-0 overflow-clip" aria-hidden="true">
       <Picture
-        src={celebracionPatio}
+        src={pastoralPan}
         formats={["avif", "webp"]}
         widths={[768, 1280, 1920]}
         sizes="100vw"
         alt=""
-        class="parallax-media h-full w-full object-cover object-[center_35%]"
+        class="parallax-media h-full w-full object-cover object-[center_42%]"
         loading="lazy"
         decoding="async"
       />

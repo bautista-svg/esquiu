@@ -598,15 +598,15 @@ video[data-lazy-video].is-playing {
     width 0.7s var(--ease-inout-soft),
     height 0.7s var(--ease-inout-soft);
 }
-/* Suma constante por pista (8 fotos): lo que gana la activa lo ceden las
-   7 vecinas en partes iguales — la cinta no cambia de ancho total y la
-   posición del loop no salta. activa - base = 7 x (base - dim). */
+/* Suma constante por pista (6 fotos): lo que gana la activa lo ceden las
+   5 vecinas en partes iguales — la cinta no cambia de ancho total y la
+   posición del loop no salta. activa - base = 5 x (base - dim). */
 .gallery-item.is-active {
   width: 24rem;
   height: 17rem;
 }
 .gallery-item.is-dim {
-  width: 13.71rem;
+  width: 13.2rem;
 }
 .gallery-item:focus-visible {
   outline: 2px solid var(--color-garnet);
@@ -664,7 +664,7 @@ video[data-lazy-video].is-playing {
     height: 23rem;
   }
   .gallery-item.is-dim {
-    width: 19.29rem;
+    width: 18.6rem;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -882,6 +882,107 @@ video[data-lazy-video].is-playing {
   font-size: clamp(4rem, 10vw, 6.5rem);
   line-height: 0.8;
   color: rgb(250 248 244 / 0.35);
+}
+
+/* --------------------- statements: titulares enmascarados reversibles ---- */
+/* El texto se revela línea a línea al entrar al viewport y se vuelve a tapar
+   al salir (initStatements). Después: regla que crece + metadatos fade-up. */
+.statement-block {
+  min-height: 92svh;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  padding-block: 4rem;
+}
+.statement-compact {
+  min-height: 0;
+  padding-block: 0;
+}
+.statement-title {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-variation-settings:
+    "SOFT" 0,
+    "WONK" 0;
+  font-weight: 550;
+  font-size: clamp(2.2rem, 6.5vw, 4.6rem);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+.st-mask {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.09em;
+  margin-block: -0.09em;
+}
+.st-line {
+  display: block;
+  transform: translateY(112%);
+  transition: transform 0.9s var(--ease-out-soft);
+  transition-delay: var(--d, 0s);
+  will-change: transform;
+}
+.st-line.is-accent {
+  font-style: italic;
+  font-variation-settings:
+    "SOFT" 80,
+    "WONK" 0;
+  color: var(--color-garnet);
+}
+.statement-dark .st-line.is-accent {
+  color: var(--color-rose);
+}
+.st-rule {
+  display: block;
+  width: min(15rem, 40vw);
+  height: 1px;
+  margin-top: 1.7rem;
+  background: var(--color-line);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s var(--ease-out-soft) 0.35s;
+}
+.statement-dark .st-rule {
+  background: rgb(250 248 244 / 0.28);
+}
+.st-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.7rem;
+  margin-top: 1.15rem;
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  opacity: 0;
+  translate: 0 12px;
+  transition:
+    opacity 0.6s var(--ease-out-soft) 0.5s,
+    translate 0.6s var(--ease-out-soft) 0.5s;
+}
+.statement-dark .st-meta {
+  color: rgb(250 248 244 / 0.55);
+}
+[data-statement].is-in .st-line {
+  transform: translateY(0);
+}
+[data-statement].is-in .st-rule {
+  transform: scaleX(1);
+}
+[data-statement].is-in .st-meta {
+  opacity: 1;
+  translate: 0 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .st-line,
+  .st-rule,
+  .st-meta {
+    transition: none;
+    transform: none;
+    opacity: 1;
+    translate: 0 0;
+  }
 }
 
 /* ------------------------------------------------------------ header/nav */

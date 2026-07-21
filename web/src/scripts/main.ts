@@ -457,6 +457,39 @@ function initLevelsDeck(): void {
   update();
 }
 
+/* --------------------- statements: titulares enmascarados reversibles */
+function initStatements(): void {
+  const statements = Array.from(document.querySelectorAll<HTMLElement>("[data-statement]"));
+  if (statements.length === 0) return;
+
+  if (prefersReducedMotion.matches) {
+    for (const statement of statements) statement.classList.add("is-in");
+    return;
+  }
+
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const viewportHeight = window.innerHeight;
+    for (const statement of statements) {
+      const rect = statement.getBoundingClientRect();
+      // Reversible: entra al pasar el 62% del viewport, se re-tapa al salir
+      const isIn = rect.top < viewportHeight * 0.62 && rect.bottom > viewportHeight * 0.28;
+      statement.classList.toggle("is-in", isIn);
+    }
+  };
+  const requestUpdate = () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  };
+
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate, { passive: true });
+  update();
+}
+
 initReveals();
 initHeader();
 initMobileNav();
@@ -464,6 +497,7 @@ initLazyVideos();
 initParallax();
 initLevelsProgress();
 initGalleryCarousel();
+initStatements();
 initLevelsDeck();
 initSinkTitles();
 

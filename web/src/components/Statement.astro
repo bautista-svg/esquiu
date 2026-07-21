@@ -1,0 +1,55 @@
+---
+/**
+ * Titular editorial que se revela línea por línea al entrar al viewport y se
+ * vuelve a enmascarar al salir (reversible — ver initStatements en main.ts).
+ * Después de las líneas: una regla que crece y una fila de metadatos.
+ */
+interface Line {
+  text: string;
+  /** Línea de acento: itálica + color (garnet en claro, rose en oscuro). */
+  accent?: boolean;
+}
+
+interface Props {
+  lines: Line[];
+  meta?: string[];
+  tone?: "light" | "dark";
+  /** Sin altura de viewport propia (para incrustar en secciones existentes). */
+  compact?: boolean;
+  class?: string;
+}
+
+const { lines, meta, tone = "light", compact = false, class: className } = Astro.props;
+---
+
+<div
+  class:list={[
+    "statement-block",
+    tone === "dark" && "statement-dark",
+    compact && "statement-compact",
+    className,
+  ]}
+  data-statement
+>
+  <p class="statement-title">
+    {
+      lines.map((line, i) => (
+        <span class="st-mask">
+          <span class:list={["st-line", line.accent && "is-accent"]} style={`--d:${i * 0.12}s`}>
+            {line.text}
+          </span>
+        </span>
+      ))
+    }
+  </p>
+  <span class="st-rule" aria-hidden="true"></span>
+  {
+    meta && (
+      <ul class="st-meta">
+        {meta.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    )
+  }
+</div>

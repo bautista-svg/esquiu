@@ -3,10 +3,11 @@ import { Picture } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CtaBand from "../components/CtaBand.astro";
 import PageHero from "../components/PageHero.astro";
+import Statement from "../components/Statement.astro";
 
-import asambleaPatio from "../assets/img/asamblea-patio.jpg";
 import celebracionPatio from "../assets/img/celebracion-patio.jpg";
 import lecturaPatio from "../assets/img/lectura-patio.jpg";
+import patioPanoramica from "../assets/img/patio-panoramica.jpg";
 import rugbyGarin from "../assets/img/rugby-garin.jpg";
 
 const levels = [
@@ -16,8 +17,8 @@ const levels = [
     name: "Nivel Inicial",
     ages: "Salas de 2 a 5 años",
     lead: "El juego es el puente didáctico que integra todos los contenidos: desde lo matemático y lo lingüístico hasta las ciencias, la música y la fe.",
-    image: celebracionPatio,
-    imageAlt: "Alumnas de primaria festejando en el patio",
+    image: lecturaPatio,
+    imageAlt: "Un alumno le lee un cuento a un compañero más chico en el patio",
     points: [
       {
         title: "Inglés desde el primer día",
@@ -54,8 +55,8 @@ const levels = [
     name: "Nivel Primario",
     ages: "1.º a 7.º grado · 8:00 a 16:30",
     lead: "Doble jornada con inglés intensivo tres tardes por semana y deporte en Garín las restantes: cuerpo, mente y comunidad en equilibrio.",
-    image: lecturaPatio,
-    imageAlt: "Un alumno le lee un cuento a un compañero en el patio",
+    image: celebracionPatio,
+    imageAlt: "Alumnas de primaria festejando en el patio",
     points: [
       {
         title: "Semana de la Literatura",
@@ -115,6 +116,34 @@ const levels = [
     chips: ["Curioso y autónomo", "Bilingüe Cambridge", "Pensamiento crítico", "Fe en comunidad"],
   },
 ] as const;
+
+/** Titular editorial full-viewport que precede a cada nivel (reversible al scroll). */
+const statements = [
+  {
+    lines: [
+      { text: "El juego" },
+      { text: "no es un recreo:" },
+      { text: "es el método.", accent: true },
+    ],
+    meta: ["Nivel Inicial", "Salas de 2 a 5", "El juego como puente"],
+  },
+  {
+    lines: [
+      { text: "Cuerpo, mente" },
+      { text: "y amigos:" },
+      { text: "crecen juntos.", accent: true },
+    ],
+    meta: ["Nivel Primario", "1.º a 7.º grado", "Doble jornada bilingüe"],
+  },
+  {
+    lines: [
+      { text: "Egresan bilingües," },
+      { text: "con valores" },
+      { text: "y con rumbo.", accent: true },
+    ],
+    meta: ["Nivel Secundario", "1.º a 5.º año", "Cambridge · Universidades"],
+  },
+];
 ---
 
 <BaseLayout
@@ -126,9 +155,9 @@ const levels = [
     overline="Proyecto educativo"
     title="Un camino, tres niveles"
     lead="Lo espiritual, lo académico y lo comunitario unidos desde la sala de 2 hasta el último año."
-    image={asambleaPatio}
-    imageAlt="Todo el colegio reunido en el patio durante el saludo de la mañana"
-    imagePosition="center 35%"
+    image={patioPanoramica}
+    imageAlt="Vista panorámica del patio del colegio, con la palmera y alumnos jugando"
+    imagePosition="center 62%"
   >
     <nav class="flex flex-wrap gap-2.5" aria-label="Niveles">
       {
@@ -170,75 +199,83 @@ const levels = [
 
   {
     levels.map((level, i) => (
-      <section
-        id={level.id}
-        class:list={["relative scroll-mt-36 overflow-clip", i % 2 === 0 ? "bg-paper" : "bg-cream"]}
-        aria-labelledby={`${level.id}-title`}
-      >
-        <div class="container-site section-y">
-          <div class="grid items-start gap-10 lg:grid-cols-12 lg:gap-14">
-            <div class="relative lg:col-span-5">
-              <span
-                class="font-display text-garnet/10 pointer-events-none absolute -top-8 -left-2 text-[clamp(6rem,18vw,11rem)] leading-none font-semibold select-none"
-                aria-hidden="true"
-              >
-                {level.index}
-              </span>
-              <p class="overline-label text-garnet relative">{level.ages}</p>
-              <h2 id={`${level.id}-title`} class="text-title-xl relative mt-3">
-                {level.name}
-              </h2>
-              <p class="text-lead text-ink-soft relative mt-5">{level.lead}</p>
+      <>
+        <div class="container-site">
+          <Statement lines={statements[i].lines} meta={statements[i].meta} />
+        </div>
+        <section
+          id={level.id}
+          class:list={[
+            "relative scroll-mt-36 overflow-clip",
+            i % 2 === 0 ? "bg-paper" : "bg-cream",
+          ]}
+          aria-labelledby={`${level.id}-title`}
+        >
+          <div class="container-site section-y">
+            <div class="grid items-start gap-10 lg:grid-cols-12 lg:gap-14">
+              <div class="relative lg:col-span-5">
+                <span
+                  class="font-display text-garnet/10 pointer-events-none absolute -top-8 -left-2 text-[clamp(6rem,18vw,11rem)] leading-none font-semibold select-none"
+                  aria-hidden="true"
+                >
+                  {level.index}
+                </span>
+                <p class="overline-label text-garnet relative">{level.ages}</p>
+                <h2 id={`${level.id}-title`} class="text-title-xl relative mt-3">
+                  {level.name}
+                </h2>
+                <p class="text-lead text-ink-soft relative mt-5">{level.lead}</p>
 
-              <figure class="relative mt-8 overflow-clip rounded-2xl">
-                <Picture
-                  src={level.image}
-                  formats={["avif", "webp"]}
-                  widths={[480, 720, 960]}
-                  sizes="(min-width: 1024px) 36vw, 92vw"
-                  alt={level.imageAlt}
-                  class="aspect-[5/4] w-full object-cover"
-                />
-              </figure>
-            </div>
+                <figure class="relative mt-8 overflow-clip rounded-2xl">
+                  <Picture
+                    src={level.image}
+                    formats={["avif", "webp"]}
+                    widths={[480, 720, 960]}
+                    sizes="(min-width: 1024px) 36vw, 92vw"
+                    alt={level.imageAlt}
+                    class="aspect-[5/4] w-full object-cover"
+                  />
+                </figure>
+              </div>
 
-            <div class="lg:col-span-7 lg:pt-6">
-              <ul class="space-y-0">
-                {level.points.map((point) => (
-                  <li class="hairline-t py-5 first:border-t-0 first:pt-0">
-                    <h3 class="text-[1.05rem] font-semibold tracking-tight">{point.title}</h3>
-                    <p class="text-ink-soft mt-1.5 max-w-xl text-[0.92rem] leading-relaxed">
-                      {point.text}
-                    </p>
-                  </li>
-                ))}
-              </ul>
+              <div class="lg:col-span-7 lg:pt-6">
+                <ul class="space-y-0">
+                  {level.points.map((point) => (
+                    <li class="hairline-t py-5 first:border-t-0 first:pt-0">
+                      <h3 class="text-[1.05rem] font-semibold tracking-tight">{point.title}</h3>
+                      <p class="text-ink-soft mt-1.5 max-w-xl text-[0.92rem] leading-relaxed">
+                        {point.text}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
 
-              <div class="mt-8 grid gap-8 sm:grid-cols-2">
-                <div>
-                  <p class="overline-label text-ink-soft">{level.metaTitle}</p>
-                  <ul class="text-ink-soft mt-3 space-y-2 text-[0.88rem] leading-snug">
-                    {level.meta.map((item) => (
-                      <li class="flex gap-2.5">
-                        <span class="bg-garnet mt-[0.45rem] h-1 w-1 shrink-0 rounded-full" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <p class="overline-label text-ink-soft">En foco</p>
-                  <ul class="mt-3 flex flex-wrap gap-2">
-                    {level.chips.map((chip) => (
-                      <li class="chip">{chip}</li>
-                    ))}
-                  </ul>
+                <div class="mt-8 grid gap-8 sm:grid-cols-2">
+                  <div>
+                    <p class="overline-label text-ink-soft">{level.metaTitle}</p>
+                    <ul class="text-ink-soft mt-3 space-y-2 text-[0.88rem] leading-snug">
+                      {level.meta.map((item) => (
+                        <li class="flex gap-2.5">
+                          <span class="bg-garnet mt-[0.45rem] h-1 w-1 shrink-0 rounded-full" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="overline-label text-ink-soft">En foco</p>
+                    <ul class="mt-3 flex flex-wrap gap-2">
+                      {level.chips.map((chip) => (
+                        <li class="chip">{chip}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </>
     ))
   }
 
