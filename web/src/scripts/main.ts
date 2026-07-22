@@ -286,10 +286,11 @@ function initGalleryCarousel(): void {
     carousel.classList.add("is-paused");
     const actualShift = readShift();
 
-    // FLIP: capturar los anchos ACTUALES (aunque haya una transición en
+    // FLIP: capturar anchos Y ALTOS actuales (aunque haya una transición en
     // vuelo) — sin esto, cambiar de foto a mitad de animación hacía saltar
-    // los anchos al estado base sin transición ("se acopla sin transición").
-    const currentWidths = items.map((other) => other.getBoundingClientRect().width);
+    // los anchos al estado base sin transición ("se acopla sin transición"),
+    // y el alto (que también transiciona) crecía de golpe sin animar.
+    const currentRects = items.map((other) => other.getBoundingClientRect());
 
     // Medir el layout FINAL sin transiciones (mismo task: no se pinta nada
     // intermedio) para saber cuánto deslizar la cinta para el encaje.
@@ -312,19 +313,21 @@ function initGalleryCarousel(): void {
     delta = Math.min(delta, carouselRect.left - layerRect.left);
     delta = Math.max(delta, carouselRect.right - layerRect.right);
 
-    // Fijar los anchos actuales inline (las clases finales ya están puestas,
+    // Fijar las medidas actuales inline (las clases finales ya están puestas,
     // pero el inline gana) y recién ahí reactivar transiciones…
     items.forEach((other, i) => {
-      other.style.width = `${currentWidths[i].toFixed(1)}px`;
+      other.style.width = `${currentRects[i].width.toFixed(1)}px`;
+      other.style.height = `${currentRects[i].height.toFixed(1)}px`;
     });
     void shiftLayer.offsetWidth;
     shiftLayer.classList.remove("gallery-measuring");
 
-    // …y soltar: los anchos transicionan desde su valor real actual hacia
+    // …y soltar: ancho y alto transicionan desde su valor real actual hacia
     // los de las clases, junto con el deslizamiento de la cinta.
     requestAnimationFrame(() => {
       items.forEach((other) => {
         other.style.width = "";
+        other.style.height = "";
       });
       shiftLayer.style.setProperty("--shift", `${(actualShift + delta).toFixed(1)}px`);
     });

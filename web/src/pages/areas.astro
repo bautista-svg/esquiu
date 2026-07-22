@@ -6,8 +6,9 @@ import Icon from "../components/Icon.astro";
 import PageHero from "../components/PageHero.astro";
 import { TECH_PARTNERS } from "../data/partners";
 
+import aulaTaller from "../assets/img/aula-taller.jpg";
+import misaJovenes from "../assets/img/misa-jovenes.jpg";
 import misaPatio from "../assets/img/misa-patio.jpg";
-import pastoralPan from "../assets/img/pastoral-pan.jpg";
 import rugbyGarin from "../assets/img/rugby-garin.jpg";
 import tabletsAula from "../assets/img/tablets-aula.jpg";
 
@@ -78,9 +79,9 @@ const edFisicaExtra = [
     overline="Áreas transversales"
     title="Los ejes que unen todo el recorrido"
     lead="Cinco áreas acompañan a los alumnos desde la sala de 2 hasta 5.º año. No son materias aisladas: son la columna vertebral del proyecto."
-    image={tabletsAula}
-    imageAlt="Alumnas de primaria trabajando con tablets en el aula"
-    imagePosition="center"
+    image={aulaTaller}
+    imageAlt="El aula taller en plena actividad, con los alumnos trabajando en las mesas"
+    imagePosition="center 40%"
   >
     <nav class="flex flex-wrap gap-2.5" aria-label="Áreas">
       {
@@ -132,9 +133,9 @@ const edFisicaExtra = [
   <section class="bg-night text-paper relative overflow-clip" aria-labelledby="pastoral">
     <figure class="absolute inset-0" aria-hidden="true">
       <Picture
-        src={pastoralPan}
+        src={misaJovenes}
         formats={["avif", "webp"]}
-        widths={[768, 1280, 1920, 2400]}
+        widths={[768, 1280, 1920]}
         sizes="100vw"
         alt=""
         class="h-full w-full object-cover opacity-25"

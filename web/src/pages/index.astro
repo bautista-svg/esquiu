@@ -12,17 +12,23 @@ import { LEVELS } from "../data/levels";
 import { CAMBRIDGE_EXAMS, UNIVERSITIES } from "../data/partners";
 import { SITE } from "../data/site";
 
-import asambleaPatio from "../assets/img/asamblea-patio.jpg";
+import arteTijeras from "../assets/img/arte-tijeras.jpg";
+import aulaLaptops from "../assets/img/aula-laptops.jpg";
+import aulaModerna from "../assets/img/aula-moderna.jpg";
+import capillaComunidad from "../assets/img/capilla-comunidad.jpg";
 import casona from "../assets/img/casona.jpg";
 import celebracionPatio from "../assets/img/celebracion-patio.jpg";
 import escudo from "../assets/img/escudo.png";
-import heroVideoPoster from "../assets/img/hero-video-poster.jpg";
-import lecturaPatio from "../assets/img/lectura-patio.jpg";
-import misaPatio from "../assets/img/misa-patio.jpg";
-import pastoralPan from "../assets/img/pastoral-pan.jpg";
 import frayMamerto from "../assets/img/fray-mamerto.jpg";
-import rugbyGarin from "../assets/img/rugby-garin.jpg";
-import tabletsAula from "../assets/img/tablets-aula.jpg";
+import heroVideoPoster from "../assets/img/hero-video-poster.jpg";
+import jardinJuego from "../assets/img/jardin-juego.jpg";
+import lecturaPatio from "../assets/img/lectura-patio.jpg";
+import mascarasWelcome from "../assets/img/mascaras-welcome.jpg";
+import munSecundaria from "../assets/img/mun-secundaria.jpg";
+import musicaPatio from "../assets/img/musica-patio.jpg";
+import pastoralFlor from "../assets/img/pastoral-flor.jpg";
+import promesaBandera from "../assets/img/promesa-bandera.jpg";
+import velita from "../assets/img/velita.jpg";
 
 // Primer frame del hero.mp4: mismo píxel que el video al arrancar → sin flash.
 const heroPoster = await getImage({
@@ -34,18 +40,17 @@ const heroPoster = await getImage({
 
 // Imagen por área para el mosaico (el DOE lleva pieza tipográfica).
 const areaImages: Record<string, ImageMetadata | null> = {
-  ingles: asambleaPatio,
-  pastoral: misaPatio,
+  ingles: mascarasWelcome,
+  pastoral: pastoralFlor,
   doe: null,
   "educacion-fisica": null,
-  tecnologia: tabletsAula,
+  tecnologia: aulaLaptops,
 };
 
 const areaAltTexts: Record<string, string> = {
-  ingles:
-    "Alumnos de primaria reunidos en el patio histórico del colegio durante el saludo de la mañana",
-  pastoral: "Sacerdote celebrando una misa al aire libre frente a los alumnos en el patio",
-  tecnologia: "Alumnas de primaria trabajando con tablets en el aula",
+  ingles: "Alumnos con máscaras de platos de papel frente al pizarrón de Welcome, en clase de inglés",
+  pastoral: "Una alumna deja una flor sobre la mesa del altar, entre velas encendidas",
+  tecnologia: "Alumnos del secundario trabajando con sus notebooks en el aula",
 };
 
 const [areaIngles, areaPastoral, areaDoe, areaEdFisica, areaTecnologia] = AREAS;
@@ -67,34 +72,35 @@ const stripPhotos: {
     position: "center 32%",
   },
   {
-    src: asambleaPatio,
-    alt: "Todo el colegio reunido en el patio durante el saludo de la mañana",
-    title: "El saludo de la mañana",
-    sub: "Toda la comunidad reunida",
+    src: promesaBandera,
+    alt: "Alumnos de cuarto grado cantando con banderas argentinas en la Promesa a la Bandera",
+    title: "Promesa a la Bandera",
+    sub: "Una tradición de 4.º grado",
+    position: "center 30%",
   },
   {
-    src: misaPatio,
-    alt: "Misa al aire libre en el patio, con la comunidad reunida",
-    title: "La fe compartida",
-    sub: "Misa en el patio",
+    src: musicaPatio,
+    alt: "Alumnos del secundario tocando guitarras y cajón peruano en el patio",
+    title: "Música en el patio",
+    sub: "Guitarras, cajón y voces",
   },
   {
-    src: tabletsAula,
-    alt: "Alumnas trabajando con tablets en el aula",
-    title: "Tecnología en el aula",
-    sub: "Pensamiento computacional",
+    src: arteTijeras,
+    alt: "Manos de nenes de inicial recortando útiles de papel en una mesa naranja",
+    title: "Manos a la obra",
+    sub: "Arte en el nivel inicial",
   },
   {
-    src: celebracionPatio,
-    alt: "Alumnas de primaria festejando con los brazos en alto en el patio",
-    title: "El patio en fiesta",
-    sub: "Festejos de primaria",
+    src: velita,
+    alt: "Un alumno sostiene una velita encendida durante una celebración en la capilla",
+    title: "Momentos que quedan",
+    sub: "La fe, vivida a su medida",
   },
   {
-    src: rugbyGarin,
-    alt: "Alumno pateando a los palos en el campo de deportes de Garín",
-    title: "Campo de deportes",
-    sub: "Rugby en Garín",
+    src: aulaModerna,
+    alt: "Alumnas del secundario trabajando en un aula moderna de madera clara",
+    title: "Espacios que inspiran",
+    sub: "Aulas del secundario",
   },
 ];
 ---
@@ -427,7 +433,11 @@ const stripPhotos: {
     <div class="deck" data-deck>
       {
         [
-          { level: LEVELS[0], img: lecturaPatio, alt: "Alumnos chicos leyendo juntos en el patio" },
+          {
+            level: LEVELS[0],
+            img: jardinJuego,
+            alt: "Una maestra jugando con los nenes de la sala en el jardín",
+          },
           {
             level: LEVELS[1],
             img: celebracionPatio,
@@ -435,8 +445,8 @@ const stripPhotos: {
           },
           {
             level: LEVELS[2],
-            img: rugbyGarin,
-            alt: "Alumno del secundario jugando al rugby en Garín",
+            img: munSecundaria,
+            alt: "Alumnos del secundario vestidos de traje en el Modelo de Naciones Unidas",
           },
         ].map(({ level, img, alt }) => (
           <article class="deck-card" data-deck-card>
@@ -623,12 +633,12 @@ const stripPhotos: {
   <section class="relative overflow-clip" aria-labelledby="comunidad">
     <div class="absolute inset-0 overflow-clip" aria-hidden="true">
       <Picture
-        src={pastoralPan}
+        src={capillaComunidad}
         formats={["avif", "webp"]}
         widths={[768, 1280, 1920]}
         sizes="100vw"
         alt=""
-        class="parallax-media h-full w-full object-cover object-[center_42%]"
+        class="parallax-media h-full w-full object-cover object-[center_40%]"
         loading="lazy"
         decoding="async"
       />
