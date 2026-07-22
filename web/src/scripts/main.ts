@@ -352,6 +352,10 @@ function initGalleryCarousel(): void {
   // último real cuando el layout cambia bajo el cursor quieto).
   let lastMoveX = -1;
   let lastMoveY = -1;
+  // Estado del drag de la cinta (el motor está más abajo); el hover y el
+  // click lo consultan para no pelearse con el arrastre.
+  let dragging = false;
+  let suppressClick = false;
 
   const cancelDwell = () => {
     pending = null;
@@ -388,6 +392,10 @@ function initGalleryCarousel(): void {
   };
 
   carousel.addEventListener("mousemove", (event) => {
+    if (dragging) {
+      cancelDwell();
+      return;
+    }
     window.clearTimeout(leaveTimer);
     if (event.clientX === lastMoveX && event.clientY === lastMoveY) return;
     lastMoveX = event.clientX;
@@ -408,6 +416,7 @@ function initGalleryCarousel(): void {
       activate(item);
     });
     item.addEventListener("click", () => {
+      if (suppressClick) return; // el click fantasma que sigue a un drag
       window.clearTimeout(leaveTimer);
       cancelDwell();
       if (item.classList.contains("is-active")) clear();
@@ -428,6 +437,103 @@ function initGalleryCarousel(): void {
       clear();
     }
   });
+
+  // ---- Motor de la cinta: paseo automático + drag con inercia -----------
+  // Reemplaza a la animación CSS: un offset en px controlado por rAF puede
+  // frenarse, arrastrarse y retomar sin saltos. El wrap usa la pista clonada
+  // (el contenido se repite a la mitad del ancho total del flow).
+  const flow = carousel.querySelector<HTMLElement>(".gallery-flow");
+  if (flow) {
+    const SPEED = 34; // px/s del paseo automático
+    let x = 0;
+    let half = 1;
+    let vel = 0;
+    let lastT = performance.now();
+    let pointerId = -1;
+    let dragStartX = 0;
+    let dragStartOffset = 0;
+    let moves: { t: number; x: number }[] = [];
+
+    const medir = () => {
+      half = flow.scrollWidth / 2;
+    };
+    medir();
+    window.addEventListener("resize", medir, { passive: true });
+
+    const tick = (t: number) => {
+      const dt = Math.min(0.05, Math.max(0, (t - lastT) / 1000));
+      lastT = t;
+      if (!dragging) {
+        if (Math.abs(vel) > 12) {
+          // Inercia del drag: se apaga sola en ~medio segundo
+          x += vel * dt;
+          vel *= Math.pow(0.002, dt);
+        } else if (
+          !prefersReducedMotion.matches &&
+          !document.hidden &&
+          !carousel.classList.contains("is-paused") &&
+          !carousel.matches(":hover")
+        ) {
+          x -= SPEED * dt;
+        }
+      }
+      if (x <= -half) x += half;
+      else if (x > 0) x -= half;
+      flow.style.transform = `translate3d(${x.toFixed(2)}px, 0, 0)`;
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    carousel.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+      pointerId = event.pointerId;
+      dragStartX = event.clientX;
+      dragStartOffset = x;
+      vel = 0;
+      moves = [{ t: performance.now(), x: event.clientX }];
+    });
+
+    carousel.addEventListener("pointermove", (event) => {
+      if (event.pointerId !== pointerId) return;
+      const dx = event.clientX - dragStartX;
+      if (!dragging && Math.abs(dx) > 7) {
+        dragging = true;
+        suppressClick = true;
+        carousel.classList.add("is-dragging");
+        carousel.setPointerCapture(pointerId);
+        cancelDwell();
+        window.clearTimeout(leaveTimer);
+        clear(); // arrastrar es navegar: la foto expandida se repliega
+      }
+      if (dragging) {
+        x = dragStartOffset + dx;
+        moves.push({ t: performance.now(), x: event.clientX });
+        if (moves.length > 8) moves.shift();
+      }
+    });
+
+    const soltar = (event: PointerEvent) => {
+      if (event.pointerId !== pointerId) return;
+      pointerId = -1;
+      if (!dragging) return;
+      dragging = false;
+      carousel.classList.remove("is-dragging");
+      // Velocidad de los últimos ~120ms → inercia al soltar
+      const ahora = performance.now();
+      const ref = moves.find((m) => ahora - m.t < 120) ?? moves[0];
+      const dtRef = (ahora - ref.t) / 1000;
+      if (dtRef > 0.015) {
+        vel = Math.max(-2400, Math.min(2400, (event.clientX - ref.x) / dtRef));
+      }
+      // El click fantasma post-drag se dispara antes que este timeout
+      window.setTimeout(() => {
+        suppressClick = false;
+      }, 0);
+    };
+    carousel.addEventListener("pointerup", soltar);
+    carousel.addEventListener("pointercancel", soltar);
+    carousel.addEventListener("dragstart", (event) => event.preventDefault());
+  }
 }
 
 /* --------------------------------------- órbita 3D de niveles (home) */

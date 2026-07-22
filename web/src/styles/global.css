@@ -541,23 +541,33 @@ video[data-lazy-video].is-playing {
   }
 }
 
-/* Calesita acordeón "La vida en el Esquiú": la cinta gira sola en loop;
-   al posar el mouse (o al tocar en mobile) frena y la foto activa se expande
-   revelando su leyenda mientras las vecinas se comprimen — los anchos están
-   calibrados para que el total no cambie y la cinta no salte de posición. */
+/* Calesita acordeón "La vida en el Esquiú": la cinta pasea sola en loop
+   (motor JS por rAF — no CSS — para poder arrastrarla con drag e inercia);
+   al posar el mouse frena y la foto activa se expande revelando su leyenda
+   mientras las vecinas se comprimen — los anchos están calibrados para que
+   el total no cambie y la cinta no salte de posición. */
 .gallery-carousel {
   overflow: hidden;
   -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
   mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.gallery-carousel.is-dragging {
+  cursor: grabbing;
+}
+.gallery-carousel.is-dragging .gallery-item {
+  cursor: grabbing;
+}
+.gallery-img {
+  -webkit-user-drag: none;
 }
 .gallery-flow {
   display: flex;
   width: max-content;
-  animation: gallery-spin 80s linear infinite;
-}
-.gallery-carousel:hover .gallery-flow,
-.gallery-carousel.is-paused .gallery-flow {
-  animation-play-state: paused;
+  will-change: transform;
 }
 /* Capa de centrado: JS escribe --shift para deslizar la cinta y centrar la
    foto activa; anima junto con la expansión. En "measuring" se apagan las
@@ -581,11 +591,6 @@ video[data-lazy-video].is-playing {
   height: 17rem;
   align-items: center;
 }
-@keyframes gallery-spin {
-  to {
-    transform: translateX(-50%);
-  }
-}
 .gallery-item {
   position: relative;
   width: 15rem;
@@ -598,15 +603,15 @@ video[data-lazy-video].is-playing {
     width 0.7s var(--ease-inout-soft),
     height 0.7s var(--ease-inout-soft);
 }
-/* Suma constante por pista (6 fotos): lo que gana la activa lo ceden las
-   5 vecinas en partes iguales — la cinta no cambia de ancho total y la
-   posición del loop no salta. activa - base = 5 x (base - dim). */
+/* Suma constante por pista (8 fotos): lo que gana la activa lo ceden las
+   7 vecinas en partes iguales — la cinta no cambia de ancho total y la
+   posición del loop no salta. activa - base = 7 x (base - dim). */
 .gallery-item.is-active {
   width: 24rem;
   height: 17rem;
 }
 .gallery-item.is-dim {
-  width: 13.2rem;
+  width: 13.71rem;
 }
 .gallery-item:focus-visible {
   outline: 2px solid var(--color-garnet);
@@ -664,7 +669,7 @@ video[data-lazy-video].is-playing {
     height: 23rem;
   }
   .gallery-item.is-dim {
-    width: 18.6rem;
+    width: 19.29rem;
   }
 }
 @media (prefers-reduced-motion: reduce) {
