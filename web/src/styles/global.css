@@ -1243,6 +1243,30 @@ video[data-lazy-video].is-playing {
 }
 
 /* ------------------------------------------------------------ header/nav */
+/* Franjas institucionales (marino/granate/oro) que se despliegan bajo la
+   barra cuando el header se asienta al scrollear. */
+.header-stripes {
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  display: grid;
+  grid-template-rows: repeat(3, 3px);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.45s var(--ease-out-soft);
+  pointer-events: none;
+}
+.header-stripes > span {
+  display: block;
+}
+.site-header.is-scrolled .header-stripes {
+  transform: scaleY(1);
+}
+/* Con el menú móvil abierto, el panel ya trae sus propias franjas */
+.menu-open .header-stripes {
+  transform: scaleY(0);
+}
+
 .site-header {
   view-transition-name: site-header;
   transition:
