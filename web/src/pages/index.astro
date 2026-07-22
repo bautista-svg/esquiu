@@ -24,8 +24,8 @@ import heroVideoPoster from "../assets/img/hero-video-poster.jpg";
 import jardinJuego from "../assets/img/jardin-juego.jpg";
 import lecturaPatio from "../assets/img/lectura-patio.jpg";
 import mascarasWelcome from "../assets/img/mascaras-welcome.jpg";
-import munSecundaria from "../assets/img/mun-secundaria.jpg";
 import musicaPatio from "../assets/img/musica-patio.jpg";
+import portonHierro from "../assets/img/porton-hierro.jpg";
 import pastoralFlor from "../assets/img/pastoral-flor.jpg";
 import promesaBandera from "../assets/img/promesa-bandera.jpg";
 import velita from "../assets/img/velita.jpg";
@@ -97,10 +97,11 @@ const stripPhotos: {
     sub: "La fe, vivida a su medida",
   },
   {
-    src: aulaModerna,
-    alt: "Alumnas del secundario trabajando en un aula moderna de madera clara",
-    title: "Espacios que inspiran",
-    sub: "Aulas del secundario",
+    src: portonHierro,
+    alt: "El portón de hierro del colegio, con el escudo Veritas y la casona de fondo",
+    title: "El portón de 1957",
+    sub: "La entrada de siempre",
+    position: "center 42%",
   },
 ];
 ---
@@ -445,8 +446,8 @@ const stripPhotos: {
           },
           {
             level: LEVELS[2],
-            img: munSecundaria,
-            alt: "Alumnos del secundario vestidos de traje en el Modelo de Naciones Unidas",
+            img: aulaModerna,
+            alt: "Alumnas del secundario trabajando en un aula moderna de madera clara",
           },
         ].map(({ level, img, alt }) => (
           <article class="deck-card" data-deck-card>
